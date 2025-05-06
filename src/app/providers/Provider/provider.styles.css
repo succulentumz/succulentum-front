@@ -1,0 +1,37 @@
+:root {
+  --separator-border: #d0d6e1;
+}
+
+*,
+:after,
+:before {
+  box-sizing: revert;
+}
+
+img {
+  vertical-align: revert;
+}
+
+/* Необходимо для корректного отображения в dev-режиме, а при встраивании через module-federation не применяется. */
+#root {
+  height: 100vh;
+}
+
+/* allotment */
+.provider-wrapper {
+  display: contents;
+
+  body:has(&) {
+    overflow: clip;
+  }
+
+  .sash {
+    z-index: 4;
+  }
+
+  .split-view.split-view-separator-border
+    > .split-view-container
+    > .split-view-view-visible:not(:first-child)::before {
+    z-index: 3;
+  }
+}

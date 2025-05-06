@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "declaration": false,
+    "allowSyntheticDefaultImports": true,
+    "emitDecoratorMetadata": false,
+    "experimentalDecorators": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "jsx": "react-jsx",
+    "lib": ["esnext", "dom"],
+    "types": ["node", "vite/client"],
+    "isolatedModules": true,
+    "moduleResolution": "node",
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noImplicitOverride": true,
+    "pretty": true,
+    "removeComments": true,
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "stripInternal": true,
+    "target": "es2019",
+    "allowJs": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "outDir": "tsBuilt",
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "include": ["src", ".storybook/*"],
+  "exclude": ["node_modules", "tsBuilt"]
+}
