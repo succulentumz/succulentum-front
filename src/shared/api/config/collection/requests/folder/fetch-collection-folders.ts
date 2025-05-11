@@ -1,16 +1,16 @@
 import { hosts } from '../../../../../config';
 import { createFetchConfig } from '../../../../helpers';
-import { folderRaw } from '../../fixtures/folders';
+import { foldersRaw } from '../../fixtures/folders';
 import { mapperFolder } from '../../mappers';
-import { type ICollection } from '../../model';
+import { IFolderRaw, type ICollection } from '../../model';
 
 export interface IFetchFolderRequest {
   collectionId: ICollection['id'];
 }
 
-export const folderFetchKey = 'fetchFolder' as const;
+export const collectionFoldersFetchKey = 'fetchCollectionFolders' as const;
 
-export default createFetchConfig(folderFetchKey, {
+export default createFetchConfig(collectionFoldersFetchKey, {
   config: {
     host: hosts.gateway,
     pathTemplate: '/api/folders/:collectionId',
@@ -18,7 +18,7 @@ export default createFetchConfig(folderFetchKey, {
   },
   getRequestOptions: ({ collectionId }: IFetchFolderRequest) => ({
     params: { collectionId },
-    mapper: mapperFolder,
+    mapper: (response: IFolderRaw[]) => response.map(mapperFolder),
   }),
-  mockValue: folderRaw,
+  mockValue: foldersRaw,
 });

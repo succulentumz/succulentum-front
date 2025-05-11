@@ -21,7 +21,9 @@ export const useStyles = createUseStyles({
     color: colors.R600,
   },
 
-  info: {},
+  info: {
+    color: colors.B600,
+  },
 
   warning: {
     color: colors.O600,

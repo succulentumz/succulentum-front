@@ -1,16 +1,16 @@
 import { hosts } from '../../../../../config';
 import { createFetchConfig } from '../../../../helpers';
-import { plantRaw } from '../../fixtures/plants';
+import { plantsRaw } from '../../fixtures/plants';
 import { mapperPlant } from '../../mappers';
-import { IFolder } from '../../model';
+import { IFolder, IPlantRaw } from '../../model';
 
 export interface IFetchPlantRequest {
   folderId: IFolder['id'];
 }
 
-export const plantFetchKey = 'fetchPlant' as const;
+export const folderPlantsFetchKey = 'fetchFolderPlants' as const;
 
-export default createFetchConfig(plantFetchKey, {
+export default createFetchConfig(folderPlantsFetchKey, {
   config: {
     host: hosts.gateway,
     pathTemplate: '/api/plants/:folderId',
@@ -18,7 +18,7 @@ export default createFetchConfig(plantFetchKey, {
   },
   getRequestOptions: ({ folderId }: IFetchPlantRequest) => ({
     params: { folderId },
-    mapper: mapperPlant,
+    mapper: (response: IPlantRaw[]) => response.map(mapperPlant),
   }),
-  mockValue: plantRaw,
+  mockValue: plantsRaw,
 });

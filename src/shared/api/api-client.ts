@@ -10,7 +10,7 @@ import config from './config';
 import { parseConfig } from './helpers';
 import { type IFetchConfig } from './types';
 import { environments } from '../config';
-import { applyRefreshTokenInterceptor, showErrorToaster, showSuccessToaster } from '../global';
+import { showErrorToaster, showSuccessToaster } from '../global';
 
 function createApiClient<U extends Record<string, IFetchConfig>>(
   options: Omit<IApiClientOptions<BaseConfigType>, 'apiConfig' | 'mocks'>,
@@ -52,6 +52,6 @@ export const api = createApiClient(
   config,
 );
 
-applyRefreshTokenInterceptor(api.axiosInstance, {
-  onUpdate: () => api.setHeaders(getHeaders()),
-});
+// applyRefreshTokenInterceptor(api.axiosInstance, {
+//   onUpdate: () => api.setHeaders(getHeaders()),
+// });

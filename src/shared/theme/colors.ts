@@ -13,11 +13,13 @@ export const colors = {
   N10: '#f6f6f8',
   W100: '#ffffff',
   // GREEN
+  G1000: '#425e2f',
   G900: '#547012',
   G800: '#81a11a',
   G600: '#97ba1e',
   G200: '#d4e3ac',
   G50: '#f4f9e6',
+  G30: '#daddd4',
   // TEAL
   T900: '#075c68',
   T800: '#0b7483',
@@ -43,6 +45,7 @@ export const colors = {
   R200: '#f7949a',
   R50: '#feedee',
   // PINK
+  P150: '#c08484',
   P80: '#e1c8c8',
   // VIOLET
   V900: '#4e3479',

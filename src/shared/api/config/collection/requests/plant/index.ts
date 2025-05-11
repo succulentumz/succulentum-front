@@ -1,4 +1,4 @@
-import fetchPlant from './fetch-plant';
+import fetchFolderPlants from './fetch-folder-plants';
 import fetchPlants from './fetch-plants';
 import createPlant from './create-plant';
 import deletePlant from './delete-plant';
@@ -8,12 +8,12 @@ export default {
   ...createPlant,
   ...deletePlant,
   ...editPlant,
-  ...fetchPlant,
+  ...fetchFolderPlants,
   ...fetchPlants,
 };
 
 export * from './create-plant';
 export * from './delete-plant';
 export * from './edit-plant';
-export * from './fetch-plant';
+export * from './fetch-folder-plants';
 export * from './fetch-plants';

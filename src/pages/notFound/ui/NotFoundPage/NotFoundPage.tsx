@@ -13,7 +13,7 @@ export const NotFoundPage: FC = () => {
       <div className={classes.content}>
         <Splash icon="eyes">404</Splash>
         <NavLink className={classes.link} to="/">
-          Go to Main
+          На главную
         </NavLink>
       </div>
     </div>

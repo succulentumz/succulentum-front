@@ -37,7 +37,7 @@ export const Toaster: FC<IToasterProps> = ({
   text,
   children,
   timeout = DEFAULT_TIMEOUT,
-  hasCloseButton = false,
+  hasCloseButton = true,
   shouldCloseOnClick = false,
   onClose,
   onTimeEnd,
