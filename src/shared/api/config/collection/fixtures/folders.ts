@@ -5,31 +5,31 @@ export const foldersRaw: IFolderRaw[] = [
   {
     id: 0,
     collectionId: 0,
-    name: 'Folder 1',
+    name: 'Кактусовые',
     createdAt: '2022-08-09T09:08:51.494Z',
   },
   {
     id: 1,
     collectionId: 0,
-    name: 'Folder 2',
+    name: 'Замиокулькас',
     createdAt: '2023-01-09T09:08:51.494Z',
   },
   {
     id: 2,
     collectionId: 0,
-    name: 'Folder 3',
+    name: 'Пеперомия',
     createdAt: '2023-10-09T09:08:51.494Z',
   },
   {
     id: 3,
     collectionId: 0,
-    name: 'Folder 4',
+    name: 'Бегония',
     createdAt: '2024-04-19T09:08:51.494Z',
   },
   {
     id: 4,
     collectionId: 0,
-    name: 'Folder 5',
+    name: 'Толстянковые',
     createdAt: '2025-02-28T09:08:51.494Z',
   },
 ];

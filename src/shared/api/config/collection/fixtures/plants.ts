@@ -5,7 +5,7 @@ export const plantsRaw: IPlantRaw[] = [
   {
     id: 0,
     ownerId: 0,
-    name: 'Plant 1',
+    name: 'Гимнокалициум',
     description: 'Plant',
     createdAt: '2022-08-09T09:08:51.494Z',
     collectionId: 0,
@@ -15,7 +15,7 @@ export const plantsRaw: IPlantRaw[] = [
   {
     id: 1,
     ownerId: 0,
-    name: 'Plant 2',
+    name: 'Ребуция',
     description: 'Plant',
     createdAt: '2023-01-09T09:08:51.494Z',
     collectionId: 0,
@@ -25,7 +25,7 @@ export const plantsRaw: IPlantRaw[] = [
   {
     id: 2,
     ownerId: 0,
-    name: 'Plant 3',
+    name: 'Цереус',
     description: 'Plant',
     createdAt: '2023-10-09T09:08:51.494Z',
     collectionId: 0,
@@ -35,7 +35,7 @@ export const plantsRaw: IPlantRaw[] = [
   {
     id: 3,
     ownerId: 0,
-    name: 'Plant 4',
+    name: 'Радужный эхинокактус',
     description: 'Plant',
     createdAt: '2024-04-19T09:08:51.494Z',
     collectionId: 0,
@@ -45,7 +45,7 @@ export const plantsRaw: IPlantRaw[] = [
   {
     id: 4,
     ownerId: 0,
-    name: 'Plant 5',
+    name: 'Шлюмбергера',
     description: 'Plant',
     createdAt: '2025-02-28T09:08:51.494Z',
     collectionId: 0,
