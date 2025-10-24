@@ -1,12 +1,13 @@
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { useZustand } from 'use-zustand';
 
+import { Toaster } from '@/shared/ui';
+
 import { MAX_SHOWN_TOASTERS } from './constants';
 import { durations } from '../../../../theme';
 import { toasterStore } from '../../model';
 
 import useStyles from './ToasterManager.styles';
-import { Toaster } from '@/shared/ui';
 
 export const ToasterManager = () => {
   const classes = useStyles();

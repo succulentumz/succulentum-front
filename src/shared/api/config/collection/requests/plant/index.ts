@@ -1,8 +1,8 @@
-import fetchFolderPlants from './fetch-folder-plants';
-import fetchPlants from './fetch-plants';
 import createPlant from './create-plant';
 import deletePlant from './delete-plant';
 import editPlant from './edit-plant';
+import fetchFolderPlants from './fetch-folder-plants';
+import fetchPlants from './fetch-plants';
 
 export default {
   ...createPlant,

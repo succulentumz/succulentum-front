@@ -1,11 +1,11 @@
 import { type FC } from 'react';
+import { TransitionGroup } from 'react-transition-group';
 import { useZustand } from 'use-zustand';
 
 import { modalStore } from '../../model';
 import { areModalsEqual } from '../../utils';
 
 import useStyles from './ModalManager.styles';
-import { TransitionGroup } from 'react-transition-group';
 
 export const ModalManager: FC = () => {
   const classes = useStyles();

@@ -4,7 +4,8 @@
  */
 
 import { isObject } from '@true-engineering/true-react-platform-helpers';
-import { AxiosError } from 'axios';
+import { type AxiosError } from 'axios';
+
 import { getProperty } from './object-get-set';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

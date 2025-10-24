@@ -1,15 +1,17 @@
-import { FC, ReactNode, useEffect } from 'react';
-import clsx from 'clsx';
 import {
   addDataTestId,
   isEmpty,
   isNotEmpty,
   isReactNodeNotEmpty,
 } from '@true-engineering/true-react-platform-helpers';
+import clsx from 'clsx';
+import { type FC, type ReactNode, useEffect } from 'react';
+
+import { DEFAULT_TIMEOUT } from './constants';
+import { type IToasterType } from './types';
 import { Icon } from '../Icon';
 import { IconButton } from '../IconButton';
-import { DEFAULT_TIMEOUT } from './constants';
-import { IToasterType } from './types';
+
 import { useStyles } from './Toaster.styles';
 
 export interface IToasterProps {

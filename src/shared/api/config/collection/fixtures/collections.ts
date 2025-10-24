@@ -1,5 +1,5 @@
 import { mapperCollection } from '../mappers';
-import { ICollectionRaw } from '../model';
+import { type ICollectionRaw } from '../model';
 
 export const collectionsRaw: ICollectionRaw[] = [
   {

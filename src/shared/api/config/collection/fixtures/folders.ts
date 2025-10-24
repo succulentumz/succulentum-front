@@ -1,5 +1,5 @@
 import { mapperFolder } from '../mappers';
-import { IFolderRaw } from '../model';
+import { type IFolderRaw } from '../model';
 
 export const foldersRaw: IFolderRaw[] = [
   {

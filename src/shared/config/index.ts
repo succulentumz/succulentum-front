@@ -1,3 +1,3 @@
-export * from './routes-config';
 export * from './environment-config';
 export * from './hosts';
+export * from './routes-config';

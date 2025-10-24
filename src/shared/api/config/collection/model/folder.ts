@@ -1,4 +1,4 @@
-import { ICollection } from './collection';
+import { type ICollection } from './collection';
 
 export interface IFolder<DateType = Date> {
   id: number;

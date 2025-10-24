@@ -1,7 +1,9 @@
-import { FC } from 'react';
-import useStyles from './CollectionFolder.styles';
+import { type FC } from 'react';
+
+import { type IFolder } from '@/shared/api';
 import { renderEmojiIcon } from '@/shared/ui';
-import { IFolder } from '@/shared/api';
+
+import useStyles from './CollectionFolder.styles';
 
 export interface ICollectionFolderProps {
   folderName: IFolder['name'];

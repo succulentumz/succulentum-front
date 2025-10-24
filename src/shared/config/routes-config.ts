@@ -12,6 +12,10 @@ export const routesConfig = {
     path: '/collection/*',
     isIndex: true,
   },
+  registration: {
+    path: '/login',
+    isIndex: false,
+  },
 } satisfies Record<string, IRouteConfigParams>;
 
 export type IRouteName = keyof typeof routesConfig;

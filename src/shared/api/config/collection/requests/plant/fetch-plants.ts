@@ -1,9 +1,10 @@
-import { Nullable } from '@/shared/model';
+import { type Nullable } from '@/shared/model';
+
 import { hosts } from '../../../../../config';
 import { createFetchConfig } from '../../../../helpers';
 import { plantsRaw } from '../../fixtures/plants';
 import { mapperPlant } from '../../mappers';
-import { ICollection, IFolder, IPlantRaw } from '../../model';
+import { type ICollection, type IFolder, type IPlantRaw } from '../../model';
 
 export interface IFetchPlantsRequest {
   collectionId: ICollection['id'];

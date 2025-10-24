@@ -1,4 +1,5 @@
 import { createUseStyles } from 'react-jss';
+
 import { animations } from '../../theme';
 
 const BUTTON_SIZE_S = 24;

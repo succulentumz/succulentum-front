@@ -3,12 +3,6 @@ import { createUseStyles } from 'react-jss';
 import { colors } from '@/shared/theme';
 
 export default createUseStyles({
-  collectionPage: {
-    height: '100%',
-    backgroundColor: colors.G30,
-    padding: 30,
-  },
-
   content: {
     display: 'flex',
     gap: 20,

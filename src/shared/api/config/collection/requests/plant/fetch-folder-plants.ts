@@ -2,7 +2,7 @@ import { hosts } from '../../../../../config';
 import { createFetchConfig } from '../../../../helpers';
 import { plantsRaw } from '../../fixtures/plants';
 import { mapperPlant } from '../../mappers';
-import { IFolder, IPlantRaw } from '../../model';
+import { type IFolder, type IPlantRaw } from '../../model';
 
 export interface IFetchPlantRequest {
   folderId: IFolder['id'];

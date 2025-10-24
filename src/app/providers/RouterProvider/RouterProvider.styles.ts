@@ -1,5 +1,6 @@
-import { animations, colors, helpers } from '@/shared/theme';
 import { createUseStyles } from 'react-jss';
+
+import { animations, colors, helpers } from '@/shared/theme';
 
 export default createUseStyles({
   layout: {
@@ -15,7 +16,7 @@ export default createUseStyles({
   },
   logo: {
     height: 'auto',
-    width: '40%',
+    width: '30%',
   },
   tabsContainer: {
     display: 'flex',

@@ -1,8 +1,8 @@
-import fetchCollection from './fetch-collection';
-import fetchCollections from './fetch-collections';
 import createCollection from './create-collection';
 import deleteCollection from './delete-collection';
 import editCollection from './edit-collection';
+import fetchCollection from './fetch-collection';
+import fetchCollections from './fetch-collections';
 
 export default {
   ...createCollection,

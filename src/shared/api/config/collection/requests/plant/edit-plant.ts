@@ -1,4 +1,5 @@
-import { Nullable } from '@/shared/model';
+import { type Nullable } from '@/shared/model';
+
 import { hosts } from '../../../../../config';
 import { createFetchConfig } from '../../../../helpers';
 import { plantRaw } from '../../fixtures/plants';

@@ -1,7 +1,9 @@
-import { FC } from 'react';
+import { type FC } from 'react';
+
 import { ComplexIconBoilerplate, IconBoilerplate } from './components';
 import { isComplexIcon } from './helpers';
-import { IIconType } from './types';
+import { type IIconType } from './types';
+
 import { useStyles } from './Icon.styles';
 
 export interface IIconProps {

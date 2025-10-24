@@ -1,18 +1,20 @@
+import { isEmpty, isNotEmpty } from '@true-engineering/true-react-platform-helpers';
+import { type FC, Fragment, useCallback } from 'react';
+import { useSearchParams } from 'react-router-dom';
+
 import { CollectionFolder, PlantItem } from '@/features/collections';
-import { FC, Fragment, useCallback } from 'react';
-import useStyles from './CollectionPage.styles';
 import {
-  IFolder,
+  type IFolder,
   collectionFoldersFetchKey,
   folderPlantsFetchKey,
   plantsFetchKey,
   useApiQuery,
 } from '@/shared/api';
-import { useSearchParams } from 'react-router-dom';
-import { parseIntSafety } from '@/shared/helpers';
-import { isEmpty, isNotEmpty } from '@true-engineering/true-react-platform-helpers';
-import { Splash } from '@/shared/ui';
 import { addToaster } from '@/shared/global';
+import { parseIntSafety } from '@/shared/helpers';
+import { Splash } from '@/shared/ui';
+
+import useStyles from './CollectionPage.styles';
 
 export interface ICollectionPageProps {}
 

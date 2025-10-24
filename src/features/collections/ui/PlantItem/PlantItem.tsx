@@ -1,9 +1,10 @@
-import { IPlant } from '@/shared/api';
-import { FC } from 'react';
+import { isEmpty } from '@true-engineering/true-react-platform-helpers';
+import { type FC } from 'react';
+
+import { type IPlant } from '@/shared/api';
+import { renderEmojiIcon } from '@/shared/ui';
 
 import useStyles from './PlantItem.styles';
-import { renderEmojiIcon } from '@/shared/ui';
-import { isEmpty } from '@true-engineering/true-react-platform-helpers';
 
 export interface IPlantItemProps {
   plantName: IPlant['name'];

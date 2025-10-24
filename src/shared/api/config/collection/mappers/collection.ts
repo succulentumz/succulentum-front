@@ -1,5 +1,6 @@
 import { parseISO } from 'date-fns';
-import { ICollection, ICollectionRaw } from '../model';
+
+import { type ICollection, type ICollectionRaw } from '../model';
 
 export const mapperCollection = (collection: ICollectionRaw): ICollection => ({
   ...collection,

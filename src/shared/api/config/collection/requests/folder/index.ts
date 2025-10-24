@@ -1,8 +1,8 @@
-import fetchCollectionFolders from './fetch-collection-folders';
-import fetchFolders from './fetch-folders';
 import createFolder from './create-folder';
 import deleteFolder from './delete-folder';
 import editFolder from './edit-folder';
+import fetchCollectionFolders from './fetch-collection-folders';
+import fetchFolders from './fetch-folders';
 
 export default {
   ...createFolder,
