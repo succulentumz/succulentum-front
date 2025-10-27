@@ -10,11 +10,15 @@ export const routesConfig = {
   },
   collection: {
     path: '/collection/*',
-    isIndex: true,
+    isIndex: false,
   },
-  registration: {
+  login: {
     path: '/login',
     isIndex: false,
+  },
+  home: {
+    path: '/home',
+    isIndex: true,
   },
 } satisfies Record<string, IRouteConfigParams>;
 

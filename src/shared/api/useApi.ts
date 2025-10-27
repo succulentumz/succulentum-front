@@ -29,9 +29,11 @@ export const useApiQuery = <
   k?: K,
   query?: IApiRequest<K>,
   options?: Omit<UseQueryOptions<Result, Error, Data>, 'queryKey' | 'queryFn'>,
-) =>
-  useQuery({
-    queryKey: [k, query].filter(isNotEmpty),
+) => {
+  const temp = [k, query].filter(isNotEmpty);
+  console.log('DEBUG ', k, query, temp);
+  return useQuery({
+    queryKey: temp,
     queryFn:
       k !== undefined
         ? () => (api[k] as unknown as QueryFunction<Result>)(query as never)
@@ -39,6 +41,7 @@ export const useApiQuery = <
     enabled: k !== undefined,
     ...options,
   });
+};
 
 export const useApiMutation = <
   K extends IApiQueryKey,
