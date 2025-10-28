@@ -31,7 +31,6 @@ export const useApiQuery = <
   options?: Omit<UseQueryOptions<Result, Error, Data>, 'queryKey' | 'queryFn'>,
 ) => {
   const temp = [k, query].filter(isNotEmpty);
-  console.log('DEBUG ', k, query, temp);
   return useQuery({
     queryKey: temp,
     queryFn:

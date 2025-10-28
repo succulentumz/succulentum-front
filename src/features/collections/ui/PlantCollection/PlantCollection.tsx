@@ -8,7 +8,7 @@ import useStyles from './CollectionItem.styles';
 export interface ICollectionItemProps {
   collectionName: ICollection['name'];
   collectionId: ICollection['id'];
-  onClick: (folderId: ICollection['id']) => void;
+  onClick: (collectionId: ICollection['id']) => void;
 }
 
 export const PlantCollection: FC<ICollectionItemProps> = ({
@@ -24,7 +24,7 @@ export const PlantCollection: FC<ICollectionItemProps> = ({
       title={collectionName}
       onClick={() => onClick(collectionId)}
     >
-      <div className={classes.folderIcon}>{renderEmojiIcon('plantCollection')}</div>
+      <div className={classes.collectionIcon}>{renderEmojiIcon('plantCollection')}</div>
       {collectionName}
     </div>
   );

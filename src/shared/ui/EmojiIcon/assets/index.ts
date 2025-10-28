@@ -1,3 +1,6 @@
+import addCollectionItem from './add-plant-collection.png';
+import addPlantFolder from './add-plant-folder.png';
+import addPlantItem from './add-plant-item.png';
 import construction from './construction.png';
 import eyes from './eyes.png';
 import hammerAndWrench from './hammer-and-wrench.png';
@@ -14,6 +17,9 @@ const emoji = {
   plantFolder,
   plantItem,
   plantCollection,
+  addPlantItem,
+  addPlantFolder,
+  addCollectionItem,
 };
 
 export default emoji;
