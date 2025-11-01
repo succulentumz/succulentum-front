@@ -4,13 +4,7 @@ import { collectionRaw } from '../../fixtures/collections';
 import { mapperCollection } from '../../mappers';
 import { type ICollection } from '../../model';
 
-export interface ICreateCollectionRequest {
-  ownerId: ICollection['ownerId'];
-  name: ICollection['name'];
-  description?: ICollection['description'];
-  isShared: ICollection['isShared'];
-  sharedLink?: ICollection['sharedLink'];
-}
+export type ICreateCollectionRequest = Omit<ICollection, 'id' | 'createdAt'>;
 
 export const collectionCreateKey = 'createCollection' as const;
 

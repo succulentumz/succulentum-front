@@ -3,7 +3,7 @@ import { createUseStyles } from 'react-jss';
 import { colors } from '@/shared/theme';
 
 export default createUseStyles({
-  addPlantFolder: {
+  addPlantCollection: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -13,12 +13,12 @@ export default createUseStyles({
     padding: 10,
     whiteSpace: 'pre-wrap',
     backgroundColor: colors.T800,
-    borderRadius: [0, 30, 0, 30],
+    borderRadius: 30,
     cursor: 'pointer',
     color: colors.W100,
   },
 
-  addPlantFolderIcon: {
+  addPlantCollectionIcon: {
     height: 100,
     width: 100,
 

@@ -1,14 +1,21 @@
 import { isNotEmpty } from '@true-engineering/true-react-platform-helpers';
 import { type FC } from 'react';
 
+import {
+  PrettyButton,
+  PrettyInput,
+  PrettyLabeledSmallInput,
+} from '@/features/helpers/ui/PrettyComponents';
+
 import useStyles from './CollectionSideBar.styles';
 
 export interface ICollectionSideBarProps {
   title: string;
-  goBackClick: () => void | undefined;
+  goBack: (() => void) | undefined;
+  change: (() => void) | undefined;
 }
 
-export const CollectionSideBar: FC<ICollectionSideBarProps> = ({ title, goBackClick }) => {
+export const CollectionSideBar: FC<ICollectionSideBarProps> = ({ title, goBack, change }) => {
   const classes = useStyles();
 
   return (
@@ -18,35 +25,30 @@ export const CollectionSideBar: FC<ICollectionSideBarProps> = ({ title, goBackCl
       </div>
       <div className={classes.sidebarMain}>
         <form>
-          <div className={classes.inputBox}>
-            <input type="search" className={classes.searchbar} placeholder="Поиск" />
-          </div>
+          <PrettyInput type="search" placeholder="Поиск" />
         </form>
         <form>
           <h4>Фильтры:</h4>
           <hr />
           <h4>Дата создания:</h4>
           <div className={classes.filterContainer}>
-            <div className={classes.inputBox}>
-              <div className={classes.filterbox}>
-                <div className={classes.smallLeftFilterLabel}>от:</div>
-                <input className={classes.filterbar} type="date" />
-              </div>
-            </div>
-            <div className={classes.inputBox}>
-              <div className={classes.filterbox}>
-                <div className={classes.smallLeftFilterLabel}>до:</div>
-                <input className={classes.filterbar} type="date" />
-              </div>
-            </div>
+            <PrettyLabeledSmallInput type="date" label="от:"></PrettyLabeledSmallInput>
+            <PrettyLabeledSmallInput type="date" label="до:"></PrettyLabeledSmallInput>
           </div>
         </form>
       </div>
-      {isNotEmpty(goBackClick) ? (
-        <button className={classes.backButton} onClick={goBackClick}>
-          Назад
-        </button>
-      ) : undefined}
+      <div className={classes.sidebarFooter}>
+        {isNotEmpty(goBack) ? (
+          <PrettyButton style={{ float: 'left' }} onClick={goBack}>
+            Назад
+          </PrettyButton>
+        ) : undefined}
+        {isNotEmpty(change) ? (
+          <PrettyButton style={{ float: 'right' }} onClick={change}>
+            Изменить
+          </PrettyButton>
+        ) : undefined}
+      </div>
     </div>
   );
 };

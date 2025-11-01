@@ -8,10 +8,16 @@ import {
   CollectionFolder,
   PlantItem,
   AddPlantItem,
+  AddPlantCollection,
   AddCollectionFolder,
 } from '@/features/collections';
 import { ModalOverlay } from '@/features/helpers';
-import { CreateCollection, CreateCollectionFolder, CreatePlant } from '@/features/plants';
+import {
+  CreateCollection,
+  CreateCollectionFolder,
+  CreatePlant,
+  EditCollection,
+} from '@/features/plants';
 import {
   collectionFoldersFetchKey,
   collectionsFetchKey,
@@ -21,6 +27,7 @@ import {
   type IPlant,
   type ICollection,
   type IFolder,
+  collectionFetchKey,
 } from '@/shared/api';
 import { addToaster } from '@/shared/global';
 import { useOpenModal } from '@/shared/global/modal/hooks/useOpenModal';
@@ -30,6 +37,10 @@ import { Splash } from '@/shared/ui';
 import useStyles from './CollectionPage.styles';
 
 export interface ICollectionPageProps {}
+
+interface ICurrentContextProps {
+  id: IFolder['id'] | ICollection['id'];
+}
 
 export const CollectionPage: FC<ICollectionPageProps> = () => {
   const classes = useStyles();
@@ -45,11 +56,44 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
     enabled: isEmpty(collectionId),
   });
 
+  let currentCollection: ICollection<Date> | undefined;
+  currentCollection = undefined;
+  if (!isEmpty(collections) && !isEmpty(collectionId)) {
+    for (const collection of collections) {
+      if (collection.id === collectionId) {
+        currentCollection = collection;
+      }
+    }
+  }
+  currentCollection = useApiQuery(
+    collectionFetchKey,
+    isEmpty(collectionId) ? undefined : { collectionId },
+    {
+      enabled: isEmpty(currentCollection) && !isEmpty(collectionId),
+    },
+  )?.data;
+
   const { data: folders } = useApiQuery(
     collectionFoldersFetchKey,
     isNotEmpty(collectionId) ? { collectionId } : undefined,
     { enabled: isNotEmpty(collectionId) },
   );
+  let currentFolder: IFolder<Date> | undefined;
+  currentFolder = undefined;
+  if (!isEmpty(folders) && !isEmpty(folderId)) {
+    for (const folder of folders) {
+      if (folder.id === folderId) {
+        currentFolder = folder;
+      }
+    }
+  }
+  currentCollection = useApiQuery(
+    collectionFetchKey,
+    isEmpty(collectionId) ? undefined : { collectionId },
+    {
+      enabled: isEmpty(currentCollection) && !isEmpty(collectionId),
+    },
+  )?.data;
 
   const shouldRequestPlantsWithoutFolder = isNotEmpty(collectionId) && isEmpty(folderId);
   const { data: plantsWithoutFolder } = useApiQuery(
@@ -101,17 +145,19 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
     setParams(newParams);
   }, [params, setParams]);
 
-  const HandleModal = async (children: JSX.Element) => {
+  const CloseModal = async () => {
+    setOpenedModal(false);
+    justOpenedModal = false;
+    await closeModal();
+  };
+
+  const HandleModal = async (children: JSX.Element, title: string) => {
     setOpenedModal(true);
     justOpenedModal = true;
     await openModal((props) => (
       <ModalOverlay
-        title="Добавить растение"
-        onClose={async () => {
-          setOpenedModal(false);
-          justOpenedModal = false;
-          await closeModal();
-        }}
+        title={title}
+        onClose={CloseModal}
         isOpen={() => justOpenedModal || openedModal}
         key="modalOverlay"
       >
@@ -120,14 +166,39 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
     ));
   };
 
-  const onWorkInProgress = useCallback(
-    () => addToaster({ title: 'Работа в процессе', type: 'info' }),
-    [],
-  );
+  const HandleEditCollectionModal = async () => {
+    await HandleModal(
+      <EditCollection
+        collectionId={collectionId!}
+        name={currentCollection?.name}
+        isShared={currentCollection?.isShared}
+        createdAt={currentCollection?.createdAt}
+        description={currentCollection?.description}
+        onSubmit={CloseModal}
+      ></EditCollection>,
+      'Изменение коллекции',
+    );
+  };
 
   return (
     <div className={classes.collectionPage}>
-      <CollectionSideBar title="Моя коллекция =)" goBackClick={hangleClickGoBack} />
+      <CollectionSideBar
+        title={
+          (isEmpty(collectionId)
+            ? 'Моя коллекция'
+            : isEmpty(folderId)
+              ? currentCollection?.name
+              : currentFolder?.name) ?? 'Моя коллекция'
+        }
+        goBack={isNotEmpty(collectionId) ? hangleClickGoBack : undefined}
+        change={
+          isEmpty(collectionId)
+            ? undefined
+            : isEmpty(folderId)
+              ? HandleEditCollectionModal
+              : undefined
+        }
+      />
       {isEmpty(collectionId) && isEmpty(collections) ? (
         <Splash icon="eyes">Коллекция не найдена!</Splash>
       ) : (
@@ -155,7 +226,10 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
                   ))}
                   <AddCollectionFolder
                     onClick={() =>
-                      HandleModal(<CreateCollectionFolder key="createCollectionFolder" />)
+                      HandleModal(
+                        <CreateCollectionFolder key="createCollectionFolder" />,
+                        'Добавить папку',
+                      )
                     }
                   />
                 </Fragment>
@@ -170,7 +244,9 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
                   />
                 ))
               )}
-              <AddPlantItem onClick={() => HandleModal(<CreatePlant key="createPlant" />)} />
+              <AddPlantItem
+                onClick={() => HandleModal(<CreatePlant key="createPlant" />, 'Добавить растение')}
+              />
             </Fragment>
           ) : (
             <Fragment>
@@ -179,12 +255,23 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
                   key={collection.id}
                   collectionName={collection.name}
                   collectionId={collection.id}
+                  collectionDescription={collection.description}
                   onClick={handleClickOnCollection}
+                  redactionClick={HandleEditCollectionModal}
                 />
               ))}
-              {/*<AddCollection*/}
-              {/*  onClick={() => HandleModal(<CreateCollection key="createCollection" />)}*/}
-              {/*/>*/}
+              <AddPlantCollection
+                onClick={() =>
+                  HandleModal(
+                    <CreateCollection
+                      onSubmit={CloseModal}
+                      key="createCollection"
+                      ownerId={0} // TODO INSERT OWNER ID HERE
+                    />,
+                    'Добавить коллекцию',
+                  )
+                }
+              />
             </Fragment>
           )}
         </div>

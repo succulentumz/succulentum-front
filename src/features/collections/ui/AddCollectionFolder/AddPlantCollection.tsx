@@ -2,19 +2,19 @@ import { type FC } from 'react';
 
 import { renderEmojiIcon } from '@/shared/ui';
 
-import useStyles from './AddCollectionFolder.styles';
+import useStyles from './AddPlantCollection.styles';
 
-export interface IAddCollectionFolderProps {
+export interface IAddPlantCollectionProps {
   onClick: () => void;
 }
 
-export const AddCollectionFolder: FC<IAddCollectionFolderProps> = ({ onClick }) => {
+export const AddPlantCollection: FC<IAddPlantCollectionProps> = ({ onClick }) => {
   const classes = useStyles();
 
   return (
-    <div className={classes.addPlantFolder} title="Добавить папку" onClick={onClick}>
-      <div className={classes.addPlantFolderIcon}>{renderEmojiIcon('addPlantFolder')}</div>
-      Добавить папку
+    <div className={classes.addPlantCollection} title="Добавить коллекцию" onClick={onClick}>
+      <div className={classes.addPlantCollectionIcon}>{renderEmojiIcon('addPlantCollection')}</div>
+      Добавить коллекцию
     </div>
   );
 };

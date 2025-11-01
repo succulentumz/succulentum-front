@@ -10,12 +10,7 @@ export interface ModalOverlayProps {
   isOpen: () => boolean;
 }
 
-export const ModalOverlay: React.FC<ModalOverlayProps> = ({
-  onClose,
-  children,
-  title,
-  isOpen,
-}) => {
+export const ModalOverlay: React.FC<ModalOverlayProps> = ({ onClose, children, title, isOpen }) => {
   const classes = useStyles();
 
   const handleClose = () => {
@@ -32,7 +27,7 @@ export const ModalOverlay: React.FC<ModalOverlayProps> = ({
     <CSSTransition
       in={isOpen()}
       // onExited={refreshState}
-      timeout={300}
+      timeout={200}
       classNames="modal"
       unmountOnExit
     >

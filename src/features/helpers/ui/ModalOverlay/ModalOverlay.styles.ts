@@ -2,6 +2,8 @@ import { createUseStyles } from 'react-jss';
 
 import { colors } from '@/shared/theme';
 
+export const timeOut = 200;
+
 export default createUseStyles({
   modalOverlay: {
     position: 'fixed',
@@ -20,14 +22,14 @@ export default createUseStyles({
     },
     '&.modal-enter-active': {
       opacity: 1,
-      transition: 'opacity 300ms ease-in-out',
+      transition: `opacity ${timeOut}ms ease-in-out`,
     },
     '&.modal-exit': {
       opacity: 1,
     },
     '&.modal-exit-active': {
       opacity: 0,
-      transition: 'opacity 300ms ease-in-out',
+      transition: `opacity ${timeOut}ms ease-in-out`,
     },
   },
 
@@ -35,9 +37,10 @@ export default createUseStyles({
     background: colors.W100,
     borderRadius: 8,
     padding: 10,
-    maxWidth: 500,
-    width: '90%',
-    maxHeight: '80vh',
+    width: 'fit-content',
+    height: 'fit-content',
+    maxWidth: '75%',
+    maxHeight: '75%',
     overflowY: 'auto',
     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
 

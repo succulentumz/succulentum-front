@@ -12,7 +12,6 @@ export default createUseStyles({
 
   content: {
     padding: 30,
-    align: 'right',
     display: 'flex',
     gap: 20,
     flexWrap: 'wrap',

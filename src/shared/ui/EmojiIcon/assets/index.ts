@@ -1,4 +1,4 @@
-import addCollectionItem from './add-plant-collection.png';
+import addPlantCollection from './add-plant-collection.png';
 import addPlantFolder from './add-plant-folder.png';
 import addPlantItem from './add-plant-item.png';
 import construction from './construction.png';
@@ -19,7 +19,7 @@ const emoji = {
   plantCollection,
   addPlantItem,
   addPlantFolder,
-  addCollectionItem,
+  addPlantCollection,
 };
 
 export default emoji;
