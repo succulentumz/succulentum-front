@@ -9,6 +9,7 @@ export default createUseStyles({
     ...helpers.withScrollBar,
   },
   header: {
+    zIndex: 10,
     position: 'sticky',
     top: 0,
     padding: [10, 5, 0, 5],

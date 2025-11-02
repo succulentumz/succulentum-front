@@ -2,12 +2,9 @@ import { hosts } from '../../../../../config';
 import { createFetchConfig } from '../../../../helpers';
 import { folderRaw } from '../../fixtures/folders';
 import { mapperFolder } from '../../mappers';
-import { type ICollection, type IFolder } from '../../model';
+import { type IFolder } from '../../model';
 
-export interface ICreateFolderRequest {
-  collectionId: ICollection['id'];
-  name: IFolder['name'];
-}
+export type ICreateFolderRequest = Omit<IFolder, 'id' | 'createdAt'>;
 
 export const folderCreateKey = 'createFolder' as const;
 

@@ -25,10 +25,15 @@ const RegistrationPage = lazy(() =>
   import('@/pages/registration').then((module) => ({ default: module.RegistrationPage })),
 );
 
+const HomePage = lazy(() =>
+  import('@/pages/homePage').then((module) => ({ default: module.HomePage })),
+);
+
 const routesComponents = {
   main: NotFoundPage,
   collection: CollectionPage,
-  registration: RegistrationPage,
+  login: RegistrationPage,
+  home: HomePage,
 } satisfies Record<IRouteName, FC>;
 
 const Header: FC = () => {
@@ -73,7 +78,7 @@ export const routes: RouteObject[] = [
     errorElement: <NotFoundPage />,
 
     children: objectKeys(routesConfig)
-      .filter((name) => name !== 'registration')
+      .filter((name) => name !== 'login')
       .map((name) => {
         const RouteComponent = routesComponents[name];
 
@@ -95,8 +100,8 @@ export const routes: RouteObject[] = [
     element: <AuthLayout />,
     children: [
       {
-        id: 'registration',
-        path: '/registration',
+        id: 'login',
+        path: '/login',
         element: (
           <Suspense fallback={<Loader />}>
             <RegistrationPage />

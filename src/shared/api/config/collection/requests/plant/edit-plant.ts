@@ -4,7 +4,7 @@ import { hosts } from '../../../../../config';
 import { createFetchConfig } from '../../../../helpers';
 import { plantRaw } from '../../fixtures/plants';
 import { mapperPlant } from '../../mappers';
-import { ICollection, type IPlant } from '../../model';
+import { type IPlant } from '../../model';
 
 export interface IEditPlantRequestParams {
   plantId: IPlant['id'];

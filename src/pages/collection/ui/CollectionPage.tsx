@@ -1,16 +1,36 @@
 import { isEmpty, isNotEmpty } from '@true-engineering/true-react-platform-helpers';
-import { type FC, Fragment, useCallback } from 'react';
+import { type FC, Fragment, useCallback, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import { CollectionFolder, PlantItem } from '@/features/collections';
 import {
-  type IFolder,
+  CollectionSideBar,
+  PlantCollection,
+  CollectionFolder,
+  PlantItem,
+  AddPlantItem,
+  AddPlantCollection,
+  AddCollectionFolder,
+} from '@/features/collections';
+import { ModalOverlay } from '@/features/helpers';
+import {
+  CreateCollection,
+  CreateCollectionFolder,
+  CreatePlant,
+  EditCollection,
+} from '@/features/plants';
+import {
   collectionFoldersFetchKey,
+  collectionsFetchKey,
   folderPlantsFetchKey,
   plantsFetchKey,
   useApiQuery,
+  type IPlant,
+  type ICollection,
+  type IFolder,
+  collectionFetchKey,
 } from '@/shared/api';
 import { addToaster } from '@/shared/global';
+import { useOpenModal } from '@/shared/global/modal/hooks/useOpenModal';
 import { parseIntSafety } from '@/shared/helpers';
 import { Splash } from '@/shared/ui';
 
@@ -18,19 +38,62 @@ import useStyles from './CollectionPage.styles';
 
 export interface ICollectionPageProps {}
 
+interface ICurrentContextProps {
+  id: IFolder['id'] | ICollection['id'];
+}
+
 export const CollectionPage: FC<ICollectionPageProps> = () => {
   const classes = useStyles();
 
   const [params, setParams] = useSearchParams();
+  const [openedModal, setOpenedModal] = useState(false);
+  let justOpenedModal = false;
 
   const collectionId = parseIntSafety(params.get('collectionId'));
   const folderId = parseIntSafety(params.get('folderId'));
+
+  const { data: collections } = useApiQuery(collectionsFetchKey, undefined, {
+    enabled: isEmpty(collectionId),
+  });
+
+  let currentCollection: ICollection<Date> | undefined;
+  currentCollection = undefined;
+  if (!isEmpty(collections) && !isEmpty(collectionId)) {
+    for (const collection of collections) {
+      if (collection.id === collectionId) {
+        currentCollection = collection;
+      }
+    }
+  }
+  currentCollection = useApiQuery(
+    collectionFetchKey,
+    isEmpty(collectionId) ? undefined : { collectionId },
+    {
+      enabled: isEmpty(currentCollection) && !isEmpty(collectionId),
+    },
+  )?.data;
 
   const { data: folders } = useApiQuery(
     collectionFoldersFetchKey,
     isNotEmpty(collectionId) ? { collectionId } : undefined,
     { enabled: isNotEmpty(collectionId) },
   );
+  let currentFolder: IFolder<Date> | undefined;
+  currentFolder = undefined;
+  if (!isEmpty(folders) && !isEmpty(folderId)) {
+    for (const folder of folders) {
+      if (folder.id === folderId) {
+        currentFolder = folder;
+      }
+    }
+  }
+  currentCollection = useApiQuery(
+    collectionFetchKey,
+    isEmpty(collectionId) ? undefined : { collectionId },
+    {
+      enabled: isEmpty(currentCollection) && !isEmpty(collectionId),
+    },
+  )?.data;
 
   const shouldRequestPlantsWithoutFolder = isNotEmpty(collectionId) && isEmpty(folderId);
   const { data: plantsWithoutFolder } = useApiQuery(
@@ -45,56 +108,171 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
     { enabled: isNotEmpty(folderId) },
   );
 
+  const { openModal, closeModal } = useOpenModal();
+
   const handleClickOnFolder = useCallback(
-    (folderId: IFolder['id']) => {
+    (currentFolderId: IFolder['id']) => {
       const newParams = new URLSearchParams(params);
-      newParams.set('folderId', folderId.toString());
+      newParams.set('folderId', currentFolderId.toString());
       setParams(newParams);
     },
-    [params],
+    [params, setParams],
   );
 
-  const onWorkInProgress = useCallback(
-    () => addToaster({ title: 'Работа в процессе', type: 'info' }),
-    [],
+  const handleClickOnCollection = useCallback(
+    (currentCollectionId: ICollection['id']) => {
+      const newParams = new URLSearchParams(params);
+      newParams.set('collectionId', currentCollectionId.toString());
+      setParams(newParams);
+    },
+    [params, setParams],
   );
+
+  const handleClickOnPlant = useCallback(
+    (currentPlantId: IPlant['id']) => {
+      addToaster({ title: `Работа в процессе ${currentPlantId}`, type: 'info' });
+    },
+    [params, setParams],
+  );
+
+  const hangleClickGoBack = useCallback(() => {
+    const newParams = new URLSearchParams(params);
+    if (isNotEmpty(newParams.get('folderId'))) {
+      newParams.delete('folderId', undefined);
+    } else if (isNotEmpty(newParams.get('collectionId'))) {
+      newParams.delete('collectionId', undefined);
+    }
+    setParams(newParams);
+  }, [params, setParams]);
+
+  const CloseModal = async () => {
+    setOpenedModal(false);
+    justOpenedModal = false;
+    await closeModal();
+  };
+
+  const HandleModal = async (children: JSX.Element, title: string) => {
+    setOpenedModal(true);
+    justOpenedModal = true;
+    await openModal((props) => (
+      <ModalOverlay
+        title={title}
+        onClose={CloseModal}
+        isOpen={() => justOpenedModal || openedModal}
+        key="modalOverlay"
+      >
+        {children}
+      </ModalOverlay>
+    ));
+  };
+
+  const HandleEditCollectionModal = async () => {
+    await HandleModal(
+      <EditCollection
+        collectionId={collectionId!}
+        name={currentCollection?.name}
+        isShared={currentCollection?.isShared}
+        createdAt={currentCollection?.createdAt}
+        description={currentCollection?.description}
+        onSubmit={CloseModal}
+      ></EditCollection>,
+      'Изменение коллекции',
+    );
+  };
 
   return (
     <div className={classes.collectionPage}>
-      {isEmpty(collectionId) ? (
+      <CollectionSideBar
+        title={
+          (isEmpty(collectionId)
+            ? 'Моя коллекция'
+            : isEmpty(folderId)
+              ? currentCollection?.name
+              : currentFolder?.name) ?? 'Моя коллекция'
+        }
+        goBack={isNotEmpty(collectionId) ? hangleClickGoBack : undefined}
+        change={
+          isEmpty(collectionId)
+            ? undefined
+            : isEmpty(folderId)
+              ? HandleEditCollectionModal
+              : undefined
+        }
+      />
+      {isEmpty(collectionId) && isEmpty(collections) ? (
         <Splash icon="eyes">Коллекция не найдена!</Splash>
       ) : (
         <div className={classes.content}>
-          {isEmpty(folderId) ? (
+          {isNotEmpty(collectionId) ? (
             <Fragment>
-              {folders?.map((folder) => (
-                <CollectionFolder
-                  key={folder.id}
-                  folderName={folder.name}
-                  folderId={folder.id}
-                  onClick={handleClickOnFolder}
-                />
-              ))}
-              {plantsWithoutFolder?.map((plant) => (
-                <PlantItem
-                  key={plant.id}
-                  plantName={plant.name}
-                  plantId={plant.id}
-                  plantPhotoId={plant.photoId}
-                  onClick={onWorkInProgress}
-                />
-              ))}
+              {isEmpty(folderId) ? (
+                <Fragment>
+                  {folders?.map((folder) => (
+                    <CollectionFolder
+                      key={folder.id}
+                      folderName={folder.name}
+                      folderId={folder.id}
+                      onClick={handleClickOnFolder}
+                    />
+                  ))}
+                  {plantsWithoutFolder?.map((plant) => (
+                    <PlantItem
+                      key={plant.id}
+                      plantName={plant.name}
+                      plantId={plant.id}
+                      plantPhotoId={plant.photoId}
+                      onClick={handleClickOnPlant}
+                    />
+                  ))}
+                  <AddCollectionFolder
+                    onClick={() =>
+                      HandleModal(
+                        <CreateCollectionFolder key="createCollectionFolder" />,
+                        'Добавить папку',
+                      )
+                    }
+                  />
+                </Fragment>
+              ) : (
+                plantsInFolder?.map((plant) => (
+                  <PlantItem
+                    key={plant.id}
+                    plantName={plant.name}
+                    plantId={plant.id}
+                    plantPhotoId={plant.photoId}
+                    onClick={handleClickOnPlant}
+                  />
+                ))
+              )}
+              <AddPlantItem
+                onClick={() => HandleModal(<CreatePlant key="createPlant" />, 'Добавить растение')}
+              />
             </Fragment>
           ) : (
-            plantsInFolder?.map((plant) => (
-              <PlantItem
-                key={plant.id}
-                plantName={plant.name}
-                plantId={plant.id}
-                plantPhotoId={plant.photoId}
-                onClick={onWorkInProgress}
+            <Fragment>
+              {collections?.map((collection) => (
+                <PlantCollection
+                  key={collection.id}
+                  collectionName={collection.name}
+                  collectionId={collection.id}
+                  collectionDescription={collection.description}
+                  onClick={handleClickOnCollection}
+                  redactionClick={HandleEditCollectionModal}
+                />
+              ))}
+              <AddPlantCollection
+                onClick={() =>
+                  HandleModal(
+                    <CreateCollection
+                      onSubmit={CloseModal}
+                      key="createCollection"
+                      ownerId={0} // TODO INSERT OWNER ID HERE
+                    />,
+                    'Добавить коллекцию',
+                  )
+                }
               />
-            ))
+            </Fragment>
           )}
         </div>
       )}
