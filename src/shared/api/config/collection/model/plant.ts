@@ -7,11 +7,13 @@ export interface IPlant<DateType = Date> {
   folderId?: IFolder['id'];
   collectionId: ICollection['id'];
   name: string;
+  genus?: string;
   variety?: string;
   species?: string;
   description?: string;
   birthDate?: DateType;
   price?: number;
+  source?: string;
   location?: string;
   photoId?: string;
   lifeStatus: IPlantLifeStatus;

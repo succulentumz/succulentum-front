@@ -13,7 +13,7 @@ export const collectionFoldersFetchKey = 'fetchCollectionFolders' as const;
 export default createFetchConfig(collectionFoldersFetchKey, {
   config: {
     host: hosts.gateway,
-    pathTemplate: '/api/folders/:collectionId',
+    pathTemplate: '/api/collections/:collectionId/folders',
     method: 'GET',
   },
   getRequestOptions: ({ collectionId }: IFetchFolderRequest) => ({

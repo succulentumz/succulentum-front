@@ -2,7 +2,7 @@ import { hosts } from '../../../../../config';
 import { createFetchConfig } from '../../../../helpers';
 import { folderRaw } from '../../fixtures/folders';
 import { mapperFolder } from '../../mappers';
-import { type ICollection, type IFolder } from '../../model';
+import { type IFolder } from '../../model';
 
 export type ICreateFolderRequest = Omit<IFolder, 'id' | 'createdAt'>;
 

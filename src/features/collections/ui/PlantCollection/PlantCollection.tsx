@@ -1,10 +1,10 @@
 import { type FC } from 'react';
 
+import { RedactionButton } from '@/features/helpers';
 import { type ICollection } from '@/shared/api';
 import { renderEmojiIcon } from '@/shared/ui';
 
 import useStyles from './PlantCollection.styles';
-import { RedactionButton } from '@/features/helpers';
 
 export interface ICollectionItemProps {
   collectionName: ICollection['name'];
@@ -15,26 +15,31 @@ export interface ICollectionItemProps {
 }
 
 // small square style
-// export const PlantCollection: FC<ICollectionItemProps> = ({
-//   collectionName,
-//   collectionId,
-//   onClick,
-// }) => {
-//   const classes = useStyles();
-//
-//   return (
-//     <div
-//       className={classes.plantCollection}
-//       title={collectionName}
-//       onClick={() => onClick(collectionId)}
-//     >
-//       <div className={classes.collectionIcon}>{renderEmojiIcon('plantCollection')}</div>
-//       {collectionName}
-//     </div>
-//   );
-// };
-
 export const PlantCollection: FC<ICollectionItemProps> = ({
+  collectionName,
+  collectionId,
+  onClick,
+  redactionClick,
+}) => {
+  const classes = useStyles();
+
+  return (
+    <div className={classes.plantCollection}>
+      <RedactionButton onClick={redactionClick} />
+      <div
+        className={classes.plantCollectionInner}
+        title={collectionName}
+        onClick={() => onClick(collectionId)}
+      >
+        <div className={classes.collectionIcon}>{renderEmojiIcon('plantCollection')}</div>
+        {collectionName}
+      </div>
+    </div>
+  );
+};
+
+// wide rectangle style
+export const PlantCollection1: FC<ICollectionItemProps> = ({
   collectionName,
   collectionId,
   onClick,

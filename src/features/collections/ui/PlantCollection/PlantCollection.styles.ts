@@ -4,13 +4,10 @@ import { colors } from '@/shared/theme';
 
 export default createUseStyles({
   plantCollection: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    position: 'relative',
     width: 125,
     height: 145,
     padding: 10,
-    whiteSpace: 'pre-wrap',
     backgroundColor: colors.G900,
     borderRadius: [0, 30, 0, 30],
     cursor: 'pointer',
@@ -25,13 +22,22 @@ export default createUseStyles({
     borderRadius: [0, 30, 0, 30],
   },
 
-  plantCollectionInner1: {
-    top: 0,
-    left: 0,
+  plantCollectionInner: {
     width: '100%',
     minHeight: '100%',
-    display: 'flex',
     height: 'fit-content',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    whiteSpace: 'pre-wrap',
+    cursor: 'pointer',
+  },
+
+  plantCollectionInner1: {
+    width: '100%',
+    minHeight: '100%',
+    height: 'fit-content',
+    display: 'flex',
     whiteSpace: 'pre-wrap',
     cursor: 'pointer',
   },
@@ -39,12 +45,12 @@ export default createUseStyles({
   collectionIcon: {
     height: 100,
     width: 100,
+    flex: 'none',
   },
 
   collectionIcon1: {
     height: '100%',
     width: 100,
-    float: 'left',
     marginRight: 10,
     flex: 'none',
   },
