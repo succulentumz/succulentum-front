@@ -1,23 +1,32 @@
+import { isEmpty } from '@true-engineering/true-react-platform-helpers';
 import { type FC } from 'react';
 
+import { RedactionButton } from '@/features/helpers';
 import { type IFolder } from '@/shared/api';
 import { renderEmojiIcon } from '@/shared/ui';
 
 import useStyles from './CollectionFolder.styles';
 
 export interface ICollectionFolderProps {
-  folderName: IFolder['name'];
-  folderId: IFolder['id'];
+  folder: IFolder;
   onClick: (folderId: IFolder['id']) => void;
+  redactionClick?: () => void;
 }
 
-export const CollectionFolder: FC<ICollectionFolderProps> = ({ folderName, folderId, onClick }) => {
+export const CollectionFolder: FC<ICollectionFolderProps> = ({
+  folder,
+  onClick,
+  redactionClick,
+}) => {
   const classes = useStyles();
 
   return (
-    <div className={classes.collectionFolder} title={folderName} onClick={() => onClick(folderId)}>
-      <div className={classes.folderIcon}>{renderEmojiIcon('plantFolder')}</div>
-      {folderName}
+    <div className={classes.collectionFolder} onClick={() => onClick(folder.id)}>
+      {isEmpty(redactionClick) ? undefined : <RedactionButton onClick={redactionClick} />}
+      <div className={classes.collectionFolderInner} title={folder.name}>
+        <div className={classes.folderIcon}>{renderEmojiIcon('plantFolder')}</div>
+        {folder.name}
+      </div>
     </div>
   );
 };

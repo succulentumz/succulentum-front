@@ -1,3 +1,4 @@
+import { isEmpty } from '@true-engineering/true-react-platform-helpers';
 import { type FC } from 'react';
 
 import { RedactionButton } from '@/features/helpers';
@@ -7,32 +8,25 @@ import { renderEmojiIcon } from '@/shared/ui';
 import useStyles from './PlantCollection.styles';
 
 export interface ICollectionItemProps {
-  collectionName: ICollection['name'];
-  collectionDescription: ICollection['description'];
-  collectionId: ICollection['id'];
+  collection: ICollection;
   onClick: (collectionId: ICollection['id']) => void;
-  redactionClick: () => void;
+  redactionClick?: () => void;
 }
 
 // small square style
 export const PlantCollection: FC<ICollectionItemProps> = ({
-  collectionName,
-  collectionId,
+  collection,
   onClick,
   redactionClick,
 }) => {
   const classes = useStyles();
 
   return (
-    <div className={classes.plantCollection}>
-      <RedactionButton onClick={redactionClick} />
-      <div
-        className={classes.plantCollectionInner}
-        title={collectionName}
-        onClick={() => onClick(collectionId)}
-      >
+    <div className={classes.plantCollection} onClick={() => onClick(collection.id)}>
+      {isEmpty(redactionClick) ? undefined : <RedactionButton onClick={redactionClick} />}
+      <div className={classes.plantCollectionInner} title={collection.name}>
         <div className={classes.collectionIcon}>{renderEmojiIcon('plantCollection')}</div>
-        {collectionName}
+        {collection.name}
       </div>
     </div>
   );
@@ -40,27 +34,25 @@ export const PlantCollection: FC<ICollectionItemProps> = ({
 
 // wide rectangle style
 export const PlantCollection1: FC<ICollectionItemProps> = ({
-  collectionName,
-  collectionId,
+  collection,
   onClick,
-  collectionDescription,
   redactionClick,
 }) => {
   const classes = useStyles();
 
   return (
     <div className={classes.plantCollection1}>
-      <RedactionButton onClick={redactionClick} />
+      {isEmpty(redactionClick) ? undefined : <RedactionButton onClick={redactionClick} />}
       <div
         className={classes.plantCollectionInner1}
-        title={collectionName}
-        onClick={() => onClick(collectionId)}
+        title={collection.name}
+        onClick={() => onClick(collection.id)}
       >
         <div className={classes.collectionIcon1}>{renderEmojiIcon('plantCollection')}</div>
         <div>
-          <b>{collectionName}</b>
+          <b>{collection.id}</b>
           <br />
-          {collectionDescription}
+          {collection.description}
         </div>
       </div>
     </div>

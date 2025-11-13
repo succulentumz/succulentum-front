@@ -18,4 +18,5 @@ export default createFetchConfig(plantDeleteKey, {
     params: { plantId },
     mapper: () => ({ status: 'OK' }),
   }),
+  mockValue: { status: 'OK' },
 });

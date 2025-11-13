@@ -38,16 +38,8 @@ export const CollectionSideBar: FC<ICollectionSideBarProps> = ({ title, goBack, 
         </form>
       </div>
       <div className={classes.sidebarFooter}>
-        {isNotEmpty(goBack) ? (
-          <PrettyButton style={{ float: 'left' }} onClick={goBack}>
-            Назад
-          </PrettyButton>
-        ) : undefined}
-        {isNotEmpty(change) ? (
-          <PrettyButton style={{ float: 'right' }} onClick={change}>
-            Изменить
-          </PrettyButton>
-        ) : undefined}
+        {isNotEmpty(goBack) ? <PrettyButton onClick={goBack}>Назад</PrettyButton> : undefined}
+        {isNotEmpty(change) ? <PrettyButton onClick={change}>Изменить</PrettyButton> : undefined}
       </div>
     </div>
   );

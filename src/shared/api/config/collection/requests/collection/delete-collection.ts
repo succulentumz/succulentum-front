@@ -18,4 +18,5 @@ export default createFetchConfig(collectionDeleteKey, {
     params: { collectionId },
     mapper: () => ({ status: 'OK' }),
   }),
+  mockValue: { status: 'OK' },
 });

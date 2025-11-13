@@ -1,6 +1,8 @@
 import React, { type ReactNode } from 'react';
 import { CSSTransition } from 'react-transition-group';
 
+import { IconButton } from '@/shared/ui';
+
 import useStyles from './ModalOverlay.styles';
 
 export interface ModalOverlayProps {
@@ -35,9 +37,8 @@ export const ModalOverlay: React.FC<ModalOverlayProps> = ({ onClose, children, t
         <div className={classes.modalContent}>
           <div className={classes.modalHeader}>
             <h2 className={classes.modalTitle}>{title}</h2>
-            <button className={classes.modalClose} onClick={handleClose}>
-              ×
-            </button>
+            {/* <IconButton /!*className={classes.modalClose}*!/ onClick={handleClose} icon="close" />*/}
+            <IconButton onClick={handleClose} icon="close" />
           </div>
           {children}
         </div>

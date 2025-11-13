@@ -16,10 +16,6 @@ export const routesConfig = {
     path: '/login',
     isIndex: false,
   },
-  home: {
-    path: '/home',
-    isIndex: true,
-  },
 } satisfies Record<string, IRouteConfigParams>;
 
 export type IRouteName = keyof typeof routesConfig;

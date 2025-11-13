@@ -30,10 +30,9 @@ const HomePage = lazy(() =>
 );
 
 const routesComponents = {
-  main: NotFoundPage,
+  main: HomePage,
   collection: CollectionPage,
   login: RegistrationPage,
-  home: HomePage,
 } satisfies Record<IRouteName, FC>;
 
 const Header: FC = () => {

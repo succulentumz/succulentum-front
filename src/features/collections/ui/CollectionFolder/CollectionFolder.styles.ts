@@ -4,15 +4,23 @@ import { colors } from '@/shared/theme';
 
 export default createUseStyles({
   collectionFolder: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    position: 'relative',
     width: 125,
     height: 145,
     padding: 10,
-    whiteSpace: 'pre-wrap',
     backgroundColor: colors.N80,
     borderRadius: [0, 30, 0, 30],
+    cursor: 'pointer',
+  },
+
+  collectionFolderInner: {
+    width: '100%',
+    minHeight: '100%',
+    height: 'fit-content',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    whiteSpace: 'pre-wrap',
     cursor: 'pointer',
   },
 

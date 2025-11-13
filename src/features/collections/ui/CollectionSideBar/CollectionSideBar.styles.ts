@@ -26,22 +26,15 @@ export default createUseStyles({
     padding: 20,
   },
 
-  filterbox: {
-    display: 'flex',
-    flex: 'none',
-    borderColor: colors.N900,
-    borderRadius: 10,
-    width: '100%',
-    border: '1px solid',
-  },
-
   filterContainer: {
     display: 'flex',
     flexWrap: 'wrap',
   },
 
   sidebarFooter: {
+    display: 'flex',
     overflow: 'hidden',
     padding: 20,
+    justifyContent: 'space-between',
   },
 });

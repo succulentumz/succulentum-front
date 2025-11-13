@@ -18,4 +18,5 @@ export default createFetchConfig(folderDeleteKey, {
     params: { folderId },
     mapper: () => ({ status: 'OK' }),
   }),
+  mockValue: { status: 'OK' },
 });
