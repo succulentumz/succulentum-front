@@ -1,5 +1,5 @@
-import { hosts } from '../../../../../config';
-import { createFetchConfig } from '../../../../helpers';
+import { hosts } from '../../../../config';
+import { createFetchConfig } from '../../../helpers';
 import { type IPlant } from '../../model';
 
 export interface IDeletePlantRequest {

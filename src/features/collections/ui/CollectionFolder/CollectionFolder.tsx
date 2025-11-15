@@ -21,9 +21,13 @@ export const CollectionFolder: FC<ICollectionFolderProps> = ({
   const classes = useStyles();
 
   return (
-    <div className={classes.collectionFolder} onClick={() => onClick(folder.id)}>
+    <div className={classes.collectionFolder}>
       {isEmpty(redactionClick) ? undefined : <RedactionButton onClick={redactionClick} />}
-      <div className={classes.collectionFolderInner} title={folder.name}>
+      <div
+        className={classes.collectionFolderInner}
+        title={folder.name}
+        onClick={() => onClick(folder.id)}
+      >
         <div className={classes.folderIcon}>{renderEmojiIcon('plantFolder')}</div>
         {folder.name}
       </div>

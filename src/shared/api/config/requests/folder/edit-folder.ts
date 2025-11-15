@@ -1,5 +1,5 @@
-import { hosts } from '../../../../../config';
-import { createFetchConfig } from '../../../../helpers';
+import { hosts } from '../../../../config';
+import { createFetchConfig } from '../../../helpers';
 import { folderRaw } from '../../fixtures/folders';
 import { mapperFolder } from '../../mappers';
 import { type ICollection, type IFolder } from '../../model';

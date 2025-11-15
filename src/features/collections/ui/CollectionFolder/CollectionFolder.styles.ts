@@ -5,15 +5,16 @@ import { colors } from '@/shared/theme';
 export default createUseStyles({
   collectionFolder: {
     position: 'relative',
-    width: 125,
-    height: 145,
-    padding: 10,
+    width: 145,
+    height: 165,
     backgroundColor: colors.N80,
     borderRadius: [0, 30, 0, 30],
     cursor: 'pointer',
   },
 
   collectionFolderInner: {
+    boxSizing: 'border-box',
+    padding: 10,
     width: '100%',
     minHeight: '100%',
     height: 'fit-content',

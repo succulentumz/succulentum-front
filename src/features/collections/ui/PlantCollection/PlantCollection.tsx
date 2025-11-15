@@ -22,9 +22,13 @@ export const PlantCollection: FC<ICollectionItemProps> = ({
   const classes = useStyles();
 
   return (
-    <div className={classes.plantCollection} onClick={() => onClick(collection.id)}>
+    <div className={classes.plantCollection}>
       {isEmpty(redactionClick) ? undefined : <RedactionButton onClick={redactionClick} />}
-      <div className={classes.plantCollectionInner} title={collection.name}>
+      <div
+        className={classes.plantCollectionInner}
+        title={collection.name}
+        onClick={() => onClick(collection.id)}
+      >
         <div className={classes.collectionIcon}>{renderEmojiIcon('plantCollection')}</div>
         {collection.name}
       </div>

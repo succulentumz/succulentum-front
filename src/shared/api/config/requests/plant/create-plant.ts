@@ -1,5 +1,5 @@
-import { hosts } from '../../../../../config';
-import { createFetchConfig } from '../../../../helpers';
+import { hosts } from '../../../../config';
+import { createFetchConfig } from '../../../helpers';
 import { plantRaw } from '../../fixtures/plants';
 import { mapperPlant } from '../../mappers';
 import { type IPlant } from '../../model';

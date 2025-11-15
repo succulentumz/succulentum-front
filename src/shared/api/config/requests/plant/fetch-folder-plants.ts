@@ -1,10 +1,10 @@
-import { hosts } from '../../../../../config';
-import { createFetchConfig } from '../../../../helpers';
+import { hosts } from '../../../../config';
+import { createFetchConfig } from '../../../helpers';
 import { plantsRaw } from '../../fixtures/plants';
 import { mapperPlant } from '../../mappers';
 import { type IFolder, type IPlantRaw } from '../../model';
 
-export interface IFetchPlantRequest {
+export interface IFetchFolderPlantsRequest {
   folderId: IFolder['id'];
 }
 
@@ -16,7 +16,7 @@ export default createFetchConfig(folderPlantsFetchKey, {
     pathTemplate: '/api/folders/:folderId/plants',
     method: 'GET',
   },
-  getRequestOptions: ({ folderId }: IFetchPlantRequest) => ({
+  getRequestOptions: ({ folderId }: IFetchFolderPlantsRequest) => ({
     params: { folderId },
     mapper: (response: IPlantRaw[]) => response.map(mapperPlant),
   }),

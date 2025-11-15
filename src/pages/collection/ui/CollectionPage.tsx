@@ -50,7 +50,7 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
   const collectionId = parseIntSafety(params.get('collectionId'));
   const folderId = parseIntSafety(params.get('folderId'));
 
-  const redactionAllowed = false;
+  const redactionAllowed = true;
 
   const fetchCollections = useApiQuery(collectionsFetchKey, undefined, {
     enabled: isEmpty(collectionId),
