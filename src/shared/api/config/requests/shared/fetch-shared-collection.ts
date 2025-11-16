@@ -9,8 +9,6 @@ export interface IFetchSharedCollectionRequest {
   token: ICollection['sharedLink'];
 }
 
-export type IFetchSharedCollectionResponse = ICollection;
-
 export const sharedCollectionFetchKey = 'fetchSharedCollection' as const;
 
 export default createFetchConfig(sharedCollectionFetchKey, {

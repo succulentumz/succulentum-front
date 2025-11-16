@@ -2,14 +2,12 @@ import { hosts } from '../../../../config';
 import { createFetchConfig } from '../../../helpers';
 import { plantsRaw } from '../../fixtures/plants';
 import { mapperPlant } from '../../mappers';
-import { type ICollection, type IPlant, type IPlantRaw } from '../../model';
+import { type ICollection, type IPlant } from '../../model';
 
 export interface IFetchStaredPlantRequest {
   token: ICollection['sharedLink'];
   plantId: IPlant['id'];
 }
-
-export type IFetchSharedPlantResponse = IPlantRaw;
 
 export const sharedPlantFetchKey = 'fetchSharedPlant' as const;
 

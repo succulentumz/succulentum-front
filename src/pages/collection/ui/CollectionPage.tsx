@@ -17,21 +17,21 @@ import {
   EditCollectionFolder,
 } from '@/features/collections';
 import { ModalOverlay } from '@/features/helpers';
+import { PlantModal } from '@/features/plants';
 import {
   collectionFoldersFetchKey,
   collectionsFetchKey,
   folderPlantsFetchKey,
   plantsFetchKey,
   useApiQuery,
-  type IPlant,
   type ICollection,
   type IFolder,
   collectionFetchKey,
   type IEditCollectionRequest,
   type IEditFolderRequest,
   collectionCreateKey,
+  type IPlant,
 } from '@/shared/api';
-import { addToaster } from '@/shared/global';
 import { useOpenModal } from '@/shared/global/modal/hooks/useOpenModal';
 import { parseIntSafety } from '@/shared/helpers';
 import { Loader, Splash } from '@/shared/ui';
@@ -56,20 +56,11 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
     enabled: isEmpty(collectionId),
   });
 
-  let currentCollection: ICollection<Date> | undefined;
-  currentCollection = undefined;
-  if (!isEmpty(fetchCollections.data) && !isEmpty(collectionId)) {
-    for (const collection of fetchCollections.data) {
-      if (collection.id === collectionId) {
-        currentCollection = collection;
-      }
-    }
-  }
-  currentCollection = useApiQuery(
+  const currentCollection = useApiQuery(
     collectionFetchKey,
     isEmpty(collectionId) ? undefined : { collectionId },
     {
-      enabled: isEmpty(currentCollection) && !isEmpty(collectionId),
+      enabled: !isEmpty(collectionId),
     },
   )?.data;
 
@@ -87,13 +78,6 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
       }
     }
   }
-  currentCollection = useApiQuery(
-    collectionFetchKey,
-    isEmpty(collectionId) ? undefined : { collectionId },
-    {
-      enabled: isEmpty(currentCollection) && !isEmpty(collectionId),
-    },
-  )?.data;
 
   const shouldRequestPlantsWithoutFolder = isNotEmpty(collectionId) && isEmpty(folderId);
   const fetchPlants = useApiQuery(
@@ -134,13 +118,6 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
     [params, setParams],
   );
 
-  const handleClickOnPlant = useCallback(
-    (currentPlantId: IPlant['id']) => {
-      addToaster({ title: `Работа в процессе ${currentPlantId}`, type: 'info' });
-    },
-    [params, setParams],
-  );
-
   const hangleClickGoBack = useCallback(() => {
     const newParams = new URLSearchParams(params);
     if (isNotEmpty(newParams.get('folderId'))) {
@@ -170,6 +147,10 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
         {children}
       </ModalOverlay>
     ));
+  };
+
+  const HandlePlantModal = async (plant: IPlant) => {
+    await HandleModal(<PlantModal plant={plant} redactionAllowed={true} />, plant.name);
   };
 
   const HandleCreatePlantCollectionModal = async () => {
@@ -224,11 +205,7 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
     <div className={classes.collectionPage}>
       <CollectionSideBar
         title={
-          (isEmpty(collectionId)
-            ? 'Моя коллекция'
-            : isEmpty(folderId)
-              ? currentCollection?.name
-              : currentFolder?.name) ?? 'Моя коллекция'
+          (isEmpty(folderId) ? currentCollection?.name : currentFolder?.name) ?? 'Моя коллекция'
         }
         goBack={isNotEmpty(collectionId) ? hangleClickGoBack : undefined}
         change={
@@ -263,7 +240,11 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
                     />
                   ))}
                   {fetchPlants.data?.map((plant) => (
-                    <PlantItem key={plant.id} plant={plant} onClick={handleClickOnPlant} />
+                    <PlantItem
+                      key={plant.id}
+                      plant={plant}
+                      onClick={() => HandlePlantModal(plant)}
+                    />
                   ))}
                   {redactionAllowed ? (
                     <AddCollectionFolder onClick={HandleCreateCollectionFolderModal} />
@@ -271,7 +252,7 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
                 </Fragment>
               ) : (
                 fetchFolderPlants.data?.map((plant) => (
-                  <PlantItem key={plant.id} plant={plant} onClick={handleClickOnPlant} />
+                  <PlantItem key={plant.id} plant={plant} onClick={() => HandlePlantModal(plant)} />
                 ))
               )}
               {redactionAllowed ? <AddPlantItem onClick={HandleAddPlantItemModal} /> : undefined}

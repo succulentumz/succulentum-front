@@ -29,10 +29,15 @@ const HomePage = lazy(() =>
   import('@/pages/homePage').then((module) => ({ default: module.HomePage })),
 );
 
+const SharedCollectionPage = lazy(() =>
+  import('@/pages/sharedCollection').then((module) => ({ default: module.SharedCollectionPage })),
+);
+
 const routesComponents = {
   main: HomePage,
   collection: CollectionPage,
   login: RegistrationPage,
+  shared: SharedCollectionPage,
 } satisfies Record<IRouteName, FC>;
 
 const Header: FC = () => {
