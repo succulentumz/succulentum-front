@@ -34,3 +34,12 @@ export const PrettyLabeledSmallInput: FC<PrettyLabeledSmallInputProps> = (props)
     </div>
   );
 };
+
+export interface CentredParagraphProps {
+  children?: React.ReactNode;
+}
+
+export const CentredParagraph: FC<CentredParagraphProps> = ({ children }) => {
+  const classes = useStyles();
+  return <p className={classes.centredParagraph}>{children}</p>;
+};

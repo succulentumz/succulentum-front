@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 
-import { RedactionButton } from '@/features/helpers';
+import { CentredParagraph, RedactionButton } from '@/features/helpers';
 import { type ICollection } from '@/shared/api';
 import { renderEmojiIcon } from '@/shared/ui';
 
@@ -32,7 +32,7 @@ export const PlantCollection: FC<ICollectionItemProps> = ({
         onClick={() => onClick(collectionId)}
       >
         <div className={classes.collectionIcon}>{renderEmojiIcon('plantCollection')}</div>
-        {collectionName}
+        <CentredParagraph>{collectionName}</CentredParagraph>
       </div>
     </div>
   );

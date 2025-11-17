@@ -1,5 +1,6 @@
 import { type FC } from 'react';
 
+import { CentredParagraph } from '@/features/helpers';
 import { renderEmojiIcon } from '@/shared/ui';
 
 import useStyles from './AddPlantItem.styles';
@@ -14,7 +15,7 @@ export const AddPlantItem: FC<IAddPlantItemProps> = ({ onClick }) => {
   return (
     <div className={classes.addPlantItem} title="Добавить растение" onClick={onClick}>
       <div className={classes.addPlantIcon}>{renderEmojiIcon('addPlantItem')}</div>
-      Добавить растение
+      <CentredParagraph>Добавить растение</CentredParagraph>
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import { type FC } from 'react';
 
+import { CentredParagraph } from '@/features/helpers';
 import { type IFolder } from '@/shared/api';
 import { renderEmojiIcon } from '@/shared/ui';
 
@@ -17,7 +18,7 @@ export const CollectionFolder: FC<ICollectionFolderProps> = ({ folderName, folde
   return (
     <div className={classes.collectionFolder} title={folderName} onClick={() => onClick(folderId)}>
       <div className={classes.folderIcon}>{renderEmojiIcon('plantFolder')}</div>
-      {folderName}
+      <CentredParagraph>{folderName}</CentredParagraph>
     </div>
   );
 };
