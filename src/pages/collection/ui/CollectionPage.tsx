@@ -1,5 +1,5 @@
 import { isEmpty, isNotEmpty } from '@true-engineering/true-react-platform-helpers';
-import { type FC, Fragment, useCallback, useState } from 'react';
+import { type FC, Fragment, type ReactNode, useCallback, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import {
@@ -38,10 +38,6 @@ import useStyles from './CollectionPage.styles';
 
 export interface ICollectionPageProps {}
 
-interface ICurrentContextProps {
-  id: IFolder['id'] | ICollection['id'];
-}
-
 export const CollectionPage: FC<ICollectionPageProps> = () => {
   const classes = useStyles();
 
@@ -58,18 +54,14 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
 
   let currentCollection: ICollection<Date> | undefined;
   currentCollection = undefined;
-  if (!isEmpty(collections) && !isEmpty(collectionId)) {
-    for (const collection of collections) {
-      if (collection.id === collectionId) {
-        currentCollection = collection;
-      }
-    }
+  if (isNotEmpty(collections) && isNotEmpty(collectionId)) {
+    currentCollection = collections.find((c) => c.id === collectionId);
   }
   currentCollection = useApiQuery(
     collectionFetchKey,
     isEmpty(collectionId) ? undefined : { collectionId },
     {
-      enabled: isEmpty(currentCollection) && !isEmpty(collectionId),
+      enabled: isEmpty(currentCollection) && isNotEmpty(collectionId),
     },
   )?.data;
 
@@ -80,20 +72,13 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
   );
   let currentFolder: IFolder<Date> | undefined;
   currentFolder = undefined;
-  if (!isEmpty(folders) && !isEmpty(folderId)) {
+  if (isNotEmpty(folders) && isNotEmpty(folderId)) {
     for (const folder of folders) {
       if (folder.id === folderId) {
         currentFolder = folder;
       }
     }
   }
-  currentCollection = useApiQuery(
-    collectionFetchKey,
-    isEmpty(collectionId) ? undefined : { collectionId },
-    {
-      enabled: isEmpty(currentCollection) && !isEmpty(collectionId),
-    },
-  )?.data;
 
   const shouldRequestPlantsWithoutFolder = isNotEmpty(collectionId) && isEmpty(folderId);
   const { data: plantsWithoutFolder } = useApiQuery(
@@ -145,19 +130,19 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
     setParams(newParams);
   }, [params, setParams]);
 
-  const CloseModal = async () => {
+  const hangleCloseModal = async () => {
     setOpenedModal(false);
     justOpenedModal = false;
     await closeModal();
   };
 
-  const HandleModal = async (children: JSX.Element, title: string) => {
+  const HandleModal = async (children: ReactNode, title: string) => {
     setOpenedModal(true);
     justOpenedModal = true;
     await openModal((props) => (
       <ModalOverlay
         title={title}
-        onClose={CloseModal}
+        onClose={hangleCloseModal}
         isOpen={() => justOpenedModal || openedModal}
         key="modalOverlay"
       >
@@ -174,7 +159,7 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
         isShared={currentCollection?.isShared}
         createdAt={currentCollection?.createdAt}
         description={currentCollection?.description}
-        onSubmit={CloseModal}
+        onSubmit={hangleCloseModal}
       ></EditCollection>,
       'Изменение коллекции',
     );
@@ -264,7 +249,7 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
                 onClick={() =>
                   HandleModal(
                     <CreateCollection
-                      onSubmit={CloseModal}
+                      onSubmit={hangleCloseModal}
                       key="createCollection"
                       ownerId={0} // TODO INSERT OWNER ID HERE
                     />,

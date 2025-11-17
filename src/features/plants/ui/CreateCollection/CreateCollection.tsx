@@ -2,12 +2,11 @@ import { isNotEmpty } from '@true-engineering/true-react-platform-helpers';
 import { type FC } from 'react';
 import React, { useState } from 'react';
 
-import { PrettyButton, PrettyInput } from '@/features/helpers/ui/PrettyComponents';
+import { PrettyButton, PrettyInput } from '@/features/helpers';
 import { collectionCreateKey, type ICreateCollectionRequest, useApiQuery } from '@/shared/api';
 import { addToaster } from '@/shared/global';
 
 import useStyles from './CreateCollection.styles';
-import createCollection from '@/shared/api/config/collection/requests/collection/create-collection';
 
 export interface ICreateCollectionProps {
   ownerId: ICreateCollectionRequest['ownerId'];
