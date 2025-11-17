@@ -14,7 +14,7 @@ export const PrettyInput: FC<React.ComponentProps<'input'>> = (props) => {
 
 export const PrettyButton: FC<React.ComponentProps<'button'>> = (props) => {
   const classes = useStyles();
-  return <button {...props} className={clsx(classes.inputBox, props.className)} />;
+  return <button {...props} className={clsx(classes.prettyButton, props.className)} />;
 };
 
 export interface PrettyLabeledSmallInputProps extends React.ComponentProps<'input'> {

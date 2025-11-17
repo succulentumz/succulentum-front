@@ -64,5 +64,6 @@ export default createUseStyles({
 
   centredParagraph: {
     textAlign: 'center',
+    margin: 0,
   },
 });
