@@ -12,8 +12,8 @@ import useStyles from './CollectionSideBar.styles';
 
 export interface ICollectionSideBarProps {
   title: string;
-  goBack: (() => void) | undefined;
-  change: (() => void) | undefined;
+  goBack?: () => void;
+  change?: () => void;
 }
 
 export const CollectionSideBar: FC<ICollectionSideBarProps> = ({ title, goBack, change }) => {

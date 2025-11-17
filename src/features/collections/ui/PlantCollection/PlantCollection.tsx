@@ -1,7 +1,7 @@
 import { isEmpty } from '@true-engineering/true-react-platform-helpers';
 import { type FC } from 'react';
 
-import { RedactionButton } from '@/features/helpers';
+import { CentredParagraph, RedactionButton } from '@/features/helpers';
 import { type ICollection } from '@/shared/api';
 import { renderEmojiIcon } from '@/shared/ui';
 
@@ -30,7 +30,7 @@ export const PlantCollection: FC<ICollectionItemProps> = ({
         onClick={() => onClick(collection.id)}
       >
         <div className={classes.collectionIcon}>{renderEmojiIcon('plantCollection')}</div>
-        {collection.name}
+        <CentredParagraph>{collection.name}</CentredParagraph>
       </div>
     </div>
   );

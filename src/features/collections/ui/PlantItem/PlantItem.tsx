@@ -1,6 +1,7 @@
 import { isEmpty } from '@true-engineering/true-react-platform-helpers';
 import { type FC } from 'react';
 
+import { CentredParagraph } from '@/features/helpers';
 import { type IPlant } from '@/shared/api';
 import { renderEmojiIcon } from '@/shared/ui';
 
@@ -19,7 +20,7 @@ export const PlantItem: FC<IPlantItemProps> = ({ plant, onClick }) => {
       <div className={classes.plantIcon}>
         {isEmpty(plant.photoId) ? renderEmojiIcon('plantItem') : plant.photoId}
       </div>
-      {plant.name}
+      <CentredParagraph>{plant.name}</CentredParagraph>
     </div>
   );
 };

@@ -28,7 +28,6 @@ export const ModalOverlay: React.FC<ModalOverlayProps> = ({ onClose, children, t
   return (
     <CSSTransition
       in={isOpen()}
-      // onExited={refreshState}
       timeout={200}
       classNames="modal"
       unmountOnExit

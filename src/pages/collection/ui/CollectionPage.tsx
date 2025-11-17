@@ -1,5 +1,5 @@
 import { isEmpty, isNotEmpty } from '@true-engineering/true-react-platform-helpers';
-import { type FC, Fragment, useCallback, useState } from 'react';
+import { type FC, Fragment, type ReactNode, useCallback, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import {
@@ -60,7 +60,7 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
     collectionFetchKey,
     isEmpty(collectionId) ? undefined : { collectionId },
     {
-      enabled: !isEmpty(collectionId),
+      enabled: isNotEmpty(collectionId),
     },
   )?.data;
 
@@ -71,7 +71,7 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
   );
   let currentFolder: IFolder<Date> | undefined;
   currentFolder = undefined;
-  if (!isEmpty(fetchCollectionFolders.data) && !isEmpty(folderId)) {
+  if (isNotEmpty(fetchCollectionFolders.data) && isNotEmpty(folderId)) {
     for (const folder of fetchCollectionFolders.data) {
       if (folder.id === folderId) {
         currentFolder = folder;
@@ -128,18 +128,18 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
     setParams(newParams);
   }, [params, setParams]);
 
-  const CloseModal = async () => {
+  const hangleCloseModal = async () => {
     setOpenedModal(false);
     justOpenedModal = false;
     await closeModal();
   };
 
-  const HandleModal = async (children: JSX.Element, title: string) => {
+  const HandleModal = async (children: ReactNode, title: string) => {
     setOpenedModal(true);
     justOpenedModal = true;
     await openModal((props) => (
       <ModalOverlay
-        onClose={CloseModal}
+        onClose={hangleCloseModal}
         title={title}
         isOpen={() => justOpenedModal || openedModal}
         key="modalOverlay"
@@ -156,7 +156,7 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
   const HandleCreatePlantCollectionModal = async () => {
     await HandleModal(
       <CreateCollection
-        onSubmit={CloseModal}
+        onSubmit={hangleCloseModal}
         ownerId={0} // TODO INSERT OWNER ID HERE
         key="createCollection"
       />,
@@ -167,7 +167,7 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
   const HandleCreateCollectionFolderModal = async () => {
     await HandleModal(
       <CreateCollectionFolder
-        onSubmit={CloseModal}
+        onSubmit={hangleCloseModal}
         key={collectionCreateKey}
         collectionId={collectionId!}
       />,
@@ -178,7 +178,7 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
   const HandleAddPlantItemModal = async () => {
     await HandleModal(
       <CreatePlant
-        onSubmit={closeModal}
+        onSubmit={hangleCloseModal}
         ownerId={0} // TODO INSERT OWNER ID HERE
         collectionId={collectionId!}
         key="createPlant"
@@ -189,14 +189,14 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
 
   const HandleEditCollectionModal = async (collection: IEditCollectionRequest) => {
     await HandleModal(
-      <EditCollection collection={collection} onSubmit={CloseModal}></EditCollection>,
+      <EditCollection collection={collection} onSubmit={hangleCloseModal}></EditCollection>,
       'Изменение коллекции',
     );
   };
 
   const HandleEditCollectionFolderModal = async (folder: IEditFolderRequest) => {
     await HandleModal(
-      <EditCollectionFolder folder={folder} onSubmit={CloseModal}></EditCollectionFolder>,
+      <EditCollectionFolder folder={folder} onSubmit={hangleCloseModal}></EditCollectionFolder>,
       'Изменение папки',
     );
   };

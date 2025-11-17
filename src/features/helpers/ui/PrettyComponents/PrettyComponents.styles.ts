@@ -76,4 +76,9 @@ export default createUseStyles({
       outline: 0,
     },
   },
+
+  centredParagraph: {
+    textAlign: 'center',
+    margin: 0,
+  },
 });
