@@ -1,5 +1,6 @@
 import { parseISO } from 'date-fns';
-import { IFolder, IFolderRaw } from '../model';
+
+import { type IFolder, type IFolderRaw } from '../model';
 
 export const mapperFolder = (folder: IFolderRaw): IFolder => ({
   ...folder,

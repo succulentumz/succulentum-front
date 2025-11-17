@@ -1,14 +1,16 @@
-import { IRouteName, routesConfig } from '@/shared/config';
-import { objectKeys } from '@/shared/helpers';
-import { Loader, renderEmojiIcon } from '@/shared/ui';
-import { FC, Suspense, lazy } from 'react';
+import { type FC, Suspense, lazy } from 'react';
 import {
-  RouteObject,
+  type RouteObject,
   createBrowserRouter,
   RouterProvider as ReactRouterProvider,
   Outlet,
   NavLink,
 } from 'react-router-dom';
+
+import { type IRouteName, routesConfig } from '@/shared/config';
+import { objectKeys } from '@/shared/helpers';
+import { Loader, renderEmojiIcon } from '@/shared/ui';
+
 import useStyles from './RouterProvider.styles';
 
 const NotFoundPage = lazy(() =>
@@ -19,9 +21,19 @@ const CollectionPage = lazy(() =>
   import('@/pages/collection').then((module) => ({ default: module.CollectionPage })),
 );
 
+const RegistrationPage = lazy(() =>
+  import('@/pages/registration').then((module) => ({ default: module.RegistrationPage })),
+);
+
+const HomePage = lazy(() =>
+  import('@/pages/homePage').then((module) => ({ default: module.HomePage })),
+);
+
 const routesComponents = {
   main: NotFoundPage,
   collection: CollectionPage,
+  login: RegistrationPage,
+  home: HomePage,
 } satisfies Record<IRouteName, FC>;
 
 const Header: FC = () => {
@@ -50,27 +62,54 @@ const Layout = () => {
   );
 };
 
+const AuthLayout: FC = () => {
+  const classes = useStyles();
+  return (
+    <div className={classes.layout}>
+      <Outlet />
+    </div>
+  );
+};
+
 export const routes: RouteObject[] = [
   {
     id: 'App',
     element: <Layout />,
     errorElement: <NotFoundPage />,
 
-    children: objectKeys(routesConfig).map((name) => {
-      const RouteComponent = routesComponents[name];
+    children: objectKeys(routesConfig)
+      .filter((name) => name !== 'login')
+      .map((name) => {
+        const RouteComponent = routesComponents[name];
 
-      return {
-        id: name,
-        path: routesConfig[name].path,
-        index: routesConfig[name].isIndex,
+        return {
+          id: name,
+          path: routesConfig[name].path,
+          index: routesConfig[name].isIndex,
+          element: (
+            <Suspense fallback={<Loader />}>
+              <RouteComponent />
+            </Suspense>
+          ),
+          errorElement: <NotFoundPage />,
+        };
+      }),
+  },
+  {
+    id: 'Auth',
+    element: <AuthLayout />,
+    children: [
+      {
+        id: 'login',
+        path: '/login',
         element: (
           <Suspense fallback={<Loader />}>
-            <RouteComponent />
+            <RegistrationPage />
           </Suspense>
         ),
         errorElement: <NotFoundPage />,
-      };
-    }),
+      },
+    ],
   },
 ];
 

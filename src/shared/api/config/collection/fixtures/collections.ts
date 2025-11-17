@@ -1,12 +1,12 @@
 import { mapperCollection } from '../mappers';
-import { ICollectionRaw } from '../model';
+import { type ICollectionRaw } from '../model';
 
 export const collectionsRaw: ICollectionRaw[] = [
   {
     id: 0,
     ownerId: 0,
     name: 'Collection 1',
-    description: 'Collection',
+    description: 'Описание коллекции ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 1234567890 so many letters omg',
     isShared: true,
     sharedLink: 'string',
     createdAt: '2022-08-09T09:08:51.494Z',
@@ -15,7 +15,7 @@ export const collectionsRaw: ICollectionRaw[] = [
     id: 1,
     ownerId: 0,
     name: 'Collection 2',
-    description: 'Collection',
+    description: 'Описание коллекции ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 1234567890 so many letters omg',
     isShared: true,
     sharedLink: 'string',
     createdAt: '2023-01-09T09:08:51.494Z',
@@ -24,28 +24,10 @@ export const collectionsRaw: ICollectionRaw[] = [
     id: 2,
     ownerId: 0,
     name: 'Collection 3',
-    description: 'Collection',
+    description: 'Описание коллекции',
     isShared: true,
     sharedLink: 'string',
     createdAt: '2023-10-09T09:08:51.494Z',
-  },
-  {
-    id: 3,
-    ownerId: 0,
-    name: 'Collection 4',
-    description: 'Collection',
-    isShared: true,
-    sharedLink: 'string',
-    createdAt: '2024-04-19T09:08:51.494Z',
-  },
-  {
-    id: 4,
-    ownerId: 0,
-    name: 'Collection 5',
-    description: 'Collection',
-    isShared: true,
-    sharedLink: 'string',
-    createdAt: '2025-02-28T09:08:51.494Z',
   },
 ];
 

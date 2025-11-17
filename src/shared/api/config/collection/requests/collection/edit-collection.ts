@@ -11,8 +11,6 @@ export interface IEditCollectionRequestParams {
 export interface IEditCollectionRequestBody {
   name?: ICollection['name'];
   description?: ICollection['description'];
-  isShared?: ICollection['isShared'];
-  createdAt?: ICollection['createdAt'];
 }
 
 export type IEditCollectionRequest = IEditCollectionRequestParams & IEditCollectionRequestBody;

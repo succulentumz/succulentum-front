@@ -1,6 +1,7 @@
-import { FC, useMemo } from 'react';
+import { type FC, useMemo } from 'react';
+
 import { complexIcons } from '../../complexIcons';
-import { IComplexIcon } from '../../types';
+import { type IComplexIcon } from '../../types';
 
 export interface IComplexIconBoilerplateProps {
   type: IComplexIcon;

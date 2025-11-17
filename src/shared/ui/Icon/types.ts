@@ -1,6 +1,7 @@
-import { ReactElement, SVGAttributes } from 'react';
-import { complexIcons } from './complexIcons';
-import { iconsList } from './icons-list';
+import { type ReactElement, type SVGAttributes } from 'react';
+
+import { type complexIcons } from './complexIcons';
+import { type iconsList } from './icons-list';
 
 export interface ISvgIcon {
   viewBox?: string;

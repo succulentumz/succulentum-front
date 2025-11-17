@@ -1,9 +1,11 @@
-import { forwardRef } from 'react';
 import clsx from 'clsx';
-import { renderIcon, IIcon } from '../Icon';
-import { IIconButtonSize, IIconButtonView, IIconButtonHTMLBaseProps } from './types';
-import { useStyles } from './IconButton.styles';
+import { forwardRef } from 'react';
+
+import { type IIconButtonSize, type IIconButtonView, type IIconButtonHTMLBaseProps } from './types';
+import { renderIcon, type IIcon } from '../Icon';
 import { Loader } from '../Loader';
+
+import { useStyles } from './IconButton.styles';
 
 export interface IIconButtonProps extends IIconButtonHTMLBaseProps {
   icon: IIcon;

@@ -1,5 +1,6 @@
-import { colors } from './colors';
 import { isNotEmpty } from '@true-engineering/true-react-platform-helpers';
+
+import { colors } from './colors';
 
 const withScrollBar = {
   boxSizing: 'border-box',

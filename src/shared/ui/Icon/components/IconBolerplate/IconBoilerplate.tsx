@@ -1,6 +1,7 @@
-import { FC, useMemo } from 'react';
+import { type FC, useMemo } from 'react';
+
 import { iconsList as commonIcons } from '../../icons-list';
-import { ICommonIcon } from '../../types';
+import { type ICommonIcon } from '../../types';
 
 export interface IIconBoilerplateProps {
   type: ICommonIcon;

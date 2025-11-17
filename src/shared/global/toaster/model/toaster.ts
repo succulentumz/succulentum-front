@@ -1,4 +1,4 @@
-import { IToasterProps } from '@/shared/ui';
+import { type IToasterProps } from '@/shared/ui';
 
 export type IToasterId = string;
 

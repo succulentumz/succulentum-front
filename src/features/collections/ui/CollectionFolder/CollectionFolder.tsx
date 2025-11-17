@@ -1,7 +1,10 @@
-import { FC } from 'react';
-import useStyles from './CollectionFolder.styles';
+import { type FC } from 'react';
+
+import { CentredParagraph } from '@/features/helpers';
+import { type IFolder } from '@/shared/api';
 import { renderEmojiIcon } from '@/shared/ui';
-import { IFolder } from '@/shared/api';
+
+import useStyles from './CollectionFolder.styles';
 
 export interface ICollectionFolderProps {
   folderName: IFolder['name'];
@@ -15,7 +18,7 @@ export const CollectionFolder: FC<ICollectionFolderProps> = ({ folderName, folde
   return (
     <div className={classes.collectionFolder} title={folderName} onClick={() => onClick(folderId)}>
       <div className={classes.folderIcon}>{renderEmojiIcon('plantFolder')}</div>
-      {folderName}
+      <CentredParagraph>{folderName}</CentredParagraph>
     </div>
   );
 };

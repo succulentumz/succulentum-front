@@ -2,7 +2,7 @@ import { hosts } from '../../../../../config';
 import { createFetchConfig } from '../../../../helpers';
 import { plantRaw } from '../../fixtures/plants';
 import { mapperPlant } from '../../mappers';
-import { IPlant } from '../../model';
+import { type IPlant } from '../../model';
 
 export type ICreatePlantRequest = Omit<IPlant, 'id' | 'createdAt' | 'updatedAt'>;
 

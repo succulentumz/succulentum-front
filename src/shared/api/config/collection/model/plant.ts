@@ -1,5 +1,5 @@
-import { ICollection } from './collection';
-import { IFolder } from './folder';
+import { type ICollection } from './collection';
+import { type IFolder } from './folder';
 
 export interface IPlant<DateType = Date> {
   id: number;
@@ -7,11 +7,13 @@ export interface IPlant<DateType = Date> {
   folderId?: IFolder['id'];
   collectionId: ICollection['id'];
   name: string;
+  genus?: string;
   variety?: string;
   species?: string;
   description?: string;
   birthDate?: DateType;
   price?: number;
+  source?: string;
   location?: string;
   photoId?: string;
   lifeStatus: IPlantLifeStatus;

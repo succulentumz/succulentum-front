@@ -1,6 +1,7 @@
-import { parseISO } from 'date-fns';
-import { IPlant, IPlantRaw } from '../model';
 import { isNotEmpty } from '@true-engineering/true-react-platform-helpers';
+import { parseISO } from 'date-fns';
+
+import { type IPlant, type IPlantRaw } from '../model';
 
 export const mapperPlant = (plant: IPlantRaw): IPlant => ({
   ...plant,

@@ -2,7 +2,7 @@ import { hosts } from '../../../../../config';
 import { createFetchConfig } from '../../../../helpers';
 import { foldersRaw } from '../../fixtures/folders';
 import { mapperFolder } from '../../mappers';
-import { IFolderRaw } from '../../model';
+import { type IFolderRaw } from '../../model';
 
 export type IFetchFoldersResponse = IFolderRaw[];
 

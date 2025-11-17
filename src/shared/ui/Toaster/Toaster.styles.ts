@@ -1,4 +1,5 @@
 import { createUseStyles } from 'react-jss';
+
 import { colors } from '../../theme';
 
 export const useStyles = createUseStyles({
@@ -8,6 +9,7 @@ export const useStyles = createUseStyles({
     background: colors.W100,
     padding: [20, 40, 20, 20],
     display: 'flex',
+    zIndex: 200,
   },
 
   iconContainer: {

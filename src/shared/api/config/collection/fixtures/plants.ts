@@ -1,5 +1,5 @@
 import { mapperPlant } from '../mappers';
-import { IPlantLifeStatus, IPlantRaw } from '../model';
+import { IPlantLifeStatus, type IPlantRaw } from '../model';
 
 export const plantsRaw: IPlantRaw[] = [
   {

@@ -2,7 +2,7 @@ import { hosts } from '../../../../../config';
 import { createFetchConfig } from '../../../../helpers';
 import { foldersRaw } from '../../fixtures/folders';
 import { mapperFolder } from '../../mappers';
-import { IFolderRaw, type ICollection } from '../../model';
+import { type IFolderRaw, type ICollection } from '../../model';
 
 export interface IFetchFolderRequest {
   collectionId: ICollection['id'];
@@ -13,7 +13,7 @@ export const collectionFoldersFetchKey = 'fetchCollectionFolders' as const;
 export default createFetchConfig(collectionFoldersFetchKey, {
   config: {
     host: hosts.gateway,
-    pathTemplate: '/api/folders/:collectionId',
+    pathTemplate: '/api/collections/:collectionId/folders',
     method: 'GET',
   },
   getRequestOptions: ({ collectionId }: IFetchFolderRequest) => ({

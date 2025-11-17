@@ -1,9 +1,11 @@
-import { IPlant } from '@/shared/api';
-import { FC } from 'react';
+import { isEmpty } from '@true-engineering/true-react-platform-helpers';
+import { type FC } from 'react';
+
+import { CentredParagraph } from '@/features/helpers';
+import { type IPlant } from '@/shared/api';
+import { renderEmojiIcon } from '@/shared/ui';
 
 import useStyles from './PlantItem.styles';
-import { renderEmojiIcon } from '@/shared/ui';
-import { isEmpty } from '@true-engineering/true-react-platform-helpers';
 
 export interface IPlantItemProps {
   plantName: IPlant['name'];
@@ -20,7 +22,7 @@ export const PlantItem: FC<IPlantItemProps> = ({ plantName, plantId, plantPhotoI
       <div className={classes.plantIcon}>
         {isEmpty(plantPhotoId) ? renderEmojiIcon('plantItem') : plantPhotoId}
       </div>
-      {plantName}
+      <CentredParagraph>{plantName}</CentredParagraph>
     </div>
   );
 };

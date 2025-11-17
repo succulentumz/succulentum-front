@@ -1,7 +1,8 @@
 import { type FC } from 'react';
 
-import useStyles from './Loader.styles';
 import { DefaultPreloader } from './DefaultPreloader';
+
+import useStyles from './Loader.styles';
 
 export interface ILoaderProps {}
 
