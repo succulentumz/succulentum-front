@@ -16,8 +16,8 @@ export const routesConfig = {
     path: '/login',
     isIndex: false,
   },
-  home: {
-    path: '/home',
+  user: {
+    path: '/user',
     isIndex: true,
   },
 } satisfies Record<string, IRouteConfigParams>;

@@ -29,11 +29,15 @@ const HomePage = lazy(() =>
   import('@/pages/homePage').then((module) => ({ default: module.HomePage })),
 );
 
+const UserPage = lazy(() =>
+  import('@/pages/userPage').then((module) => ({ default: module.UserPage })),
+);
+
 const routesComponents = {
-  main: NotFoundPage,
+  main: HomePage,
   collection: CollectionPage,
   login: RegistrationPage,
-  home: HomePage,
+  user: UserPage,
 } satisfies Record<IRouteName, FC>;
 
 const Header: FC = () => {
@@ -62,6 +66,16 @@ const Layout = () => {
   );
 };
 
+const UserLayout = () => {
+  const classes = useStyles();
+
+  return (
+    <div className={classes.layout}>
+      <Outlet />
+    </div>
+  );
+};
+
 const AuthLayout: FC = () => {
   const classes = useStyles();
   return (
@@ -78,7 +92,7 @@ export const routes: RouteObject[] = [
     errorElement: <NotFoundPage />,
 
     children: objectKeys(routesConfig)
-      .filter((name) => name !== 'login')
+      .filter((name) => name !== 'login' && name !== 'user')
       .map((name) => {
         const RouteComponent = routesComponents[name];
 
@@ -94,6 +108,24 @@ export const routes: RouteObject[] = [
           errorElement: <NotFoundPage />,
         };
       }),
+  },
+  {
+    id: 'User',
+    element: <UserLayout />,
+    errorElement: <NotFoundPage />,
+
+    children: [
+      {
+        id: 'user',
+        path: '/user',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <UserPage />
+          </Suspense>
+        ),
+        errorElement: <NotFoundPage />,
+      },
+    ],
   },
   {
     id: 'Auth',
