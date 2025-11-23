@@ -22,7 +22,7 @@ import {
   collectionFoldersFetchKey,
   collectionsFetchKey,
   folderPlantsFetchKey,
-  plantsFetchKey,
+  collectionPlantsFetchKey,
   useApiQuery,
   type ICollection,
   type IFolder,
@@ -81,7 +81,7 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
 
   const shouldRequestPlantsWithoutFolder = isNotEmpty(collectionId) && isEmpty(folderId);
   const fetchPlants = useApiQuery(
-    plantsFetchKey,
+    collectionPlantsFetchKey,
     shouldRequestPlantsWithoutFolder ? { collectionId } : undefined,
     { enabled: shouldRequestPlantsWithoutFolder },
   );
@@ -150,7 +150,7 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
   };
 
   const HandlePlantModal = async (plant: IPlant) => {
-    await HandleModal(<PlantModal plant={plant} redactionAllowed={true} />, plant.name);
+    await HandleModal(<PlantModal plant={plant} redactionAllowed={redactionAllowed} />, plant.name);
   };
 
   const HandleCreatePlantCollectionModal = async () => {

@@ -33,15 +33,15 @@ export default createUseStyles({
     borderRadius: [6, 6, 0, 0],
     border: ['solid', 3, colors.P150],
     borderBottom: 'unset',
-    backgroundColor: colors.W100,
-    color: colors.P150,
+    backgroundColor: colors.P150,
+    color: colors.W100,
     textDecoration: 'none',
     transition: animations.defaultTransition,
     transitionProperty: ['color', 'backgroundColor'],
 
     '&[class*="active"]': {
-      backgroundColor: colors.P150,
-      color: colors.W100,
+      backgroundColor: colors.W100,
+      color: colors.P150,
     },
   },
 });

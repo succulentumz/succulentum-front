@@ -10,8 +10,8 @@ export default {
   ...deletePlant,
   ...editPlant,
   ...fetchFolderPlants,
-  ...fetchPlants,
   ...fetchPlant,
+  ...fetchPlants,
 };
 
 export * from './create-plant';

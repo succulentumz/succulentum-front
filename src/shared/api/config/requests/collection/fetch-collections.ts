@@ -11,7 +11,7 @@ export const collectionsFetchKey = 'fetchCollections' as const;
 export default createFetchConfig(collectionsFetchKey, {
   config: {
     host: hosts.gateway,
-    pathTemplate: '/api/collections',
+    pathTemplate: '/api/me/collections',
     method: 'GET',
   },
   getRequestOptions: () => ({

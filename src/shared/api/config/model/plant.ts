@@ -15,7 +15,7 @@ export interface IPlant<DateType = Date> {
   price?: number;
   source?: string;
   location?: string;
-  photoId?: string;
+  avatarId?: string;
   lifeStatus: IPlantLifeStatus;
   deathLocation?: string;
   deathCause?: string;

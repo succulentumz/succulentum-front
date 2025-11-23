@@ -114,7 +114,7 @@ export const SharedCollectionPage: FC<ISharedCollectionPageProps> = () => {
   };
 
   const HandlePlantModal = async (plant: IPlant) => {
-    await HandleModal(<PlantModal plant={plant} redactionAllowed={true} />, plant.name);
+    await HandleModal(<PlantModal plant={plant} redactionAllowed={false} />, plant.name);
   };
 
   return (

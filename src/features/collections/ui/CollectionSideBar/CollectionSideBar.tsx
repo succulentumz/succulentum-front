@@ -19,23 +19,38 @@ export interface ICollectionSideBarProps {
 export const CollectionSideBar: FC<ICollectionSideBarProps> = ({ title, goBack, change }) => {
   const classes = useStyles();
 
-  const [menuCollapsed, setMenuCollapsed] = useState<boolean>();
+  const menuCollapsedKey = 'sideBarCollapsed';
+
+  const [menuCollapsed, setMenuCollapsed] = useState<boolean | undefined>(() => {
+    const localStorageValue = localStorage.getItem(menuCollapsedKey);
+
+    return localStorageValue !== null ? localStorageValue === '1' : false;
+  });
+
+  const updateMenuCollapsed = React.useCallback((newValue: boolean) => {
+    setMenuCollapsed(newValue);
+
+    if (newValue === undefined) {
+      localStorage.removeItem(menuCollapsedKey);
+    } else {
+      localStorage.setItem(menuCollapsedKey, newValue ? '1' : '0');
+    }
+  }, []);
 
   const toggleMenu = () => {
-    setMenuCollapsed((prev) => !prev);
+    updateMenuCollapsed(!menuCollapsed);
   };
 
   return (
     <div
       className={`${classes.sidebarContainer} ${menuCollapsed ? classes.sidebarContainerCollapsed : ''}`}
     >
-      <button
-        className={`${classes.toggleButton}`}
-        onClick={toggleMenu}
-        aria-label={menuCollapsed ? 'Развернуть меню' : 'Свернуть меню'}
+      <div
+        className={classes.toggleButton}
+        title={menuCollapsed ? 'Развернуть меню' : 'Свернуть меню'}
       >
-        <IconButton icon="menu"></IconButton>
-      </button>
+        <IconButton onClick={toggleMenu} icon="menu"></IconButton>
+      </div>
       <div className={`${classes.sidebar} ${menuCollapsed ? classes.sidebarCollapsed : ''}`}>
         <div className={classes.sidebarHeader}>
           <h2>{title}</h2>

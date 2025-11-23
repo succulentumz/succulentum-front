@@ -26,12 +26,7 @@ export const ModalOverlay: React.FC<ModalOverlayProps> = ({ onClose, children, t
   };
 
   return (
-    <CSSTransition
-      in={isOpen()}
-      timeout={200}
-      classNames="modal"
-      unmountOnExit
-    >
+    <CSSTransition in={isOpen()} timeout={200} classNames="modal" unmountOnExit>
       <div className={classes.modalOverlay} onClick={handleOverlayClick}>
         <div className={classes.modalContent}>
           <div className={classes.modalHeader}>

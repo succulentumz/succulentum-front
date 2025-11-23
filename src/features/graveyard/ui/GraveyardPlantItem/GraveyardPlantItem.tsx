@@ -5,14 +5,14 @@ import { CentredParagraph } from '@/features/helpers';
 import { type IPlant } from '@/shared/api';
 import { renderEmojiIcon } from '@/shared/ui';
 
-import useStyles from './PlantItem.styles';
+import useStyles from './GraveyardPlantItem.styles';
 
-export interface IPlantItemProps {
+export interface IGraveyardPlantItemProps {
   plant: IPlant;
   onClick: (plantId: IPlant['id']) => void;
 }
 
-export const PlantItem: FC<IPlantItemProps> = ({ plant, onClick }) => {
+export const GraveyardPlantItem: FC<IGraveyardPlantItemProps> = ({ plant, onClick }) => {
   const classes = useStyles();
 
   return (
