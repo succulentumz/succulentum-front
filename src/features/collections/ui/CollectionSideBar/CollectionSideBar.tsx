@@ -46,10 +46,12 @@ export const CollectionSideBar: FC<ICollectionSideBarProps> = ({ title, goBack, 
       className={`${classes.sidebarContainer} ${menuCollapsed ? classes.sidebarContainerCollapsed : ''}`}
     >
       <div
-        className={classes.toggleButton}
+        className={`${classes.toggleButton} ${menuCollapsed ? classes.toggleButtonCollapsed : ''}`}
         title={menuCollapsed ? 'Развернуть меню' : 'Свернуть меню'}
       >
-        <IconButton onClick={toggleMenu} icon="menu"></IconButton>
+        <div className={classes.toggleButtonInner}>
+          <IconButton onClick={toggleMenu} icon="menu"></IconButton>
+        </div>
       </div>
       <div className={`${classes.sidebar} ${menuCollapsed ? classes.sidebarCollapsed : ''}`}>
         <div className={classes.sidebarHeader}>

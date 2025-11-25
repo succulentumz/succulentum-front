@@ -29,7 +29,6 @@ export default createUseStyles({
     width: '100%',
     minWidth: 'min-content',
     backgroundColor: colors.W100,
-    flex: 'none',
     display: 'flex',
     flexDirection: 'column',
   },
@@ -41,20 +40,30 @@ export default createUseStyles({
   toggleButton: {
     pointerEvents: 'all',
     position: 'absolute',
-    top: '20px',
-    left: '20px',
+    top: 10,
+    left: 10,
     zIndex: 1,
-    background: colors.B600,
+    background: colors.W100,
     border: 'none',
-    borderRadius: '8px',
+    borderRadius: 8,
     width: 'fit-content',
-    height: 'fit-content',
+    height: 16,
     cursor: 'pointer',
     padding: 0,
+    overflow: 'clip',
 
     '&:hover': {
-      background: colors.B800,
+      background: colors.G900,
     },
+  },
+
+  toggleButtonCollapsed: {
+    background: colors.G800,
+  },
+
+  toggleButtonInner: {
+    position: 'relative',
+    top: -8,
   },
 
   sidebarHeader: {

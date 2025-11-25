@@ -9,6 +9,9 @@ export default createUseStyles({
     ...helpers.withScrollBar,
   },
   header: {
+    height: 'min-content',
+    display: 'flex',
+    flexWrap: 'wrap',
     zIndex: 10,
     position: 'sticky',
     top: 0,
@@ -16,14 +19,18 @@ export default createUseStyles({
     backgroundColor: colors.P80,
   },
   logo: {
-    height: 'auto',
-    width: '30%',
+    height: 70,
+    flex: 'none',
+    width: 'max-content',
+    margin: [0, 10, 10, 10],
   },
   tabsContainer: {
     display: 'flex',
     gap: 10,
     marginTop: 10,
     marginLeft: 40,
+    height: 'min-content',
+    alignSelf: 'end',
   },
   tab: {
     display: 'block',

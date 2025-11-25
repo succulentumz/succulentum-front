@@ -205,7 +205,7 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
     <div className={classes.collectionPage}>
       <CollectionSideBar
         title={
-          (isEmpty(folderId) ? currentCollection?.name : currentFolder?.name) ?? 'Моя коллекция'
+          (isEmpty(folderId) ? currentCollection?.name : currentFolder?.name) ?? 'Каталог'
         }
         goBack={isNotEmpty(collectionId) ? hangleClickGoBack : undefined}
         change={
