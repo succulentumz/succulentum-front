@@ -3,6 +3,7 @@ import React, { type FC, useState } from 'react';
 
 import {
   PrettyButton,
+  PrettyCopyTextBar,
   PrettyInput,
   PrettyLabeledSmallInput,
 } from '@/features/helpers/ui/PrettyComponents';
@@ -11,12 +12,20 @@ import { IconButton } from '@/shared/ui';
 import useStyles from './CollectionSideBar.styles';
 
 export interface ICollectionSideBarProps {
+  sharedLink?: string;
+  token?: string;
   title: string;
   goBack?: () => void;
   change?: () => void;
 }
 
-export const CollectionSideBar: FC<ICollectionSideBarProps> = ({ title, goBack, change }) => {
+export const CollectionSideBar: FC<ICollectionSideBarProps> = ({
+  title,
+  goBack,
+  change,
+  sharedLink,
+  token,
+}) => {
   const classes = useStyles();
 
   const menuCollapsedKey = 'sideBarCollapsed';
@@ -70,10 +79,25 @@ export const CollectionSideBar: FC<ICollectionSideBarProps> = ({ title, goBack, 
               <PrettyLabeledSmallInput type="date" label="до:"></PrettyLabeledSmallInput>
             </div>
           </form>
+          <hr />
         </div>
-        <div className={classes.sidebarFooter}>
-          {isNotEmpty(goBack) ? <PrettyButton onClick={goBack}>Назад</PrettyButton> : undefined}
-          {isNotEmpty(change) ? <PrettyButton onClick={change}>Изменить</PrettyButton> : undefined}
+        <div className={classes.sidebarFooterContainer}>
+          <div className={classes.sidebarFooter}>
+            {isNotEmpty(goBack) ? <PrettyButton onClick={goBack}>Назад</PrettyButton> : undefined}
+            {isNotEmpty(change) ? (
+              <PrettyButton onClick={change}>Изменить</PrettyButton>
+            ) : undefined}
+          </div>
+          {isNotEmpty(sharedLink) ? (
+            <>
+              <h4>Публичный токен:</h4>
+              <PrettyCopyTextBar
+                text={token ?? sharedLink}
+                copytext={sharedLink}
+                message="Ссылка скопирована!"
+              />
+            </>
+          ) : undefined}
         </div>
       </div>
     </div>

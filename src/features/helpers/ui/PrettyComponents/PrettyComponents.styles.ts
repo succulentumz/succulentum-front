@@ -19,12 +19,14 @@ export default createUseStyles({
 
   prettyInput: {
     borderColor: colors.G800,
+    backgroundColor: colors.W100,
     paddingLeft: 20,
     height: 40,
     borderRadius: 10,
     margin: 0,
     width: '100%',
     boxSizing: 'border-box',
+    textAlign: 'left',
   },
 
   prettyButton: {

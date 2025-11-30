@@ -4,18 +4,18 @@ import { plantsRaw } from '../../fixtures/plants';
 import { mapperPlant } from '../../mappers';
 import { type IPlantRaw, type IPageable } from '../../model';
 
-export interface IPlantsRequest {
+export interface IBuriedPlantsRequest {
   page?: IPageable;
 }
 
-export type IFetchPlantsResponse = IPlantRaw[];
+export type IFetchPlantsBuriedResponse = IPlantRaw[];
 
-export const plantsFetchKey = 'fetchPlants' as const;
+export const plantsBuriedFetchKey = 'fetchBuriedPlants' as const;
 
-export default createFetchConfig(plantsFetchKey, {
+export default createFetchConfig(plantsBuriedFetchKey, {
   config: {
     host: hosts.gateway,
-    pathTemplate: '/api/me/plants',
+    pathTemplate: '/api/me/plants/buried',
     method: 'GET',
   },
   getRequestOptions: ({
@@ -23,9 +23,9 @@ export default createFetchConfig(plantsFetchKey, {
       pageNumber: 0,
       pageSize: 0xffffffff,
     },
-  }: IPlantsRequest) => ({
+  }: IBuriedPlantsRequest) => ({
     params: { ...page },
-    mapper: (response: IFetchPlantsResponse) => response.map(mapperPlant),
+    mapper: (response: IFetchPlantsBuriedResponse) => response.map(mapperPlant),
   }),
   mockValue: plantsRaw,
 });

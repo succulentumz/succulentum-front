@@ -6,7 +6,7 @@ import { CollectionSideBar } from '@/features/collections';
 import { GraveyardPlantItem } from '@/features/graveyard';
 import { ModalOverlay } from '@/features/helpers';
 import { PlantModal } from '@/features/plants';
-import { useApiQuery, type IPlant, plantsFetchKey, IPlantLifeStatus } from '@/shared/api';
+import { useApiQuery, type IPlant, plantsBuriedFetchKey } from '@/shared/api';
 import { useOpenModal } from '@/shared/global/modal/hooks/useOpenModal';
 import { Loader, Splash } from '@/shared/ui';
 
@@ -17,17 +17,10 @@ export interface IGraveyardPageProps {}
 export const GraveyardPage: FC<IGraveyardPageProps> = () => {
   const classes = useStyles();
 
-  const [params, setParams] = useSearchParams();
   const [openedModal, setOpenedModal] = useState(false);
   let justOpenedModal = false;
 
-  const redactionAllowed = false;
-
-  const fetchGraveyardPlants = useApiQuery(
-    plantsFetchKey,
-    { filter: { lifeStatus: IPlantLifeStatus.DEAD } },
-    { enabled: true },
-  );
+  const fetchGraveyardPlants = useApiQuery(plantsBuriedFetchKey, {}, { enabled: true });
 
   const isLoading = fetchGraveyardPlants.isLoading;
 

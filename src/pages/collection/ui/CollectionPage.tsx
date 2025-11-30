@@ -201,13 +201,17 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
     );
   };
 
+  const sharedLink = isEmpty(folderId)
+    ? `${window.location.protocol}//${window.location.host}/shared?token=${currentCollection?.sharedLink}`
+    : undefined;
+
   return (
     <div className={classes.collectionPage}>
       <CollectionSideBar
-        title={
-          (isEmpty(folderId) ? currentCollection?.name : currentFolder?.name) ?? 'Каталог'
-        }
+        title={(isEmpty(folderId) ? currentCollection?.name : currentFolder?.name) ?? 'Каталог'}
         goBack={isNotEmpty(collectionId) ? hangleClickGoBack : undefined}
+        sharedLink={sharedLink}
+        token={currentCollection?.sharedLink}
         change={
           !redactionAllowed || isEmpty(collectionId)
             ? undefined

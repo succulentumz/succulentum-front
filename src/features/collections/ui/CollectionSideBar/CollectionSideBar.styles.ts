@@ -83,10 +83,14 @@ export default createUseStyles({
     flexWrap: 'wrap',
   },
 
+  sidebarFooterContainer: {
+    padding: 20,
+  },
+
   sidebarFooter: {
+    paddingBottom: 20,
     display: 'flex',
     overflow: 'hidden',
-    padding: 20,
     justifyContent: 'space-between',
   },
 });

@@ -8,7 +8,7 @@ export const collectionsRaw: ICollectionRaw[] = [
     name: 'Collection 1',
     description: 'Описание коллекции ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 1234567890 so many letters omg',
     isShared: true,
-    sharedLink: 'string',
+    sharedLink: 'ABCD0001',
     createdAt: '2022-08-09T09:08:51.494Z',
   },
   {
@@ -17,7 +17,7 @@ export const collectionsRaw: ICollectionRaw[] = [
     name: 'Collection 2',
     description: 'Описание коллекции ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 1234567890 so many letters omg',
     isShared: true,
-    sharedLink: 'string',
+    sharedLink: 'ABCD0002',
     createdAt: '2023-01-09T09:08:51.494Z',
   },
   {
@@ -26,7 +26,7 @@ export const collectionsRaw: ICollectionRaw[] = [
     name: 'Collection 3',
     description: 'Описание коллекции',
     isShared: true,
-    sharedLink: 'string',
+    sharedLink: 'ABCD0003',
     createdAt: '2023-10-09T09:08:51.494Z',
   },
 ];
