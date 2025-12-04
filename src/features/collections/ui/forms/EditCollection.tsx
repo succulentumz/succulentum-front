@@ -10,8 +10,8 @@ export interface IEditCollectionProps {
 }
 
 export const EditCollection: FC<IEditCollectionProps> = ({ collection, onSubmit }) => {
-  const id1 = useId();
-  const id2 = useId();
+  const nameId = useId();
+  const descriptionId = useId();
   return (
     <CommonForm
       commonKey={collectionEditKey}
@@ -28,23 +28,23 @@ export const EditCollection: FC<IEditCollectionProps> = ({ collection, onSubmit 
       {(handleChange, formData) => (
         <>
           <div>
-            <label htmlFor={id1}>Название коллекции:</label>
+            <label htmlFor={nameId}>Название коллекции:</label>
             <PrettyInput
               type="text"
               value={formData.name}
               onChange={handleChange}
               autoComplete="off"
-              id={id1}
+              id={nameId}
             />
           </div>
           <div>
-            <label htmlFor={id2}>Описание коллекции:</label>
+            <label htmlFor={descriptionId}>Описание коллекции:</label>
             <PrettyInput
               type="text"
               value={formData.description}
               onChange={handleChange}
               autoComplete="off"
-              id={id2}
+              id={descriptionId}
             />
           </div>
         </>

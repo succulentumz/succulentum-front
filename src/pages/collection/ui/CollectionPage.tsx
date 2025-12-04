@@ -250,9 +250,9 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
                       onClick={() => HandlePlantModal(plant)}
                     />
                   ))}
-                  {redactionAllowed ? (
+                  {redactionAllowed && (
                     <AddCollectionFolder onClick={HandleCreateCollectionFolderModal} />
-                  ) : undefined}
+                  )}
                 </Fragment>
               ) : (
                 fetchFolderPlants.data?.map((plant) => (
@@ -276,9 +276,9 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
                   }
                 />
               ))}
-              {redactionAllowed ? (
+              {redactionAllowed && (
                 <AddPlantCollection onClick={HandleCreatePlantCollectionModal} />
-              ) : undefined}
+              )}
             </Fragment>
           )}
         </div>

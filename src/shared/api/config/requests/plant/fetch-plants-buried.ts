@@ -21,7 +21,7 @@ export default createFetchConfig(plantsBuriedFetchKey, {
   getRequestOptions: ({
     page = {
       pageNumber: 0,
-      pageSize: 0xffffffff,
+      pageSize: Number.MAX_SAFE_INTEGER,
     },
   }: IBuriedPlantsRequest) => ({
     params: { ...page },

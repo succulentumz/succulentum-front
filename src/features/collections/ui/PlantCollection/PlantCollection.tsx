@@ -1,4 +1,4 @@
-import { isEmpty } from '@true-engineering/true-react-platform-helpers';
+import { isNotEmpty } from '@true-engineering/true-react-platform-helpers';
 import { type FC } from 'react';
 
 import { CentredParagraph, RedactionButton } from '@/features/helpers';
@@ -23,7 +23,7 @@ export const PlantCollection: FC<ICollectionItemProps> = ({
 
   return (
     <div className={classes.plantCollection}>
-      {isEmpty(redactionClick) ? undefined : <RedactionButton onClick={redactionClick} />}
+      {isNotEmpty(redactionClick) && <RedactionButton onClick={redactionClick} />}
       <div
         className={classes.plantCollectionInner}
         title={collection.name}
@@ -46,7 +46,7 @@ export const PlantCollection1: FC<ICollectionItemProps> = ({
 
   return (
     <div className={classes.plantCollection1}>
-      {isEmpty(redactionClick) ? undefined : <RedactionButton onClick={redactionClick} />}
+      {isNotEmpty(redactionClick) && <RedactionButton onClick={redactionClick} />}
       <div
         className={classes.plantCollectionInner1}
         title={collection.name}

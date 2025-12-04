@@ -32,13 +32,13 @@ export const SharedCollectionPage: FC<ISharedCollectionPageProps> = () => {
   const token = params.get('token');
   const folderId = parseIntSafety(params.get('folderId'));
 
-  const currentCollection = useApiQuery(
+  const { data: currentCollection } = useApiQuery(
     sharedCollectionFetchKey,
     isEmpty(token) ? undefined : { token },
     {
       enabled: isNotEmpty(token),
     },
-  )?.data;
+  );
 
   const fetchCollectionFolders = useApiQuery(
     sharedFoldersFetchKey,

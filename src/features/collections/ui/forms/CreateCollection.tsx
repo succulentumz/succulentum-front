@@ -10,7 +10,7 @@ export interface ICreateCollectionProps {
 }
 
 export const CreateCollection: FC<ICreateCollectionProps> = ({ ownerId, onSubmit }) => {
-  const id1 = useId();
+  const id = useId();
   return (
     <CommonForm
       commonKey={collectionCreateKey}
@@ -21,14 +21,14 @@ export const CreateCollection: FC<ICreateCollectionProps> = ({ ownerId, onSubmit
     >
       {(handleChange, form) => (
         <>
-          <label htmlFor={id1}>Название коллекции:</label>
+          <label htmlFor={id}>Название коллекции:</label>
           <PrettyInput
             type="text"
             value={form.name}
             onChange={handleChange}
             autoComplete="off"
             name="name"
-            id={id1}
+            id={id}
           />
         </>
       )}

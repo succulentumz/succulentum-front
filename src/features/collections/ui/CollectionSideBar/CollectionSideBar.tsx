@@ -1,5 +1,5 @@
 import { isNotEmpty } from '@true-engineering/true-react-platform-helpers';
-import React, { type FC, useState } from 'react';
+import { type FC, useCallback, useState } from 'react';
 
 import {
   PrettyButton,
@@ -36,7 +36,7 @@ export const CollectionSideBar: FC<ICollectionSideBarProps> = ({
     return localStorageValue !== null ? localStorageValue === '1' : false;
   });
 
-  const updateMenuCollapsed = React.useCallback((newValue: boolean) => {
+  const updateMenuCollapsed = useCallback((newValue: boolean) => {
     setMenuCollapsed(newValue);
 
     if (newValue === undefined) {
@@ -83,12 +83,10 @@ export const CollectionSideBar: FC<ICollectionSideBarProps> = ({
         </div>
         <div className={classes.sidebarFooterContainer}>
           <div className={classes.sidebarFooter}>
-            {isNotEmpty(goBack) ? <PrettyButton onClick={goBack}>Назад</PrettyButton> : undefined}
-            {isNotEmpty(change) ? (
-              <PrettyButton onClick={change}>Изменить</PrettyButton>
-            ) : undefined}
+            {isNotEmpty(goBack) && <PrettyButton onClick={goBack}>Назад</PrettyButton>}
+            {isNotEmpty(change) && <PrettyButton onClick={change}>Изменить</PrettyButton>}
           </div>
-          {isNotEmpty(sharedLink) ? (
+          {isNotEmpty(sharedLink) && (
             <>
               <h4>Публичный токен:</h4>
               <PrettyCopyTextBar
@@ -97,7 +95,7 @@ export const CollectionSideBar: FC<ICollectionSideBarProps> = ({
                 message="Ссылка скопирована!"
               />
             </>
-          ) : undefined}
+          )}
         </div>
       </div>
     </div>
