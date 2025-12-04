@@ -1,4 +1,5 @@
 import { createUseStyles } from 'react-jss';
+import { colors } from '../../../shared/theme';
 
 export default createUseStyles({
   container: {
@@ -12,10 +13,10 @@ export default createUseStyles({
 
   topSection: {
     height: '40vh',
-    minHeight: '300px',
+    minHeight: 300,
     backgroundImage: 'url(/src/shared/ui/EmojiIcon/assets/jungles.jpg)',
     backgroundSize: 'cover',
-    backgroundPosition: 'center',
+    backgroundPosition: 'left',
     flexShrink: 0,
   },
 
@@ -49,7 +50,7 @@ export default createUseStyles({
   avatarContainer: {
     position: 'relative',
     width: '100%',
-    maxWidth: '500px',
+    maxWidth: 500,
     aspectRatio: '1/1',
   },
 
@@ -107,11 +108,11 @@ export default createUseStyles({
 
   aboutTextarea: {
     width: '100%',
-    height: '200px',
-    minHeight: '150px',
-    backgroundColor: '#fff',
+    height: 200,
+    minHeight: 150,
+    backgroundColor: colors.W100,
     border: 'none',
-    borderRadius: '30px',
+    borderRadius: 30,
     padding: '1.5rem',
     fontFamily: 'Jost, sans-serif',
     fontSize: '1.4rem',
@@ -133,9 +134,9 @@ export default createUseStyles({
 
   navButton: {
     padding: '1rem 0.5rem',
-    backgroundColor: '#fff',
+    backgroundColor: colors.W100,
     border: 'none',
-    borderRadius: '20px',
+    borderRadius: 20,
     fontFamily: 'Jost, sans-serif',
     fontSize: 'clamp(1rem, 1.5vw, 1.5rem)',
     color: '#000',
@@ -144,7 +145,7 @@ export default createUseStyles({
     alignItems: 'center',
     justifyContent: 'center',
     textAlign: 'center',
-    minHeight: '60px',
+    minHeight: 60,
     transition: 'all 0.3s ease',
     boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
 
@@ -160,7 +161,7 @@ export default createUseStyles({
       transform: 'none',
 
       '&:hover': {
-        backgroundColor: '#fff',
+        backgroundColor: colors.W100,
         boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
       },
     },
@@ -175,8 +176,8 @@ export default createUseStyles({
   },
 
   menuButton: {
-    width: '60px',
-    height: '60px',
+    width: 60,
+    height: 60,
     backgroundColor: '#000',
     border: 'none',
     borderRadius: '50%',
@@ -185,7 +186,7 @@ export default createUseStyles({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: '4px',
+    gap: 4,
     transition: 'all 0.2s ease',
     boxShadow: '0 2px 10px rgba(0, 0, 0, 0.3)',
 
@@ -195,20 +196,20 @@ export default createUseStyles({
     },
 
     '@media (min-width: 768px)': {
-      width: '80px',
-      height: '80px',
+      width: 80,
+      height: 80,
     },
   },
 
   dot: {
-    width: '6px',
-    height: '6px',
-    backgroundColor: '#fff',
+    width: 6,
+    height: 6,
+    backgroundColor: colors.W100,
     borderRadius: '50%',
 
     '@media (min-width: 768px)': {
-      width: '8px',
-      height: '8px',
+      width: 8,
+      height: 8,
     },
   },
 
@@ -216,23 +217,23 @@ export default createUseStyles({
     position: 'absolute',
     top: 'calc(100% + 10px)',
     right: 0,
-    backgroundColor: '#fff',
-    borderRadius: '12px',
+    backgroundColor: colors.W100,
+    borderRadius: 12,
     boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
-    padding: '8px 0',
-    minWidth: '200px',
+    padding: [8, 0],
+    minWidth: 200,
     border: '1px solid #e0e0e0',
     zIndex: 1001,
   },
 
   menuItem: {
     width: '100%',
-    padding: '12px 16px',
+    padding: [12, 16],
     backgroundColor: 'transparent',
     border: 'none',
     textAlign: 'left',
     fontFamily: 'Jost, sans-serif',
-    fontSize: '16px',
+    fontSize: 16,
     color: '#000',
     cursor: 'pointer',
     transition: 'background-color 0.2s ease',

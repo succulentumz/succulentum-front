@@ -2,6 +2,7 @@ import { type FC, useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import useStyles from './UserPage.styles';
+import { renderEmojiIcon } from '../../../shared/ui';
 
 export const UserPage: FC = () => {
   const styles = useStyles();
@@ -43,11 +44,13 @@ export const UserPage: FC = () => {
           <div className={styles.avatarContainer}>
             <div className={styles.largeCircle} />
             <div className={styles.avatarCircle}>
-              <img
-                src="/src/shared/ui/EmojiIcon/assets/ava.jpg"
+              <div
+                //src="/src/shared/ui/EmojiIcon/assets/ava.jpg"
                 alt="Аватар пользователя"
                 className={styles.avatarImage}
-              />
+              >
+                {renderEmojiIcon('ava')}
+              </div>
             </div>
           </div>
 
@@ -82,7 +85,7 @@ export const UserPage: FC = () => {
               Кладбище
             </button>
             <button className={styles.navButton} disabled>
-              журнал
+              Журнал
             </button>
           </div>
         </div>
