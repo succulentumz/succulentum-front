@@ -16,6 +16,10 @@ export const routesConfig = {
     path: '/login',
     isIndex: false,
   },
+  user: {
+    path: '/user',
+    isIndex: true,
+  },
   shared: {
     path: '/shared',
     isIndex: false,
