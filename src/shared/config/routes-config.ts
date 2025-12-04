@@ -20,6 +20,14 @@ export const routesConfig = {
     path: '/user',
     isIndex: true,
   },
+  shared: {
+    path: '/shared',
+    isIndex: false,
+  },
+  graveyard: {
+    path: '/graveyard',
+    isIndex: false,
+  },
 } satisfies Record<string, IRouteConfigParams>;
 
 export type IRouteName = keyof typeof routesConfig;

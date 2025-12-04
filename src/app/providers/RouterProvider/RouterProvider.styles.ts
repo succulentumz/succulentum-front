@@ -9,6 +9,9 @@ export default createUseStyles({
     ...helpers.withScrollBar,
   },
   header: {
+    height: 'min-content',
+    display: 'flex',
+    flexWrap: 'wrap',
     zIndex: 10,
     position: 'sticky',
     top: 0,
@@ -16,14 +19,18 @@ export default createUseStyles({
     backgroundColor: colors.P80,
   },
   logo: {
-    height: 'auto',
-    width: '30%',
+    height: 70,
+    flex: 'none',
+    width: 'max-content',
+    margin: [0, 10, 10, 10],
   },
   tabsContainer: {
     display: 'flex',
     gap: 10,
     marginTop: 10,
     marginLeft: 40,
+    height: 'min-content',
+    alignSelf: 'end',
   },
   tab: {
     display: 'block',
@@ -33,15 +40,15 @@ export default createUseStyles({
     borderRadius: [6, 6, 0, 0],
     border: ['solid', 3, colors.P150],
     borderBottom: 'unset',
-    backgroundColor: colors.W100,
-    color: colors.P150,
+    backgroundColor: colors.P150,
+    color: colors.W100,
     textDecoration: 'none',
     transition: animations.defaultTransition,
     transitionProperty: ['color', 'backgroundColor'],
 
     '&[class*="active"]': {
-      backgroundColor: colors.P150,
-      color: colors.W100,
+      backgroundColor: colors.W100,
+      color: colors.P150,
     },
   },
 });

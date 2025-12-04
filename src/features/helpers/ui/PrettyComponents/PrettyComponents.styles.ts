@@ -3,8 +3,7 @@ import { createUseStyles } from 'react-jss';
 import { colors } from '@/shared/theme';
 
 export default createUseStyles({
-
-  filterbox: {
+  filterBox: {
     display: 'flex',
     flex: 'none',
     borderColor: colors.N900,
@@ -20,20 +19,38 @@ export default createUseStyles({
 
   prettyInput: {
     borderColor: colors.G800,
+    backgroundColor: colors.W100,
     paddingLeft: 20,
     height: 40,
     borderRadius: 10,
     margin: 0,
     width: '100%',
     boxSizing: 'border-box',
+    textAlign: 'left',
   },
 
   prettyButton: {
     padding: ['0.1em', '1em'],
     height: '3em',
-    backgroundColor: colors.W100,
     border: '1px solid',
     borderRadius: '5em',
+    backgroundColor: colors.W100,
+    '&:hover': {
+      borderColor: colors.G800,
+    },
+  },
+
+  deleteButton: {
+    padding: ['0.1em', '1em'],
+    height: '3em',
+    border: '1px solid',
+    borderRadius: '5em',
+    backgroundColor: colors.R800,
+    borderColor: colors.R900,
+    '&:hover': {
+      backgroundColor: colors.R200,
+      borderColor: colors.R600,
+    },
   },
 
   prettyLabel: {
@@ -60,5 +77,10 @@ export default createUseStyles({
     '&:focus-visible': {
       outline: 0,
     },
+  },
+
+  centredParagraph: {
+    textAlign: 'center',
+    margin: 0,
   },
 });

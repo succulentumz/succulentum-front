@@ -1,5 +1,6 @@
-import collection from './collection';
+import requests from './requests';
 
-export default {
-  ...collection,
-};
+export default requests;
+
+export * from './model';
+export * from './requests';

@@ -1,6 +1,8 @@
 import React, { type ReactNode } from 'react';
 import { CSSTransition } from 'react-transition-group';
 
+import { IconButton } from '@/shared/ui';
+
 import useStyles from './ModalOverlay.styles';
 
 export interface ModalOverlayProps {
@@ -24,20 +26,13 @@ export const ModalOverlay: React.FC<ModalOverlayProps> = ({ onClose, children, t
   };
 
   return (
-    <CSSTransition
-      in={isOpen()}
-      // onExited={refreshState}
-      timeout={200}
-      classNames="modal"
-      unmountOnExit
-    >
+    <CSSTransition in={isOpen()} timeout={200} classNames="modal" unmountOnExit>
       <div className={classes.modalOverlay} onClick={handleOverlayClick}>
         <div className={classes.modalContent}>
           <div className={classes.modalHeader}>
             <h2 className={classes.modalTitle}>{title}</h2>
-            <button className={classes.modalClose} onClick={handleClose}>
-              ×
-            </button>
+            {/* <IconButton /!*className={classes.modalClose}*!/ onClick={handleClose} icon="close" />*/}
+            <IconButton onClick={handleClose} icon="close" />
           </div>
           {children}
         </div>
