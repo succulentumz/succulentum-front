@@ -1,1 +1,1 @@
-export * from './AddPlantCollection';
+export * from './AddCollectionFolder';

@@ -29,11 +29,20 @@ const HomePage = lazy(() =>
   import('@/pages/homePage').then((module) => ({ default: module.HomePage })),
 );
 
+const SharedCollectionPage = lazy(() =>
+  import('@/pages/sharedCollection').then((module) => ({ default: module.SharedCollectionPage })),
+);
+
+const GraveyardPage = lazy(() =>
+  import('@/pages/graveyard').then((module) => ({ default: module.GraveyardPage })),
+);
+
 const routesComponents = {
-  main: NotFoundPage,
+  main: HomePage,
   collection: CollectionPage,
   login: RegistrationPage,
-  home: HomePage,
+  shared: SharedCollectionPage,
+  graveyard: GraveyardPage,
 } satisfies Record<IRouteName, FC>;
 
 const Header: FC = () => {
@@ -45,6 +54,9 @@ const Header: FC = () => {
       <div className={classes.tabsContainer}>
         <NavLink to="/collection" className={classes.tab}>
           Каталог
+        </NavLink>
+        <NavLink to="/graveyard" className={classes.tab}>
+          Кладбище
         </NavLink>
       </div>
     </div>

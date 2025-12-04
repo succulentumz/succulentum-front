@@ -3,15 +3,67 @@ import { createUseStyles } from 'react-jss';
 import { colors } from '@/shared/theme';
 
 export default createUseStyles({
-  sidebar: {
-    minHeight: '100%',
-    height: 'stretch',
+  sidebarContainer: {
+    zIndex: 1,
+    position: 'relative',
     maxWidth: 'fit-content',
     width: '30%',
-    backgroundColor: colors.W100,
+    minWidth: 'min-content',
+    minHeight: '100%',
     flex: 'none',
+  },
+
+  sidebarContainerCollapsed: {
+    position: 'absolute',
+    pointerEvents: 'none',
+  },
+
+  sidebar: {
+    transition: 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+    position: 'relative',
+    top: 0,
+    left: 0,
+    minHeight: '100%',
+    height: '100vh',
+    maxWidth: 'fit-content',
+    width: '100%',
+    minWidth: 'min-content',
+    backgroundColor: colors.W100,
     display: 'flex',
     flexDirection: 'column',
+  },
+
+  sidebarCollapsed: {
+    transform: 'translateX(-100%)',
+  },
+
+  toggleButton: {
+    pointerEvents: 'all',
+    position: 'absolute',
+    top: 10,
+    left: 10,
+    zIndex: 1,
+    background: colors.W100,
+    border: 'none',
+    borderRadius: 8,
+    width: 'fit-content',
+    height: 16,
+    cursor: 'pointer',
+    padding: 0,
+    overflow: 'clip',
+
+    '&:hover': {
+      background: colors.G900,
+    },
+  },
+
+  toggleButtonCollapsed: {
+    background: colors.G800,
+  },
+
+  toggleButtonInner: {
+    position: 'relative',
+    top: -8,
   },
 
   sidebarHeader: {
@@ -26,22 +78,19 @@ export default createUseStyles({
     padding: 20,
   },
 
-  filterbox: {
-    display: 'flex',
-    flex: 'none',
-    borderColor: colors.N900,
-    borderRadius: 10,
-    width: '100%',
-    border: '1px solid',
-  },
-
   filterContainer: {
     display: 'flex',
     flexWrap: 'wrap',
   },
 
-  sidebarFooter: {
-    overflow: 'hidden',
+  sidebarFooterContainer: {
     padding: 20,
+  },
+
+  sidebarFooter: {
+    paddingBottom: 20,
+    display: 'flex',
+    overflow: 'hidden',
+    justifyContent: 'space-between',
   },
 });

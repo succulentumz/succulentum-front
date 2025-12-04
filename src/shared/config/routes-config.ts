@@ -16,9 +16,13 @@ export const routesConfig = {
     path: '/login',
     isIndex: false,
   },
-  home: {
-    path: '/home',
-    isIndex: true,
+  shared: {
+    path: '/shared',
+    isIndex: false,
+  },
+  graveyard: {
+    path: '/graveyard',
+    isIndex: false,
   },
 } satisfies Record<string, IRouteConfigParams>;
 
