@@ -2,7 +2,7 @@ import { hosts } from '../../../../config';
 import { createFetchConfig } from '../../../helpers';
 import { plantsRaw } from '../../fixtures/plants';
 import { mapperPlant } from '../../mappers';
-import { type IFolder, type IPageable, type IPlantRaw } from '../../model';
+import { type IFolder, type IPageable, type IPlantRaw, pageableMax } from '../../model';
 
 export interface IFetchFolderPlantsRequest {
   page?: IPageable;
@@ -17,7 +17,13 @@ export default createFetchConfig(folderPlantsFetchKey, {
     pathTemplate: '/api/folders/:folderId/plants',
     method: 'GET',
   },
-  getRequestOptions: ({ folderId, page }: IFetchFolderPlantsRequest) => ({
+  getRequestOptions: ({
+    folderId,
+    page = {
+      pageNumber: 1,
+      pageSize: pageableMax,
+    },
+  }: IFetchFolderPlantsRequest) => ({
     params: { folderId, ...page },
     mapper: (response: IPlantRaw[]) => response.map(mapperPlant),
   }),

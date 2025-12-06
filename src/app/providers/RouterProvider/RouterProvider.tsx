@@ -31,6 +31,8 @@ const HomePage = lazy(() =>
 
 const UserPage = lazy(() =>
   import('@/pages/userPage').then((module) => ({ default: module.UserPage })),
+);
+
 const SharedCollectionPage = lazy(() =>
   import('@/pages/sharedCollection').then((module) => ({ default: module.SharedCollectionPage })),
 );

@@ -2,7 +2,7 @@ import { hosts } from '../../../../config';
 import { createFetchConfig } from '../../../helpers';
 import { plantsRaw } from '../../fixtures/plants';
 import { mapperPlant } from '../../mappers';
-import { type IPlantRaw, type IPageable } from '../../model';
+import { type IPlantRaw, type IPageable, pageableMax } from '../../model';
 
 export interface IPlantsRequest {
   page?: IPageable;
@@ -20,8 +20,8 @@ export default createFetchConfig(plantsFetchKey, {
   },
   getRequestOptions: ({
     page = {
-      pageNumber: 0,
-      pageSize: 0xffffffff,
+      pageNumber: 1,
+      pageSize: pageableMax,
     },
   }: IPlantsRequest) => ({
     params: { ...page },
