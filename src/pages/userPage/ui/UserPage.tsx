@@ -46,7 +46,6 @@ export const UserPage: FC = () => {
             <div className={styles.avatarCircle}>
               <div
                 //src="/src/shared/ui/EmojiIcon/assets/ava.jpg"
-                alt="Аватар пользователя"
                 className={styles.avatarImage}
               >
                 {renderEmojiIcon('ava')}

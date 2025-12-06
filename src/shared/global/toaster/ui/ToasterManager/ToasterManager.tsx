@@ -18,8 +18,10 @@ export const ToasterManager = () => {
   const shownToasters = toasters.slice(0, MAX_SHOWN_TOASTERS);
 
   return (
+    // @ts-ignore
     <TransitionGroup className={classes.root}>
       {shownToasters.map(({ id, onClose, ...props }) => (
+        // @ts-ignore
         <CSSTransition key={id} timeout={durations.DEFAULT} classNames={{ ...classes }}>
           <div className={classes.toaster}>
             <Toaster

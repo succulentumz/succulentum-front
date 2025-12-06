@@ -15,7 +15,7 @@ export interface ICommonFormProps<
   commonKey: CommonRequest;
   deleteKey?: DeleteRequest;
   defaultRequestData: IApiRequest<CommonRequest>;
-  deleteRequestData: DeleteRequest extends never ? undefined : IApiRequest<DeleteRequest>;
+  deleteRequestData?: DeleteRequest extends never ? undefined : IApiRequest<DeleteRequest>;
   onSubmit?: () => void;
   submitButtonText: string;
   children: (
