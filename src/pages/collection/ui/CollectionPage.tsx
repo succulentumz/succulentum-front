@@ -52,9 +52,13 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
 
   const redactionAllowed = true;
 
-  const fetchCollections = useApiQuery(collectionsFetchKey, undefined, {
-    enabled: isEmpty(collectionId),
-  });
+  const fetchCollections = useApiQuery(
+    collectionsFetchKey,
+    {},
+    {
+      enabled: isEmpty(collectionId),
+    },
+  );
 
   const currentCollection = useApiQuery(
     collectionFetchKey,

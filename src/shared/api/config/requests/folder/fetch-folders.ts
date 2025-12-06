@@ -2,7 +2,11 @@ import { hosts } from '../../../../config';
 import { createFetchConfig } from '../../../helpers';
 import { foldersRaw } from '../../fixtures/folders';
 import { mapperFolder } from '../../mappers';
-import { type IFolderRaw } from '../../model';
+import { type IFolderRaw, type IPageable, pageableMax } from '../../model';
+
+export interface IFetchFoldersRequest {
+  page?: IPageable;
+}
 
 export type IFetchFoldersResponse = IFolderRaw[];
 
@@ -14,7 +18,13 @@ export default createFetchConfig(foldersFetchKey, {
     pathTemplate: '/api/folders',
     method: 'GET',
   },
-  getRequestOptions: () => ({
+  getRequestOptions: ({
+    page = {
+      pageNumber: 1,
+      pageSize: pageableMax,
+    },
+  }: IFetchFoldersRequest) => ({
+    params: { ...page },
     mapper: (response: IFetchFoldersResponse) => response.map(mapperFolder),
   }),
   mockValue: foldersRaw,
