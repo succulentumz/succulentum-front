@@ -232,8 +232,12 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
         <div className={classes.content}>
           {isNotEmpty(collectionId) ? (
             <Fragment>
+              {redactionAllowed ? <AddPlantItem onClick={HandleAddPlantItemModal} /> : undefined}
               {isEmpty(folderId) ? (
                 <Fragment>
+                  {redactionAllowed && (
+                    <AddCollectionFolder onClick={HandleCreateCollectionFolderModal} />
+                  )}
                   {fetchCollectionFolders.data?.map((folder) => (
                     <CollectionFolder
                       key={folder.id}
@@ -254,19 +258,18 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
                       onClick={() => HandlePlantModal(plant)}
                     />
                   ))}
-                  {redactionAllowed && (
-                    <AddCollectionFolder onClick={HandleCreateCollectionFolderModal} />
-                  )}
                 </Fragment>
               ) : (
                 fetchFolderPlants.data?.map((plant) => (
                   <PlantItem key={plant.id} plant={plant} onClick={() => HandlePlantModal(plant)} />
                 ))
               )}
-              {redactionAllowed ? <AddPlantItem onClick={HandleAddPlantItemModal} /> : undefined}
             </Fragment>
           ) : (
             <Fragment>
+              {redactionAllowed && (
+                <AddPlantCollection onClick={HandleCreatePlantCollectionModal} />
+              )}
               {fetchCollections.data?.map((collection) => (
                 <PlantCollection
                   key={collection.id}
@@ -280,9 +283,6 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
                   }
                 />
               ))}
-              {redactionAllowed && (
-                <AddPlantCollection onClick={HandleCreatePlantCollectionModal} />
-              )}
             </Fragment>
           )}
         </div>
