@@ -1,7 +1,6 @@
-import { meRaw } from '@/shared/api/config/fixtures/me';
-
 import { hosts } from '../../../../config';
 import { createFetchConfig } from '../../../helpers';
+import { meRaw } from '../../fixtures/me';
 import { mapperMe } from '../../mappers';
 import { type IMeRaw } from '../../model';
 

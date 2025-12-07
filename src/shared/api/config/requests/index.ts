@@ -1,3 +1,4 @@
+import auth from './auth';
 import collection from './collection';
 import folder from './folder';
 import me from './me';
@@ -10,8 +11,10 @@ export default {
   ...plant,
   ...shared,
   ...me,
+  ...auth,
 };
 
+export * from './auth';
 export * from './collection';
 export * from './folder';
 export * from './me';
