@@ -50,6 +50,9 @@ const Header: FC = () => {
         <NavLink to="/collection" className={classes.tab}>
           Каталог
         </NavLink>
+        <NavLink to="/user" className={classes.tab}>
+          Пользователь
+        </NavLink>
       </div>
     </div>
   );

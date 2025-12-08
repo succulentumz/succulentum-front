@@ -17,6 +17,7 @@ import {
   CreateCollectionFolder,
   CreatePlant,
   EditCollection,
+  PlantModal,
 } from '@/features/plants';
 import {
   collectionFoldersFetchKey,
@@ -127,14 +128,33 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
     },
     [params, setParams],
   );
-
+  /*
   const handleClickOnPlant = useCallback(
     (currentPlantId: IPlant['id']) => {
       addToaster({ title: `Работа в процессе ${currentPlantId}`, type: 'info' });
     },
     [params, setParams],
   );
+  */
+  const handleClickOnPlant = useCallback(
+  (currentPlantId: IPlant['id']) => {
+    const currentPlant = plantsWithoutFolder?.find(p => p.id === currentPlantId) ||
+      plantsInFolder?.find(p => p.id === currentPlantId);
 
+    if (currentPlant) {
+      // Используем стандартный паттерн как в других модалках
+      openModal(({ onClose }) => (
+        <PlantModal
+          plant={currentPlant}
+          onClose={onClose}
+        />
+      ));
+    }
+  },
+  [openModal, plantsWithoutFolder, plantsInFolder],
+);
+
+  AddCollectionFolder
   const hangleClickGoBack = useCallback(() => {
     const newParams = new URLSearchParams(params);
     if (isNotEmpty(newParams.get('folderId'))) {

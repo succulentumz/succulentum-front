@@ -64,6 +64,16 @@ export default createUseStyles({
     },
   },
 
+  fullscreen: { // ← Добавил стиль для fullscreen
+    maxWidth: '95% !important',
+    maxHeight: '95% !important',
+    width: '95vw !important',
+    height: '95vh !important',
+    padding: '2rem !important',
+    backgroundColor: '#23F377 !important', // цвет фона как в PlantModal
+    borderRadius: '20px !important',
+  },
+
   modalClose: {
     background: 'none',
     border: 'none',
