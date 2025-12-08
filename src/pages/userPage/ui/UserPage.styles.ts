@@ -255,4 +255,27 @@ export default createUseStyles({
       borderBottom: '1px solid #f0f0f0',
     },
   },
+  /*
+  editHint: {
+    marginTop: '0.5rem',
+    padding: '0.5rem 1rem',
+    backgroundColor: 'rgba(35, 243, 119, 0.1)',
+    borderRadius: 10,
+    color: '#000',
+    fontFamily: 'Jost, sans-serif',
+    fontSize: '0.9rem',
+    textAlign: 'center',
+    animation: '$fadeIn 0.3s ease',
+  },
+  */
+  '@keyframes fadeIn': {
+    from: {
+      opacity: 0,
+      transform: 'translateY(-10px)',
+    },
+    to: {
+      opacity: 1,
+      transform: 'translateY(0)',
+    },
+  },
 });

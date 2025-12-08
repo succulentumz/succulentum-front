@@ -10,6 +10,12 @@ import plantCollection from './plant-collection.png';
 import plantFolder from './plant-folder.png';
 import plantItem from './plant-item.jpeg';
 import succulentumLogo from './succulentum-logo.png';
+import trash from './trash.png';
+import pencil from './pencil.png';
+import save from './save.png';
+import journal from './journal.png';
+import kaktus from './kaktus.jpg';
+
 
 const emoji = {
   ava,
@@ -24,6 +30,11 @@ const emoji = {
   addPlantItem,
   addPlantFolder,
   addPlantCollection,
+  trash,
+  pencil,
+  save,
+  journal,
+  kaktus,
 };
 
 export default emoji;

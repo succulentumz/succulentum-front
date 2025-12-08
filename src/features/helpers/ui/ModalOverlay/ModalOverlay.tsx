@@ -10,9 +10,16 @@ export interface ModalOverlayProps {
   onClose: () => void;
   children: ReactNode;
   isOpen: () => boolean;
+  fullscreen?: boolean; // ← Добавил
 }
 
-export const ModalOverlay: React.FC<ModalOverlayProps> = ({ onClose, children, title, isOpen }) => {
+export const ModalOverlay: React.FC<ModalOverlayProps> = ({
+  onClose,
+  children,
+  title,
+  isOpen,
+  fullscreen = false // ← Добавил
+}) => {
   const classes = useStyles();
 
   const handleClose = () => {
@@ -29,7 +36,7 @@ export const ModalOverlay: React.FC<ModalOverlayProps> = ({ onClose, children, t
     // @ts-ignore
     <CSSTransition in={isOpen()} timeout={200} classNames="modal" unmountOnExit>
       <div className={classes.modalOverlay} onClick={handleOverlayClick}>
-        <div className={classes.modalContent}>
+        <div className={`${classes.modalContent} ${fullscreen ? classes.fullscreen : ''}`}>
           <div className={classes.modalHeader}>
             <h2 className={classes.modalTitle}>{title}</h2>
             {/* <IconButton /!*className={classes.modalClose}*!/ onClick={handleClose} icon="close" />*/}

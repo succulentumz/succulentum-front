@@ -2,13 +2,17 @@ import { type FC, useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import useStyles from './UserPage.styles';
+
 import { renderEmojiIcon } from '../../../shared/ui';
 
 export const UserPage: FC = () => {
   const styles = useStyles();
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isEditingAbout, setIsEditingAbout] = useState(false);
+  const [aboutText, setAboutText] = useState('о себе...');
   const menuRef = useRef<HTMLDivElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   // Закрытие меню при клике вне его области
   useEffect(() => {
@@ -24,8 +28,36 @@ export const UserPage: FC = () => {
     };
   }, []);
 
+  // Фокус на textarea при включении режима редактирования
+  useEffect(() => {
+    if (isEditingAbout && textareaRef.current) {
+      textareaRef.current.focus();
+      textareaRef.current.select();
+    }
+  }, [isEditingAbout]);
+
   const handleMenuToggle = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleEditProfile = () => {
+    setIsEditingAbout(true);
+    setIsMenuOpen(false);
+  };
+
+  const handleSaveAbout = () => {
+    setIsEditingAbout(false);
+    // Здесь можно добавить логику сохранения на сервер
+  };
+
+  const handleAboutChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setAboutText(e.target.value);
+  };
+
+  const handleAboutKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && e.ctrlKey) {
+      handleSaveAbout();
+    }
   };
 
   return (
@@ -62,11 +94,24 @@ export const UserPage: FC = () => {
           {/* Поле "О себе" */}
           <div className={styles.aboutSection}>
             <textarea
+              ref={textareaRef}
               className={styles.aboutTextarea}
               placeholder="о себе..."
-              defaultValue="о себе..."
-              readOnly
+              value={aboutText}
+              readOnly={!isEditingAbout}
+              onChange={handleAboutChange}
+              onKeyDown={handleAboutKeyDown}
+              onBlur={handleSaveAbout}
+              style={{
+                cursor: isEditingAbout ? 'text' : 'default',
+                backgroundColor: isEditingAbout ? '#ffffff' : '#f5f5f5'
+              }}
             />
+            {isEditingAbout && (
+              <div className={styles.editHint}>
+                Нажмите Ctrl+Enter для сохранения или кликните вне поля
+              </div>
+            )}
           </div>
 
           {/* Кнопки навигации */}
@@ -101,7 +146,10 @@ export const UserPage: FC = () => {
         {/* Выпадающее меню */}
         {isMenuOpen && (
           <div className={styles.dropdownMenu}>
-            <button className={styles.menuItem} disabled>
+            <button
+              className={styles.menuItem}
+              onClick={handleEditProfile}
+            >
               Редактировать
             </button>
             <button className={styles.menuItem} disabled>
