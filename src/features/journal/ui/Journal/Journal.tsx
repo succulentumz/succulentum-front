@@ -2,7 +2,6 @@ import { isEmpty } from '@true-engineering/true-react-platform-helpers';
 import { type FC, Fragment, type ReactNode, useState } from 'react';
 
 import { ModalOverlay } from '@/features/helpers';
-import { JournalItem, AddJournalItem } from '@/features/journal';
 import {
   useApiQuery,
   type IPlant,
@@ -12,6 +11,9 @@ import {
 import { addToaster } from '@/shared/global';
 import { useOpenModal } from '@/shared/global/modal/hooks/useOpenModal';
 import { Loader, Splash } from '@/shared/ui';
+
+import { AddJournalItem } from '../AddJournalItem';
+import { JournalItem } from '../JournalItem';
 
 import useStyles from './Journal.styles';
 
