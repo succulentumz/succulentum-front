@@ -10,11 +10,12 @@ export const loginKey = 'login' as const;
 export default createFetchConfig(loginKey, {
   config: {
     host: hosts.gateway,
-    pathTemplate: '/api/auth/login',
+    pathTemplate: '/auth/login',
     method: 'POST',
   },
   getRequestOptions: (body: ILoginRequest) => ({
     body,
+    mapper: (v) => v,
   }),
   mockValue: loginRaw,
 });

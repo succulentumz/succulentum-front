@@ -44,13 +44,20 @@ export const PrettyLabeledSmallInput: FC<PrettyLabeledSmallInputProps> = (props)
   );
 };
 
-export interface CentredParagraphProps {
+export interface CentredParagraphProps extends React.ComponentProps<'p'> {
   children?: React.ReactNode;
 }
 
-export const CentredParagraph: FC<CentredParagraphProps> = ({ children }) => {
+export const CentredParagraph: FC<CentredParagraphProps> = ({ children, ...props }) => {
   const classes = useStyles();
-  return <p className={classes.centredParagraph}>{children}</p>;
+  return (
+    <p
+      {...{ ...props, children: undefined }}
+      className={clsx(classes.centredParagraph, props.className)}
+    >
+      {children}
+    </p>
+  );
 };
 
 export interface PrettyCopyTextBarProps extends React.ComponentProps<'button'> {
