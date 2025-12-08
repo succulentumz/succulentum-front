@@ -17,9 +17,8 @@ export const CreateCollectionFolder: FC<ICreateCollectionFolderProps> = ({
     <CommonForm
       commonKey={folderCreateKey}
       defaultRequestData={{ collectionId, name: '' }}
-      deleteRequestData={undefined}
       submitButtonText="Создать"
-      onSubmit={onSubmit}
+      onCommonSubmit={onSubmit}
     >
       {(handleChange, form) => (
         <>

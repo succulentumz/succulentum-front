@@ -7,3 +7,7 @@ export interface IMe<DateType = Date> {
 }
 
 export type IMeRaw = IMe<string>;
+
+export interface IRegisterMe<DateType = Date> extends IMe<DateType> {
+  password: string;
+}

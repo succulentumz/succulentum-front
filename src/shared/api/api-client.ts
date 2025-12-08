@@ -24,7 +24,6 @@ function createApiClient<U extends Record<string, IFetchConfig>>(
 
 const getHeaders = (): IHeaders => {
   const token = getToken();
-
   return {
     Authorization: isNotEmpty(token) ? `Bearer ${token}` : undefined,
   };

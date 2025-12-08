@@ -26,7 +26,8 @@ export const EditCollectionFolder: FC<IEditCollectionFolderProps> = ({ folder, o
       }}
       deleteRequestData={{ folderId: folder.folderId }}
       submitButtonText="Изменить"
-      onSubmit={onSubmit}
+      onCommonSubmit={onSubmit}
+      onDeleteSubmit={onSubmit}
     >
       {(handleChange, formData) => (
         <>
@@ -36,6 +37,7 @@ export const EditCollectionFolder: FC<IEditCollectionFolderProps> = ({ folder, o
             value={formData.name}
             onChange={handleChange}
             autoComplete="off"
+            name="name"
             id={id1}
           />
         </>

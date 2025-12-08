@@ -1,3 +1,4 @@
+import auth from './auth';
 import collection from './collection';
 import folder from './folder';
 import journal from './journal';
@@ -11,9 +12,11 @@ export default {
   ...plant,
   ...shared,
   ...me,
+  ...auth,
   ...journal,
 };
 
+export * from './auth';
 export * from './collection';
 export * from './folder';
 export * from './journal';

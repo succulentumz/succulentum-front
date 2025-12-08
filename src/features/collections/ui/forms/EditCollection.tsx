@@ -23,7 +23,8 @@ export const EditCollection: FC<IEditCollectionProps> = ({ collection, onSubmit 
       }}
       deleteRequestData={{ collectionId: collection.collectionId }}
       submitButtonText="Изменить"
-      onSubmit={onSubmit}
+      onCommonSubmit={onSubmit}
+      onDeleteSubmit={onSubmit}
     >
       {(handleChange, formData) => (
         <>
@@ -34,6 +35,7 @@ export const EditCollection: FC<IEditCollectionProps> = ({ collection, onSubmit 
               value={formData.name}
               onChange={handleChange}
               autoComplete="off"
+              name="name"
               id={nameId}
             />
           </div>
@@ -44,6 +46,7 @@ export const EditCollection: FC<IEditCollectionProps> = ({ collection, onSubmit 
               value={formData.description}
               onChange={handleChange}
               autoComplete="off"
+              name="description"
               id={descriptionId}
             />
           </div>

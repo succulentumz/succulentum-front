@@ -1,9 +1,10 @@
 import { isNotEmpty } from '@true-engineering/true-react-platform-helpers';
+import clsx from 'clsx';
 import { type ReactNode, useEffect } from 'react';
 import React, { useState } from 'react';
 
 import { DeleteButton, PrettyButton } from '@/features/helpers/ui/PrettyComponents';
-import { type IApiQueryKey, type IApiRequest, useApiQuery } from '@/shared/api';
+import { type IApiQueryKey, type IApiRequest, type IApiResponse, useApiQuery } from '@/shared/api';
 import { addToaster } from '@/shared/global';
 
 import useStyles from './CommonForm.styles';
@@ -15,9 +16,18 @@ export interface ICommonFormProps<
   commonKey: CommonRequest;
   deleteKey?: DeleteRequest;
   defaultRequestData: IApiRequest<CommonRequest>;
-  deleteRequestData?: DeleteRequest extends never ? undefined : IApiRequest<DeleteRequest>;
-  onSubmit?: () => void;
+  deleteRequestData?: IApiRequest<DeleteRequest>;
+  onCommonSubmit?: (isError: boolean, result: IApiResponse<CommonRequest>) => void;
+  onDeleteSubmit?: (isError: boolean, result: IApiResponse<DeleteRequest>) => void;
   submitButtonText: string;
+  showToasterOnSuccess?: boolean;
+  showToasterOnSuccessDeletion?: boolean;
+  showToasterOnError?: boolean;
+  showToasterOnErrorDeletion?: boolean;
+  submitStyle?: React.ComponentProps<'button'>;
+  deleteStyle?: React.ComponentProps<'button'>;
+  formStyle?: React.ComponentProps<'form'>;
+  footerStyle?: React.ComponentProps<'div'>;
   children: (
     handler: (e: React.ChangeEvent<HTMLInputElement>) => void,
     form: IApiRequest<CommonRequest>,
@@ -35,8 +45,17 @@ export function CommonForm<CommonRequest extends IApiQueryKey, DeleteRequest ext
   deleteKey,
   defaultRequestData,
   deleteRequestData,
-  onSubmit,
+  onCommonSubmit,
+  onDeleteSubmit,
   submitButtonText,
+  showToasterOnSuccess = true,
+  showToasterOnSuccessDeletion = true,
+  showToasterOnError = true,
+  showToasterOnErrorDeletion = true,
+  submitStyle,
+  deleteStyle,
+  formStyle,
+  footerStyle,
   children,
 }: ICommonFormProps<CommonRequest, DeleteRequest>) {
   const classes = useStyles();
@@ -62,24 +81,28 @@ export function CommonForm<CommonRequest extends IApiQueryKey, DeleteRequest ext
   useEffect(() => {
     if (isNotEmpty(data) && formData.submit) {
       setFormData((prev) => ({ ...prev, submit: false }));
-      onSubmit?.();
+      onCommonSubmit?.(isError, data);
       if (isError) {
-        console.error('Error creating Collection\n', error);
-        addToaster({ type: 'error', text: 'Ошибка!' });
-      } else {
+        console.error('CommonForm Error\n', error);
+        if (showToasterOnError) {
+          addToaster({ type: 'error', text: 'Ошибка!' });
+        }
+      } else if (showToasterOnSuccess) {
         addToaster({ type: 'ok', text: 'Успех!' });
       }
     } else if (isNotEmpty(dData) && formData.delete) {
       setFormData((prev) => ({ ...prev, delete: false }));
-      onSubmit?.();
+      onDeleteSubmit?.(isError, dData);
       if (dIsError) {
-        console.error('Error creating Collection\n', dError);
-        addToaster({ type: 'error', text: 'Ошибка!' });
-      } else {
+        console.error('CommonForm deletion Error\n', dError);
+        if (showToasterOnErrorDeletion) {
+          addToaster({ type: 'error', text: 'Ошибка!' });
+        }
+      } else if (showToasterOnSuccessDeletion) {
         addToaster({ type: 'ok', text: 'Успех!' });
       }
     }
-  }, [dData, dError, dIsError, data, error, formData, isError, onSubmit]);
+  }, [dData, dError, dIsError, data, error, formData, isError, onCommonSubmit]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -101,12 +124,14 @@ export function CommonForm<CommonRequest extends IApiQueryKey, DeleteRequest ext
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form {...formStyle} onSubmit={handleSubmit}>
       {children(handleChange, formData.form)}
-      <div className={classes.footer}>
-        <PrettyButton type="submit">{submitButtonText}</PrettyButton>
-        {deleteKey === undefined ? undefined : (
-          <DeleteButton type="button" onClick={handleDelete}>
+      <div {...footerStyle} className={clsx(classes.footer, footerStyle?.className)}>
+        <PrettyButton {...submitStyle} type="submit">
+          {submitButtonText}
+        </PrettyButton>
+        {deleteKey && (
+          <DeleteButton {...deleteStyle} type="button" onClick={handleDelete}>
             УДАЛИТЬ
           </DeleteButton>
         )}
