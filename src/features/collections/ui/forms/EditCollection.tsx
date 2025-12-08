@@ -11,14 +11,12 @@ export interface IEditCollectionProps {
 
 export const EditCollection: FC<IEditCollectionProps> = ({ collection, onSubmit }) => {
   const nameId = useId();
-  const descriptionId = useId();
   return (
     <CommonForm
       commonKey={collectionEditKey}
       deleteKey={collectionDeleteKey}
       defaultRequestData={{
         name: collection.name ?? '',
-        description: collection.description,
         collectionId: collection.collectionId,
       }}
       deleteRequestData={{ collectionId: collection.collectionId }}
@@ -37,17 +35,6 @@ export const EditCollection: FC<IEditCollectionProps> = ({ collection, onSubmit 
               autoComplete="off"
               name="name"
               id={nameId}
-            />
-          </div>
-          <div>
-            <label htmlFor={descriptionId}>Описание коллекции:</label>
-            <PrettyInput
-              type="text"
-              value={formData.description}
-              onChange={handleChange}
-              autoComplete="off"
-              name="description"
-              id={descriptionId}
             />
           </div>
         </>

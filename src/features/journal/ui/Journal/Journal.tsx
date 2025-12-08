@@ -87,7 +87,9 @@ export const Journal: FC<IJournalProps> = ({ plantId, redactionAllowed }) => {
                 }
               />
             ))}
-            {redactionAllowed && <AddJournalItem onClick={HandleAddJournalEntryItemModal} />}
+            {redactionAllowed && (
+              <AddJournalItem onClick={HandleAddJournalEntryItemModal} key="addJournal" />
+            )}
           </Fragment>
         </div>
       )}

@@ -4,6 +4,7 @@ import { renderEmojiIcon } from '@/shared/ui';
 
 import useStyles from './PlantModal.styles';
 import { IPlant } from '@/shared/api';
+import { Journal } from '@/features/journal';
 
 export interface IPlantModalProps {
   plant: IPlant;
@@ -17,6 +18,7 @@ export const PlantModal: FC<IPlantModalProps> = ({ plant, redactionAllowed }) =>
     <div>
       Модалка растения, да <br />
       (Ура, растение ура ура ура UwU ура {plant.name} привет! UwU)
+      <Journal plantId={plant.id} redactionAllowed={redactionAllowed} />
     </div>
   );
 };
