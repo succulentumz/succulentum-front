@@ -1,5 +1,5 @@
 import { isEmpty, isNotEmpty } from '@true-engineering/true-react-platform-helpers';
-import { type FC, Fragment, type ReactNode, useCallback, useState } from 'react';
+import { type FC, Fragment, type ReactNode, useCallback, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import {
@@ -17,6 +17,7 @@ import {
   EditCollectionFolder,
 } from '@/features/collections';
 import { ModalOverlay } from '@/features/helpers';
+import { Journal, JournalId } from '@/features/journal';
 import { PlantModal } from '@/features/plants';
 import {
   collectionFoldersFetchKey,
@@ -121,29 +122,7 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
     },
     [params, setParams],
   );
-  /*
-  const handleClickOnPlant = useCallback(
-    (currentPlantId: IPlant['id']) => {
-      addToaster({ title: `Работа в процессе ${currentPlantId}`, type: 'info' });
-    },
-    [params, setParams],
-  );
-  */
-  const handleClickOnPlant = useCallback(
-    (currentPlantId: IPlant['id']) => {
-      const currentPlant =
-        fetchPlants.data?.find((p) => p.id === currentPlantId) ||
-        fetchFolderPlants.data?.find((p) => p.id === currentPlantId);
 
-      if (currentPlant) {
-        // Используем стандартный паттерн как в других модалках
-        openModal(({ onClose }) => <PlantModal plant={currentPlant} onClose={onClose} />);
-      }
-    },
-    [openModal, fetchPlants, fetchFolderPlants],
-  );
-
-  AddCollectionFolder;
   const hangleClickGoBack = useCallback(() => {
     const newParams = new URLSearchParams(params);
     if (isNotEmpty(newParams.get('folderId'))) {
@@ -154,35 +133,65 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
     setParams(newParams);
   }, [params, setParams]);
 
-  const hangleCloseModal = async () => {
+  const handleCloseModal = async () => {
     setOpenedModal(false);
     justOpenedModal = false;
     await closeModal();
   };
 
-  const HandleModal = async (children: ReactNode, title: string) => {
+  const HandleModal = async (
+    children: ReactNode,
+    title: string,
+    onClose: () => void = handleCloseModal,
+    insideClick?: () => void,
+  ) => {
     setOpenedModal(true);
     justOpenedModal = true;
     await openModal((props) => (
       <ModalOverlay
-        onClose={hangleCloseModal}
+        onClose={onClose}
         title={title}
         isOpen={() => justOpenedModal || openedModal}
         key="modalOverlay"
+        insideClick={insideClick}
       >
         {children}
       </ModalOverlay>
     ));
   };
 
+  const HandleJournalModal = async (plant: IPlant) => {
+    await HandleModal(
+      <Journal plantId={plant.id} key="journal" redactionAllowed={redactionAllowed} />,
+      'Журнал растения',
+      () => {
+        handleCloseModal();
+        HandlePlantModal(plant);
+      },
+      document.getElementById(JournalId)?.click,
+    );
+  };
+
   const HandlePlantModal = async (plant: IPlant) => {
-    await HandleModal(<PlantModal plant={plant} redactionAllowed={redactionAllowed} />, plant.name);
+    await HandleModal(
+      <PlantModal
+        onClose={handleCloseModal}
+        plant={plant}
+        redactionAllowed={redactionAllowed}
+        key="plantModal"
+        openJournal={() => {
+          handleCloseModal();
+          HandleJournalModal(plant);
+        }}
+      />,
+      plant.name,
+    );
   };
 
   const HandleCreatePlantCollectionModal = async () => {
     await HandleModal(
       <CreateCollection
-        onSubmit={hangleCloseModal}
+        onSubmit={handleCloseModal}
         ownerId={0} // TODO INSERT OWNER ID HERE
         key="createCollection"
       />,
@@ -193,7 +202,7 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
   const HandleCreateCollectionFolderModal = async () => {
     await HandleModal(
       <CreateCollectionFolder
-        onSubmit={hangleCloseModal}
+        onSubmit={handleCloseModal}
         key={collectionCreateKey}
         collectionId={collectionId!}
       />,
@@ -204,7 +213,7 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
   const HandleAddPlantItemModal = async () => {
     await HandleModal(
       <CreatePlant
-        onSubmit={hangleCloseModal}
+        onSubmit={handleCloseModal}
         ownerId={0} // TODO INSERT OWNER ID HERE
         collectionId={collectionId!}
         key="createPlant"
@@ -215,14 +224,14 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
 
   const HandleEditCollectionModal = async (collection: IEditCollectionRequest) => {
     await HandleModal(
-      <EditCollection collection={collection} onSubmit={hangleCloseModal}></EditCollection>,
+      <EditCollection collection={collection} onSubmit={handleCloseModal}></EditCollection>,
       'Изменение коллекции',
     );
   };
 
   const HandleEditCollectionFolderModal = async (folder: IEditFolderRequest) => {
     await HandleModal(
-      <EditCollectionFolder folder={folder} onSubmit={hangleCloseModal}></EditCollectionFolder>,
+      <EditCollectionFolder folder={folder} onSubmit={handleCloseModal}></EditCollectionFolder>,
       'Изменение папки',
     );
   };

@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import React, { type ReactNode } from 'react';
 import { CSSTransition } from 'react-transition-group';
 
@@ -10,7 +11,8 @@ export interface ModalOverlayProps {
   onClose: () => void;
   children: ReactNode;
   isOpen: () => boolean;
-  fullscreen?: boolean; // ← Добавил
+  insideClick?: () => void;
+  fullscreen?: boolean;
 }
 
 export const ModalOverlay: React.FC<ModalOverlayProps> = ({
@@ -18,7 +20,8 @@ export const ModalOverlay: React.FC<ModalOverlayProps> = ({
   children,
   title,
   isOpen,
-  fullscreen = false // ← Добавил
+  insideClick,
+  fullscreen = false,
 }) => {
   const classes = useStyles();
 
@@ -36,7 +39,10 @@ export const ModalOverlay: React.FC<ModalOverlayProps> = ({
     // @ts-ignore
     <CSSTransition in={isOpen()} timeout={200} classNames="modal" unmountOnExit>
       <div className={classes.modalOverlay} onClick={handleOverlayClick}>
-        <div className={`${classes.modalContent} ${fullscreen ? classes.fullscreen : ''}`}>
+        <div
+          className={clsx(classes.modalContent, fullscreen && classes.fullscreen)}
+          onClick={insideClick}
+        >
           <div className={classes.modalHeader}>
             <h2 className={classes.modalTitle}>{title}</h2>
             {/* <IconButton /!*className={classes.modalClose}*!/ onClick={handleClose} icon="close" />*/}

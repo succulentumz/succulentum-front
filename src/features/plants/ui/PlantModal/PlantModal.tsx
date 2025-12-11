@@ -6,11 +6,14 @@ import useStyles from './PlantModal.styles';
 
 export interface IPlantModalProps {
   plant: IPlant;
+  // От режима просмотра (гостевого режима, режима без редактирования) отказались, `redactionAllowed` не используется...
+  // ... Хотя можешь реализовать режим. Вопрос в том, будет ли у тебя время на это.
   redactionAllowed: boolean;
   onClose: () => void;
+  openJournal: () => void;
 }
 
-export const PlantModal: FC<IPlantModalProps> = ({ plant, onClose }) => {
+export const PlantModal: FC<IPlantModalProps> = ({ plant, onClose, openJournal }) => {
   const styles = useStyles();
   const [isEditing, setIsEditing] = useState(false);
   const [status, setStatus] = useState<'alive' | 'dead'>('alive');
@@ -27,23 +30,15 @@ export const PlantModal: FC<IPlantModalProps> = ({ plant, onClose }) => {
 
   // Закрытие при клике вне модалки и по Escape
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-        onClose();
-      }
-    };
-
     const handleEscapeKey = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         onClose();
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
     document.addEventListener('keydown', handleEscapeKey);
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('keydown', handleEscapeKey);
     };
   }, [onClose]);
@@ -70,9 +65,7 @@ export const PlantModal: FC<IPlantModalProps> = ({ plant, onClose }) => {
     alert('Кладбище пока не создано');
   };
 
-  const handleJournalClick = () => {
-    alert('журнала пока нет');
-  };
+  const handleJournalClick = openJournal;
 
   const handleDeleteClick = () => {
     // Пока неактивно
@@ -104,7 +97,6 @@ export const PlantModal: FC<IPlantModalProps> = ({ plant, onClose }) => {
   return (
     <>
       {/* Основная модалка */}
-      <div className={styles.modalOverlay}>
         <div className={styles.modalContainer} ref={modalRef}>
           {/* Левая часть - изображения */}
           <div className={styles.leftSection}>
@@ -257,7 +249,6 @@ export const PlantModal: FC<IPlantModalProps> = ({ plant, onClose }) => {
             назад
           </button>
         </div>
-      </div>
 
       {/* Модалка для увеличенного изображения */}
       {isImageModalOpen && (

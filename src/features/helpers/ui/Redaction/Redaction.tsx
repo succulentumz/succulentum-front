@@ -1,10 +1,11 @@
+import clsx from 'clsx';
 import React, { type FC } from 'react';
 
 import { IconButton } from '@/shared/ui';
 
 import useStyles from './Redaction.styles';
 
-export interface RedactionProps {
+export interface RedactionProps extends React.ComponentProps<'div'> {
   onClick: () => void;
 }
 
@@ -12,7 +13,7 @@ export const RedactionButton: FC<RedactionProps> = (props) => {
   const classes = useStyles();
 
   return (
-    <div className={classes.redactionButton}>
+    <div {...props} className={clsx(classes.redactionButton, props.onClick)}>
       <IconButton onClick={props.onClick} icon="pencil" />
     </div>
   );

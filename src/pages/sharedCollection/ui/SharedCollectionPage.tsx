@@ -1,5 +1,5 @@
 import { isEmpty, isNotEmpty } from '@true-engineering/true-react-platform-helpers';
-import { type FC, Fragment, useCallback, useState } from 'react';
+import { type FC, Fragment, type ReactNode, useCallback, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { CollectionSideBar, CollectionFolder, PlantItem } from '@/features/collections';
@@ -19,6 +19,7 @@ import { parseIntSafety } from '@/shared/helpers';
 import { Loader, Splash } from '@/shared/ui';
 
 import useStyles from './SharedCollectionPage.styles';
+import { Journal } from '@/features/journal';
 
 export interface ISharedCollectionPageProps {}
 
@@ -28,6 +29,8 @@ export const SharedCollectionPage: FC<ISharedCollectionPageProps> = () => {
   const [params, setParams] = useSearchParams();
   const [openedModal, setOpenedModal] = useState(false);
   let justOpenedModal = false;
+
+  const redactionAllowed = false;
 
   const token = params.get('token');
   const folderId = parseIntSafety(params.get('folderId'));
@@ -92,18 +95,22 @@ export const SharedCollectionPage: FC<ISharedCollectionPageProps> = () => {
     setParams(newParams);
   }, [params, setParams]);
 
-  const CloseModal = async () => {
+  const handleCloseModal = async () => {
     setOpenedModal(false);
     justOpenedModal = false;
     await closeModal();
   };
 
-  const HandleModal = async (children: JSX.Element, title: string) => {
+  const HandleModal = async (
+    children: ReactNode,
+    title: string,
+    onClose: () => void = handleCloseModal,
+  ) => {
     setOpenedModal(true);
     justOpenedModal = true;
     await openModal((props) => (
       <ModalOverlay
-        onClose={CloseModal}
+        onClose={onClose}
         title={title}
         isOpen={() => justOpenedModal || openedModal}
         key="modalOverlay"
@@ -113,8 +120,31 @@ export const SharedCollectionPage: FC<ISharedCollectionPageProps> = () => {
     ));
   };
 
+  const HandleJournalModal = async (plant: IPlant) => {
+    await HandleModal(
+      <Journal plantId={plant.id} key="journal" redactionAllowed={redactionAllowed} />,
+      'Журнал растения',
+      () => {
+        handleCloseModal();
+        HandlePlantModal(plant);
+      },
+    );
+  };
+
   const HandlePlantModal = async (plant: IPlant) => {
-    await HandleModal(<PlantModal plant={plant} redactionAllowed={false} />, plant.name);
+    await HandleModal(
+      <PlantModal
+        onClose={handleCloseModal}
+        plant={plant}
+        redactionAllowed={redactionAllowed}
+        key="plantModal"
+        openJournal={() => {
+          handleCloseModal();
+          HandleJournalModal(plant);
+        }}
+      />,
+      plant.name,
+    );
   };
 
   return (

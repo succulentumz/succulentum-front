@@ -4,29 +4,18 @@ import { colors } from '@/shared/theme';
 
 export default createUseStyles({
   modalOverlay: {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 1000,
   },
 
   modalContainer: {
     position: 'relative',
-    width: '90vw', // уменьшил с 95vw
-    height: '90vh', // уменьшил с 95vh
+    width: '80vw', // уменьшил с 95vw
+    height: '80vh', // уменьшил с 95vh
     maxWidth: '1600px',
     maxHeight: '900px',
-    backgroundColor: '#23F377',
     borderRadius: '20px',
     display: 'flex',
     padding: '2rem',
-    gap: '2rem',
+    gap: 0,
   },
 
   leftSection: {
@@ -81,14 +70,19 @@ export default createUseStyles({
     display: 'flex',
     flexDirection: 'column',
     position: 'relative',
-    marginLeft: '-6rem',
   },
 
   aboutTextarea: {
     height: '55vh',
     backgroundColor: '#fff',
     padding: '1.5rem',
-    border: 'none',
+    border: 1,
+    borderStyle: 'solid',
+    borderLeftStyle: 'inherit',
+    borderColor: colors.N100,
+    borderRadius: [0, 10, 10, 0],
+    borderLeftColor: 'transparent',
+    borderLeft: 'none',
     fontSize: '1.2rem',
     fontFamily: 'Jost, sans-serif',
     resize: 'none',

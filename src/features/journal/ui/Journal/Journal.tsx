@@ -1,19 +1,12 @@
-import { isEmpty } from '@true-engineering/true-react-platform-helpers';
-import { type FC, Fragment, type ReactNode, useState } from 'react';
+import { isEmpty, isNotEmpty } from '@true-engineering/true-react-platform-helpers';
+import { type FC, Fragment, useCallback, useState } from 'react';
 
-import { ModalOverlay } from '@/features/helpers';
-import {
-  useApiQuery,
-  type IPlant,
-  journalFetchKey,
-  type IEditJournalEntryRequest,
-} from '@/shared/api';
+import { useApiQuery, type IPlant, journalFetchKey, type IJournalEntry } from '@/shared/api';
 import { addToaster } from '@/shared/global';
-import { useOpenModal } from '@/shared/global/modal/hooks/useOpenModal';
 import { Loader, Splash } from '@/shared/ui';
 
 import { AddJournalItem } from '../AddJournalItem';
-import { JournalItem } from '../JournalItem';
+import { JournalItem, type ManageEntry } from '../JournalItem';
 
 import useStyles from './Journal.styles';
 
@@ -22,74 +15,73 @@ export interface IJournalProps {
   redactionAllowed: boolean;
 }
 
+export const JournalId = 'Journal';
+
 export const Journal: FC<IJournalProps> = ({ plantId, redactionAllowed }) => {
   const classes = useStyles();
 
-  const [openedModal, setOpenedModal] = useState(false);
-  let justOpenedModal = false;
+  const [usingEntry, setUsingEntry] = useState<ManageEntry>({ id: -2, mode: 'read' });
+  const [entries, setEntries] = useState<IJournalEntry[] | undefined>(undefined);
 
-  const fetchJournal = useApiQuery(
-    journalFetchKey,
-    { plantId },
-    {
-      enabled: true,
-    },
-  );
+  const manageEntries = useCallback((newEntries: IJournalEntry[] | undefined) => {
+    setEntries(newEntries);
+  }, []);
+
+  const manageUsingEntry = useCallback((manageEntry: ManageEntry) => {
+    setUsingEntry(manageEntry);
+  }, []);
+
+  const fetchJournal = useApiQuery(journalFetchKey, { plantId }, { enabled: true });
+
+  if (isEmpty(entries) && isNotEmpty(fetchJournal.data)) {
+    manageEntries(fetchJournal.data.reverse());
+  }
 
   const isLoading = fetchJournal.isLoading;
 
-  const { openModal, closeModal } = useOpenModal();
-
-  const hangleCloseModal = async () => {
-    setOpenedModal(false);
-    justOpenedModal = false;
-    await closeModal();
-  };
-
-  const HandleModal = async (children: ReactNode, title: string) => {
-    setOpenedModal(true);
-    justOpenedModal = true;
-    await openModal((props) => (
-      <ModalOverlay
-        onClose={hangleCloseModal}
-        title={title}
-        isOpen={() => justOpenedModal || openedModal}
-        key="modalOverlay"
-      >
-        {children}
-      </ModalOverlay>
-    ));
-  };
-
-  const HandleAddJournalEntryItemModal = async () => {
-    addToaster({ type: 'info', text: 'В разработке!' });
-  };
-
-  const HandleEditJournalEntryModal = async (entry: IEditJournalEntryRequest) => {
-    addToaster({ type: 'info', text: 'В разработке!' });
-  };
+  const lostFocus = () => manageUsingEntry({ id: -2, mode: 'read' });
 
   return (
-    <div className={classes.collectionPage}>
+    <div id={JournalId} className={classes.journal} onClick={lostFocus}>
       {isLoading ? (
         <Loader />
-      ) : isEmpty(fetchJournal.data) ? (
+      ) : isEmpty(entries) ? (
         <Splash icon="eyes">Журнал не найден!</Splash>
       ) : (
         <div className={classes.content}>
           <Fragment>
-            {fetchJournal.data?.map((entry) => (
+            {redactionAllowed && (
+              <AddJournalItem
+                onClick={() => manageUsingEntry({ id: -1, mode: 'read' })}
+                key="addJournal"
+                addItem={(newEntry) => {
+                  entries?.splice(0, 0, newEntry);
+                  manageEntries(entries);
+                  lostFocus();
+                }}
+                focus={usingEntry.id === -1}
+                plantId={plantId}
+              />
+            )}
+            {entries?.map((entry, index) => (
               <JournalItem
-                key={entry.entryId}
+                key={`${entry.entryId}`}
                 entry={entry}
-                redaction={
-                  redactionAllowed ? () => HandleEditJournalEntryModal({ ...entry }) : undefined
-                }
+                mode={entry.entryId === usingEntry.id ? usingEntry.mode : undefined}
+                imClicked={manageUsingEntry}
+                redactionAllowed={redactionAllowed}
+                deleteMe={() => {
+                  entries?.splice(index, 1);
+                  manageEntries(entries);
+                  lostFocus();
+                }}
+                updateMe={(newEntry) => {
+                  entries[index] = newEntry;
+                  manageEntries(entries);
+                  lostFocus();
+                }}
               />
             ))}
-            {redactionAllowed && (
-              <AddJournalItem onClick={HandleAddJournalEntryItemModal} key="addJournal" />
-            )}
           </Fragment>
         </div>
       )}

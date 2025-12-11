@@ -3,18 +3,19 @@ import { createUseStyles } from 'react-jss';
 import { colors } from '@/shared/theme';
 
 export default createUseStyles({
-  collectionPage: {
-    minHeight: '100%',
+  journal: {
+    padding: 30,
     height: 'fit-content',
-    backgroundColor: colors.G30,
-    display: 'flex',
+    maxHeight: '100%',
+    overflow: 'clip',
   },
 
   content: {
-    padding: 30,
+    maxHeight: '90vh',
     display: 'flex',
     gap: 20,
-    flexWrap: 'wrap',
-    alignContent: 'flex-start',
+    flexWrap: 'nowrap',
+    overflowY: 'auto',
+    flexDirection: 'column',
   },
 });
