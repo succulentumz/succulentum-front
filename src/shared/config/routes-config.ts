@@ -10,7 +10,7 @@ export const routesConfig = {
   },
   collection: {
     path: '/collection/*',
-    isIndex: false,
+    isIndex: true,
   },
   login: {
     path: '/login',
@@ -18,7 +18,7 @@ export const routesConfig = {
   },
   user: {
     path: '/user',
-    isIndex: true,
+    isIndex: false,
   },
   shared: {
     path: '/shared',
