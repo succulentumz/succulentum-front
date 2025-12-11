@@ -1,14 +1,9 @@
 import { foldersRaw } from '@/shared/api/config/fixtures/folders';
-import {
-  type ICollection,
-  type IFolderRaw,
-  type IPageable,
-  pageableMax,
-} from '@/shared/api/config/model';
 
 import { hosts } from '../../../../config';
 import { createFetchConfig } from '../../../helpers';
 import { mapperFolder } from '../../mappers';
+import { type ICollection, type IFolderRaw, type IPageable, pageableMax } from '../../model';
 
 export interface IFetchSharedFoldersRequest {
   token: ICollection['sharedLink'];

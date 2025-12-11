@@ -15,6 +15,7 @@ export const ModalManager: FC = () => {
   const updateModal = useZustand(modalStore, (state) => state.actions.updateModal);
 
   return (
+    // @ts-ignore
     <TransitionGroup className={classes.modalManager}>
       {modals.map(({ modalId, render }) =>
         render({

@@ -2,6 +2,7 @@ import buryPlant from './bury-plant';
 import createPlant from './create-plant';
 import deletePlant from './delete-plant';
 import editPlant from './edit-plant';
+import fetchCollectionPlants from './fetch-collection-plants';
 import fetchFolderPlants from './fetch-folder-plants';
 import fetchPlant from './fetch-plant';
 import fetchPlants from './fetch-plants';
@@ -16,12 +17,14 @@ export default {
   ...fetchPlants,
   ...buryPlant,
   ...fetchPlantsBuried,
+  ...fetchCollectionPlants,
 };
 
 export * from './bury-plant';
 export * from './create-plant';
 export * from './delete-plant';
 export * from './edit-plant';
+export * from './fetch-collection-plants';
 export * from './fetch-folder-plants';
 export * from './fetch-plant';
 export * from './fetch-plants';

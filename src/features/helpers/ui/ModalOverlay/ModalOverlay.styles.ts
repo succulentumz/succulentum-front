@@ -39,8 +39,8 @@ export default createUseStyles({
     padding: 10,
     width: 'fit-content',
     height: 'fit-content',
-    maxWidth: '75%',
-    maxHeight: '75%',
+    // maxWidth: '75%',
+    // maxHeight: '75%',
     overflowY: 'auto',
     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
 
@@ -62,6 +62,16 @@ export default createUseStyles({
       opacity: 0,
       transition: 'transform 300ms ease-in-out, opacity 300ms ease-in-out',
     },
+  },
+
+  fullscreen: { // ← Добавил стиль для fullscreen
+    maxWidth: '95% !important',
+    maxHeight: '95% !important',
+    width: '95vw !important',
+    height: '95vh !important',
+    padding: '2rem !important',
+    backgroundColor: '#23F377 !important', // цвет фона как в PlantModal
+    borderRadius: '20px !important',
   },
 
   modalClose: {

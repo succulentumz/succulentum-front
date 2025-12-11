@@ -16,7 +16,7 @@ export interface ICommonFormProps<
   commonKey: CommonRequest;
   deleteKey?: DeleteRequest;
   defaultRequestData: IApiRequest<CommonRequest>;
-  deleteRequestData?: IApiRequest<DeleteRequest>;
+  deleteRequestData: IApiRequest<DeleteRequest>;
   onCommonSubmit?: (isError: boolean, result: IApiResponse<CommonRequest>) => void;
   onDeleteSubmit?: (isError: boolean, result: IApiResponse<DeleteRequest>) => void;
   submitButtonText: string;
@@ -29,7 +29,9 @@ export interface ICommonFormProps<
   formStyle?: React.ComponentProps<'form'>;
   footerStyle?: React.ComponentProps<'div'>;
   children: (
-    handler: (e: React.ChangeEvent<HTMLInputElement>) => void,
+    handler: (
+      e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>,
+    ) => void,
     form: IApiRequest<CommonRequest>,
   ) => ReactNode;
 }
@@ -104,8 +106,11 @@ export function CommonForm<CommonRequest extends IApiQueryKey, DeleteRequest ext
     }
   }, [dData, dError, dIsError, data, error, formData, isError, onCommonSubmit]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
+    const { name, value, type } = e.target;
+    const checked = 'checked' in e.target ? e.target.checked : undefined;
 
     setFormData((prev) => ({
       ...prev,

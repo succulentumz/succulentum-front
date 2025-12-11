@@ -11,6 +11,7 @@ import { useOpenModal } from '@/shared/global/modal/hooks/useOpenModal';
 import { Loader, Splash } from '@/shared/ui';
 
 import useStyles from './GraveyardPage.styles';
+import { Journal } from '@/features/journal';
 
 export interface IGraveyardPageProps {}
 
@@ -20,24 +21,30 @@ export const GraveyardPage: FC<IGraveyardPageProps> = () => {
   const [openedModal, setOpenedModal] = useState(false);
   let justOpenedModal = false;
 
+  const redactionAllowed = true;
+
   const fetchGraveyardPlants = useApiQuery(plantsBuriedFetchKey, {}, { enabled: true });
 
   const isLoading = fetchGraveyardPlants.isLoading;
 
   const { openModal, closeModal } = useOpenModal();
 
-  const hangleCloseModal = async () => {
+  const handleCloseModal = async () => {
     setOpenedModal(false);
     justOpenedModal = false;
     await closeModal();
   };
 
-  const HandleModal = async (children: ReactNode, title: string) => {
+  const HandleModal = async (
+    children: ReactNode,
+    title: string,
+    onClose: () => void = handleCloseModal,
+  ) => {
     setOpenedModal(true);
     justOpenedModal = true;
     await openModal((props) => (
       <ModalOverlay
-        onClose={hangleCloseModal}
+        onClose={onClose}
         title={title}
         isOpen={() => justOpenedModal || openedModal}
         key="modalOverlay"
@@ -47,8 +54,31 @@ export const GraveyardPage: FC<IGraveyardPageProps> = () => {
     ));
   };
 
+  const HandleJournalModal = async (plant: IPlant) => {
+    await HandleModal(
+      <Journal plantId={plant.id} key="journal" redactionAllowed={redactionAllowed} />,
+      'Журнал растения',
+      () => {
+        handleCloseModal();
+        HandlePlantModal(plant);
+      },
+    );
+  };
+
   const HandlePlantModal = async (plant: IPlant) => {
-    await HandleModal(<PlantModal plant={plant} redactionAllowed={true} />, plant.name);
+    await HandleModal(
+      <PlantModal
+        onClose={handleCloseModal}
+        plant={plant}
+        redactionAllowed={redactionAllowed}
+        key="plantModal"
+        openJournal={() => {
+          handleCloseModal();
+          HandleJournalModal(plant);
+        }}
+      />,
+      plant.name,
+    );
   };
 
   return (
