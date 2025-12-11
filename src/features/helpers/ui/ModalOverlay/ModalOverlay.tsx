@@ -12,7 +12,7 @@ export interface ModalOverlayProps {
   children: ReactNode;
   isOpen: () => boolean;
   insideClick?: () => void;
-  fullscreen?: boolean;
+  isFullscreen?: boolean;
 }
 
 export const ModalOverlay: React.FC<ModalOverlayProps> = ({
@@ -21,7 +21,7 @@ export const ModalOverlay: React.FC<ModalOverlayProps> = ({
   title,
   isOpen,
   insideClick,
-  fullscreen = false,
+  isFullscreen = false,
 }) => {
   const classes = useStyles();
 
@@ -40,7 +40,7 @@ export const ModalOverlay: React.FC<ModalOverlayProps> = ({
     <CSSTransition in={isOpen()} timeout={200} classNames="modal" unmountOnExit>
       <div className={classes.modalOverlay} onClick={handleOverlayClick}>
         <div
-          className={clsx(classes.modalContent, fullscreen && classes.fullscreen)}
+          className={clsx(classes.modalContent, isFullscreen && classes.fullscreen)}
           onClick={insideClick}
         >
           <div className={classes.modalHeader}>
