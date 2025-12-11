@@ -32,9 +32,7 @@ export const RegistrationPage: FC = () => {
   const registering = isEmpty(action) || action !== actionSignIn;
 
   const onSubmit = (isError: boolean, result: ILoginResponse | IMe) => {
-    console.log("succ1");
     if (!isError && 'token' in result) {
-      console.log("succ2");
       setAccessToken(result.token);
       navigate('/collection');
     }
