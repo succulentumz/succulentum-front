@@ -1,5 +1,5 @@
 import { isEmpty, isNotEmpty } from '@true-engineering/true-react-platform-helpers';
-import { type FC, Fragment, type ReactNode, useCallback, useRef, useState } from 'react';
+import { type FC, Fragment, type ReactNode, useCallback, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import {
@@ -22,7 +22,7 @@ import { PlantModal } from '@/features/plants';
 import {
   collectionFoldersFetchKey,
   collectionsFetchKey,
-  folderPlantsFetchKey,
+  // folderPlantsFetchKey,
   collectionPlantsFetchKey,
   useApiQuery,
   type ICollection,
