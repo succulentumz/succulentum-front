@@ -29,6 +29,17 @@ export default createUseStyles({
     textAlign: 'left',
   },
 
+  prettyTextArea: {
+    borderWidth: 2,
+    minHeight: 40,
+    height: 'fit-content',
+    padding: [10, 20],
+    resize: 'vertical',
+    '&:disabled': {
+      borderColor: colors.N80,
+    },
+  },
+
   prettyButton: {
     padding: ['0.1em', '1em'],
     height: '3em',

@@ -17,6 +17,7 @@ export const CreateCollection: FC<ICreateCollectionProps> = ({ ownerId, onSubmit
       defaultRequestData={{ ownerId, name: '', isShared: false }}
       onCommonSubmit={onSubmit}
       submitButtonText="Создать"
+      deleteRequestData={undefined}
     >
       {(handleChange, form) => (
         <>

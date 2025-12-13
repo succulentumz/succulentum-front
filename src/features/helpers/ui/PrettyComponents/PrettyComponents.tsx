@@ -15,6 +15,16 @@ export const PrettyInput: FC<React.ComponentProps<'input'>> = (props) => {
   );
 };
 
+export const PrettyTextArea: FC<React.ComponentProps<'textarea'>> = (props) => {
+  const classes = useStyles();
+  const id = useId();
+  return (
+    <div className={clsx(classes.inputBox, props.className)}>
+      <textarea id={id} {...props} className={clsx(classes.prettyInput, classes.prettyTextArea)} />
+    </div>
+  );
+};
+
 export const PrettyButton: FC<React.ComponentProps<'button'>> = (props) => {
   const classes = useStyles();
   return <button {...props} className={clsx(classes.prettyButton, props.className)} />;

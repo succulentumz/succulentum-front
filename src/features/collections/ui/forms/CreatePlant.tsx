@@ -29,6 +29,7 @@ export const CreatePlant: FC<ICreatePlantProps> = ({
       }}
       submitButtonText="Создать"
       onCommonSubmit={onSubmit}
+      deleteRequestData={undefined}
     >
       {(handleChange, form) => (
         <>
