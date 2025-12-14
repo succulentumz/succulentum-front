@@ -1,12 +1,13 @@
+import { isNotEmpty } from '@true-engineering/true-react-platform-helpers';
 import { type FC, useId } from 'react';
 import React from 'react';
 
 import { CommonForm, PrettyInput } from '@/features/helpers';
-import { collectionCreateKey, type ICreateCollectionRequest } from '@/shared/api';
+import { collectionCreateKey, type ICollection, type ICreateCollectionRequest } from '@/shared/api';
 
 export interface ICreateCollectionProps {
   ownerId: ICreateCollectionRequest['ownerId'];
-  onSubmit?: () => void;
+  onSubmit?: (newCollection: ICollection) => void;
 }
 
 export const CreateCollection: FC<ICreateCollectionProps> = ({ ownerId, onSubmit }) => {
@@ -15,7 +16,7 @@ export const CreateCollection: FC<ICreateCollectionProps> = ({ ownerId, onSubmit
     <CommonForm
       commonKey={collectionCreateKey}
       defaultRequestData={{ ownerId, name: '', isShared: false }}
-      onCommonSubmit={onSubmit}
+      onCommonSubmit={(res) => isNotEmpty(res) && onSubmit?.(res)}
       submitButtonText="Создать"
       deleteRequestData={undefined}
     >

@@ -7,12 +7,10 @@ import { createFetchConfig } from '../../../helpers';
 import { type IJournalEntry, type IJournalEntryRaw } from '../../model';
 
 export interface IEditJournalEntryRequestParams {
-  entryId: IJournalEntry['entryId'];
+  id: IJournalEntry['id'];
 }
 
-export type IEditJournalEntryRequestBody = Nullable<
-  Omit<IJournalEntryRaw, 'entryId' | 'createdAt'>
->;
+export type IEditJournalEntryRequestBody = Nullable<Omit<IJournalEntryRaw, 'id' | 'createdAt'>>;
 
 export type IEditJournalEntryRequest = IEditJournalEntryRequestParams &
   IEditJournalEntryRequestBody;
@@ -22,11 +20,12 @@ export const journalEntryEditKey = 'editJournalEntry' as const;
 export default createFetchConfig(journalEntryEditKey, {
   config: {
     host: hosts.gateway,
-    pathTemplate: '/api/plants/:plantId/journal/entries',
+    pathTemplate: '/api/journal/entries/:entryId',
     method: 'PATCH',
   },
-  getRequestOptions: ({ entryId, ...body }: IEditJournalEntryRequest) => ({
-    params: { entryId, ...body },
+  getRequestOptions: ({ id, ...body }: IEditJournalEntryRequest) => ({
+    params: { entryId: id },
+    body,
     mapper: mapperJournalEntry,
   }),
   mockValue: journalRaw[0],

@@ -17,8 +17,8 @@ export interface ICommonFormProps<
   deleteKey?: DeleteRequest;
   defaultRequestData: IApiRequest<CommonRequest>;
   deleteRequestData: IApiRequest<DeleteRequest>;
-  onCommonSubmit?: (isError: boolean, result: IApiResponse<CommonRequest>) => void;
-  onDeleteSubmit?: (isError: boolean, result: IApiResponse<DeleteRequest>) => void;
+  onCommonSubmit?: (result?: IApiResponse<CommonRequest>) => void;
+  onDeleteSubmit?: (result?: IApiResponse<DeleteRequest>) => void;
   submitButtonText: string;
   showToasterOnSuccess?: boolean;
   showToasterOnSuccessDeletion?: boolean;
@@ -81,9 +81,9 @@ export function CommonForm<CommonRequest extends IApiQueryKey, DeleteRequest ext
   });
 
   useEffect(() => {
-    if (isNotEmpty(data) && formData.submit) {
+    if ((isNotEmpty(data) || isError) && formData.submit) {
       setFormData((prev) => ({ ...prev, submit: false }));
-      onCommonSubmit?.(isError, data);
+      onCommonSubmit?.(data);
       if (isError) {
         console.error('CommonForm Error\n', error);
         if (showToasterOnError) {
@@ -92,9 +92,9 @@ export function CommonForm<CommonRequest extends IApiQueryKey, DeleteRequest ext
       } else if (showToasterOnSuccess) {
         addToaster({ type: 'ok', text: 'Успех!' });
       }
-    } else if (isNotEmpty(dData) && formData.delete) {
+    } else if ((isNotEmpty(dData) || dIsError) && formData.delete) {
       setFormData((prev) => ({ ...prev, delete: false }));
-      onDeleteSubmit?.(isError, dData);
+      onDeleteSubmit?.(dData);
       if (dIsError) {
         console.error('CommonForm deletion Error\n', dError);
         if (showToasterOnErrorDeletion) {

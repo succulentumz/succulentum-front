@@ -11,6 +11,8 @@ export interface IPlantModalProps {
   redactionAllowed: boolean;
   onClose: () => void;
   openJournal: () => void;
+  onRedactionSubmit?: (newPlant: IPlant) => void;
+  onDeleteSubmit?: () => void;
 }
 
 export const PlantModal: FC<IPlantModalProps> = ({ plant, onClose, openJournal }) => {

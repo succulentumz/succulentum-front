@@ -1,15 +1,26 @@
+import { isNotEmpty } from '@true-engineering/true-react-platform-helpers';
 import { type FC, useId } from 'react';
 import React from 'react';
 
 import { CommonForm, PrettyInput } from '@/features/helpers';
-import { collectionDeleteKey, collectionEditKey, type IEditCollectionRequest } from '@/shared/api';
+import {
+  collectionDeleteKey,
+  collectionEditKey,
+  type ICollection,
+  type IEditCollectionRequest,
+} from '@/shared/api';
 
 export interface IEditCollectionProps {
   collection: IEditCollectionRequest;
-  onSubmit?: () => void;
+  onSubmit?: (newCollection: ICollection) => void;
+  onDeleteSubmit?: () => void;
 }
 
-export const EditCollection: FC<IEditCollectionProps> = ({ collection, onSubmit }) => {
+export const EditCollection: FC<IEditCollectionProps> = ({
+  collection,
+  onSubmit,
+  onDeleteSubmit,
+}) => {
   const nameId = useId();
   return (
     <CommonForm
@@ -21,8 +32,8 @@ export const EditCollection: FC<IEditCollectionProps> = ({ collection, onSubmit 
       }}
       deleteRequestData={{ collectionId: collection.collectionId }}
       submitButtonText="Изменить"
-      onCommonSubmit={onSubmit}
-      onDeleteSubmit={onSubmit}
+      onCommonSubmit={(res) => isNotEmpty(res) && onSubmit?.(res)}
+      onDeleteSubmit={(res) => isNotEmpty(res) && onDeleteSubmit?.()}
     >
       {(handleChange, formData) => (
         <>

@@ -2,7 +2,7 @@ import { type IJournalEntryRaw } from '@/shared/api';
 
 export const journalRaw: IJournalEntryRaw[] = [
   {
-    entryId: 1,
+    id: 1,
     plantId: 0,
     title: 'Title1',
     description:
@@ -10,7 +10,7 @@ export const journalRaw: IJournalEntryRaw[] = [
     createdAt: '2022-08-09T09:08:51.494Z',
   },
   {
-    entryId: 2,
+    id: 2,
     plantId: 0,
     title: 'Title2',
     description:
@@ -18,7 +18,7 @@ export const journalRaw: IJournalEntryRaw[] = [
     createdAt: '2022-08-09T09:08:51.494Z',
   },
   {
-    entryId: 3,
+    id: 3,
     plantId: 0,
     title: 'Title3',
     description: 'Description3',
