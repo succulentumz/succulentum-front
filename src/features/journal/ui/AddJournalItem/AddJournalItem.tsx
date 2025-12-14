@@ -1,3 +1,4 @@
+import { isNotEmpty } from '@true-engineering/true-react-platform-helpers';
 import clsx from 'clsx';
 import React, { type FC } from 'react';
 
@@ -35,7 +36,7 @@ export const AddJournalItem: FC<IAddJournalEntryItemProps> = ({
             defaultRequestData={{ title: '', description: '', plantId }}
             submitButtonText="Добавить запись"
             deleteRequestData={undefined}
-            onCommonSubmit={(isError, result) => isError && addItem(result)}
+            onCommonSubmit={(result) => isNotEmpty(result) && addItem(result)}
           >
             {(handler, form) => (
               <>

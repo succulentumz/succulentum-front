@@ -1,7 +1,7 @@
 import { type IPlant } from '@/shared/api';
 
 export interface IJournalEntry<DateType = Date> {
-  entryId: number;
+  id: number;
   plantId: IPlant['id'];
   title: string;
   description: string;

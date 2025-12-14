@@ -1,4 +1,4 @@
-import { isEmpty } from '@true-engineering/true-react-platform-helpers';
+import { isEmpty, isNotEmpty } from '@true-engineering/true-react-platform-helpers';
 import { type FC } from 'react';
 import { NavLink, useNavigate, useSearchParams } from 'react-router-dom';
 
@@ -17,7 +17,7 @@ const actionRegister = 'register';
 const actionSignIn = 'signIn';
 
 interface FormProps<T extends 'register' | 'login'>
-  extends Omit<ICommonFormProps<T, never>, 'children' | 'onDeleteSubmit'> {
+  extends Omit<ICommonFormProps<T, never>, 'children' | 'onDeleteSubmit' | 'deleteRequestData'> {
   onSubmit?: T extends 'login' ? never : (isError: boolean, result: ILoginResponse) => void;
 }
 
@@ -31,10 +31,8 @@ export const RegistrationPage: FC = () => {
 
   const registering = isEmpty(action) || action !== actionSignIn;
 
-  const onSubmit = (isError: boolean, result: ILoginResponse | IMe) => {
-    console.log("succ1");
-    if (!isError && 'token' in result) {
-      console.log("succ2");
+  const onSubmit = (result?: ILoginResponse | IMe) => {
+    if (isNotEmpty(result) && 'token' in result) {
       setAccessToken(result.token);
       navigate('/collection');
     }
@@ -60,6 +58,7 @@ export const RegistrationPage: FC = () => {
         submitStyle={{ className: classes.submitButton }}
         onCommonSubmit={onSubmit}
         {...props}
+        deleteRequestData={undefined}
       >
         {(handler, form) => (
           <>

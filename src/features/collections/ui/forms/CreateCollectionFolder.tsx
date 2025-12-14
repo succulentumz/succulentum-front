@@ -1,3 +1,4 @@
+import { isNotEmpty } from '@true-engineering/true-react-platform-helpers';
 import React, { type FC, useId } from 'react';
 
 import { CommonForm, PrettyInput } from '@/features/helpers';
@@ -5,7 +6,7 @@ import { folderCreateKey, type IFolder } from '@/shared/api';
 
 export interface ICreateCollectionFolderProps {
   collectionId: IFolder['collectionId'];
-  onSubmit?: () => void;
+  onSubmit?: (folder: IFolder) => void;
 }
 
 export const CreateCollectionFolder: FC<ICreateCollectionFolderProps> = ({
@@ -18,7 +19,7 @@ export const CreateCollectionFolder: FC<ICreateCollectionFolderProps> = ({
       commonKey={folderCreateKey}
       defaultRequestData={{ collectionId, name: '' }}
       submitButtonText="Создать"
-      onCommonSubmit={onSubmit}
+      onCommonSubmit={(res) => isNotEmpty(res) && onSubmit?.(res)}
       deleteRequestData={undefined}
     >
       {(handleChange, form) => (

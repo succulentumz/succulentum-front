@@ -3,7 +3,7 @@ import { createFetchConfig } from '../../../helpers';
 import { type IJournalEntry } from '../../model';
 
 export interface IDeleteJournalRequest {
-  entryId: IJournalEntry['entryId'];
+  id: IJournalEntry['id'];
 }
 
 export const journalDeleteKey = 'deleteJournalEntry' as const;
@@ -14,8 +14,8 @@ export default createFetchConfig(journalDeleteKey, {
     pathTemplate: '/api/journal/:entryId/delete',
     method: 'DELETE',
   },
-  getRequestOptions: ({ entryId }: IDeleteJournalRequest) => ({
-    params: { entryId },
+  getRequestOptions: ({ id }: IDeleteJournalRequest) => ({
+    params: { entryId: id },
     mapper: () => ({ status: 'OK' }),
   }),
   mockValue: { status: 'OK' },

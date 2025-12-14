@@ -1,4 +1,4 @@
-import { isEmpty } from '@true-engineering/true-react-platform-helpers';
+import { isEmpty, isNotEmpty } from '@true-engineering/true-react-platform-helpers';
 import React, { type FC } from 'react';
 
 import { CommonForm, PrettyInput, PrettyTextArea, RedactionButton } from '@/features/helpers';
@@ -9,7 +9,7 @@ import useStyles from './JournalItem.styles';
 export type ManageEntryMode = 'read' | 'redaction';
 
 export interface ManageEntry {
-  id: IJournalEntry['entryId'];
+  id: IJournalEntry['id'];
   mode: ManageEntryMode;
 }
 
@@ -37,7 +37,7 @@ export const JournalItem: FC<IJournalItemProps> = ({
       {redactionAllowed && mode !== 'redaction' && (
         <RedactionButton
           key="redact"
-          onClick={() => imClicked({ id: entry.entryId, mode: 'redaction' })}
+          onClick={() => imClicked({ id: entry.id, mode: 'redaction' })}
           style={{ zIndex: 1 }}
         />
       )}
@@ -46,7 +46,7 @@ export const JournalItem: FC<IJournalItemProps> = ({
         onClick={(event) => {
           event.stopPropagation();
           if (isEmpty(mode)) {
-            imClicked({ id: entry.entryId, mode: 'read' });
+            imClicked({ id: entry.id, mode: 'read' });
           }
         }}
       >
@@ -59,7 +59,7 @@ export const JournalItem: FC<IJournalItemProps> = ({
               defaultRequestData={entry}
               deleteRequestData={entry}
               submitButtonText="Изменить"
-              onCommonSubmit={(isError, newEntry) => !isError && updateMe(newEntry)}
+              onCommonSubmit={(newEntry) => isNotEmpty(newEntry) && updateMe(newEntry)}
               onDeleteSubmit={(isError) => !isError && deleteMe()}
             >
               {(handler, form) => (

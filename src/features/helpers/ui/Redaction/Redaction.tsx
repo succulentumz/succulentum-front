@@ -13,7 +13,7 @@ export const RedactionButton: FC<RedactionProps> = (props) => {
   const classes = useStyles();
 
   return (
-    <div {...props} className={clsx(classes.redactionButton, props.onClick)}>
+    <div {...props} className={clsx(classes.redactionButton, props.className)}>
       <IconButton onClick={props.onClick} icon="pencil" />
     </div>
   );

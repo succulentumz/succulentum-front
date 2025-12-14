@@ -16,11 +16,11 @@ export const meEditKey = 'editMe' as const;
 export default createFetchConfig(meEditKey, {
   config: {
     host: hosts.gateway,
-    pathTemplate: '/api/me',
+    pathTemplate: '/api/users/api/me',
     method: 'PATCH',
   },
-  getRequestOptions: ({ username, email }: IEditMeRequestParams) => ({
-    params: { username, email },
+  getRequestOptions: (body: IEditMeRequestParams) => ({
+    body,
     mapper: mapperMe,
   }),
   mockValue: meRaw,

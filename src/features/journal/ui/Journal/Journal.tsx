@@ -1,8 +1,7 @@
 import { isEmpty, isNotEmpty } from '@true-engineering/true-react-platform-helpers';
-import { type FC, Fragment, useCallback, useState } from 'react';
+import { type FC, Fragment, useState } from 'react';
 
 import { useApiQuery, type IPlant, journalFetchKey, type IJournalEntry } from '@/shared/api';
-import { addToaster } from '@/shared/global';
 import { Loader, Splash } from '@/shared/ui';
 
 import { AddJournalItem } from '../AddJournalItem';
@@ -23,23 +22,15 @@ export const Journal: FC<IJournalProps> = ({ plantId, redactionAllowed }) => {
   const [usingEntry, setUsingEntry] = useState<ManageEntry>({ id: -2, mode: 'read' });
   const [entries, setEntries] = useState<IJournalEntry[] | undefined>(undefined);
 
-  const manageEntries = useCallback((newEntries: IJournalEntry[] | undefined) => {
-    setEntries(newEntries);
-  }, []);
-
-  const manageUsingEntry = useCallback((manageEntry: ManageEntry) => {
-    setUsingEntry(manageEntry);
-  }, []);
-
   const fetchJournal = useApiQuery(journalFetchKey, { plantId }, { enabled: true });
 
   if (isEmpty(entries) && isNotEmpty(fetchJournal.data)) {
-    manageEntries(fetchJournal.data.reverse());
+    setEntries(fetchJournal.data);
   }
 
   const isLoading = fetchJournal.isLoading;
 
-  const lostFocus = () => manageUsingEntry({ id: -2, mode: 'read' });
+  const lostFocus = () => setUsingEntry({ id: -2, mode: 'read' });
 
   return (
     <div id={JournalId} className={classes.journal} onClick={lostFocus}>
@@ -52,11 +43,11 @@ export const Journal: FC<IJournalProps> = ({ plantId, redactionAllowed }) => {
           <Fragment>
             {redactionAllowed && (
               <AddJournalItem
-                onClick={() => manageUsingEntry({ id: -1, mode: 'read' })}
+                onClick={() => setUsingEntry({ id: -1, mode: 'read' })}
                 key="addJournal"
                 addItem={(newEntry) => {
                   entries?.splice(0, 0, newEntry);
-                  manageEntries(entries);
+                  setEntries(entries);
                   lostFocus();
                 }}
                 focus={usingEntry.id === -1}
@@ -65,19 +56,19 @@ export const Journal: FC<IJournalProps> = ({ plantId, redactionAllowed }) => {
             )}
             {entries?.map((entry, index) => (
               <JournalItem
-                key={`${entry.entryId}`}
+                key={`${entry.id}`}
                 entry={entry}
-                mode={entry.entryId === usingEntry.id ? usingEntry.mode : undefined}
-                imClicked={manageUsingEntry}
+                mode={entry.id === usingEntry.id ? usingEntry.mode : undefined}
+                imClicked={setUsingEntry}
                 redactionAllowed={redactionAllowed}
                 deleteMe={() => {
                   entries?.splice(index, 1);
-                  manageEntries(entries);
+                  setEntries(entries);
                   lostFocus();
                 }}
                 updateMe={(newEntry) => {
                   entries[index] = newEntry;
-                  manageEntries(entries);
+                  setEntries(entries);
                   lostFocus();
                 }}
               />

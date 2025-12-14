@@ -39,8 +39,6 @@ export default createUseStyles({
     padding: 10,
     width: 'fit-content',
     height: 'fit-content',
-    // maxWidth: '75%',
-    // maxHeight: '75%',
     overflowY: 'auto',
     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
 
