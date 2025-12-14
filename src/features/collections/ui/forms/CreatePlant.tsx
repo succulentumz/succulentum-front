@@ -29,7 +29,7 @@ export const CreatePlant: FC<ICreatePlantProps> = ({
         lifeStatus: IPlantLifeStatus.ALIVE,
       }}
       submitButtonText="Создать"
-      onCommonSubmit={res => isNotEmpty(res) && onSubmit?.(res)}
+      onCommonSubmit={(res) => isNotEmpty(res) && onSubmit?.(res)}
       deleteRequestData={undefined}
     >
       {(handleChange, form) => (

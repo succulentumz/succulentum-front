@@ -5,8 +5,8 @@ import { mapperMe } from '../../mappers';
 import { type IMe, type IMeRaw } from '../../model';
 
 export interface IEditMeRequestParams {
-  username: IMe['username'];
-  email: IMe['email'];
+  username?: IMe['username'];
+  email?: IMe['email'];
 }
 
 export type IEditMeResponse = IMeRaw;

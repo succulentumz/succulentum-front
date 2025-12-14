@@ -31,6 +31,7 @@ import {
   type IEditFolderRequest,
   collectionCreateKey,
   type IPlant,
+  plantsFetchKey,
 } from '@/shared/api';
 import { useOpenModal } from '@/shared/global/modal/hooks/useOpenModal';
 import { parseIntSafety } from '@/shared/helpers';
@@ -112,8 +113,8 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
   const folderPlants = isNotEmpty(folderId) ? allFolderPlants.get(folderId) : undefined;
   const shouldFetchFolderPlants = isEmpty(folderPlants) && isNotEmpty(folderId);
   const fetchFolderPlants = useApiQuery(
-    folderPlantsFetchKey,
-    shouldFetchFolderPlants ? { folderId } : undefined,
+    plantsFetchKey,
+    shouldFetchFolderPlants ? { filter: { folderId } } : undefined,
     { enabled: shouldFetchFolderPlants },
   );
   if (isNotEmpty(fetchFolderPlants.data) && isEmpty(folderPlants)) {
@@ -269,9 +270,15 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
       <CreatePlant
         onSubmit={(newPlant) => {
           handleCloseModal();
-          allPlants.get(collectionId!)?.push(newPlant);
-          setAllPlants(allPlants);
+          if (isEmpty(folderId)) {
+            allPlants.get(collectionId!)?.push(newPlant);
+            setAllPlants(allPlants);
+          } else {
+            allFolderPlants.get(folderId)?.push(newPlant);
+            setAllFolderPlants(allFolderPlants);
+          }
         }}
+        folderId={folderId}
         ownerId={0} // TODO INSERT OWNER ID HERE
         collectionId={collectionId!}
         key="createPlant"

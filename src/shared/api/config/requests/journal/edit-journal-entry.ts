@@ -1,5 +1,3 @@
-import { type Nullable } from '@/shared/model';
-
 import { hosts } from '../../../../config';
 import { journalRaw } from '../../../config/fixtures/journal';
 import { mapperJournalEntry } from '../../../config/mappers/journalEntry';
@@ -10,7 +8,9 @@ export interface IEditJournalEntryRequestParams {
   id: IJournalEntry['id'];
 }
 
-export type IEditJournalEntryRequestBody = Nullable<Omit<IJournalEntryRaw, 'id' | 'createdAt'>>;
+export type IEditJournalEntryRequestBody = Partial<
+  Omit<IJournalEntryRaw, 'id' | 'createdAt' | 'plantId'>
+>;
 
 export type IEditJournalEntryRequest = IEditJournalEntryRequestParams &
   IEditJournalEntryRequestBody;
