@@ -12,13 +12,15 @@ import useStyles from './CommonForm.styles';
 export interface ICommonFormProps<
   CommonRequest extends IApiQueryKey,
   DeleteRequest extends IApiQueryKey | never,
+  Form extends IApiRequest<CommonRequest>,
 > {
   commonKey: CommonRequest;
   deleteKey?: DeleteRequest;
-  defaultRequestData: IApiRequest<CommonRequest>;
+  defaultRequestData: Form;
   deleteRequestData: IApiRequest<DeleteRequest>;
   onCommonSubmit?: (result?: IApiResponse<CommonRequest>) => void;
   onDeleteSubmit?: (result?: IApiResponse<DeleteRequest>) => void;
+  formatter?: (request: Form) => IApiRequest<CommonRequest> | undefined;
   submitButtonText: string;
   showToasterOnSuccess?: boolean;
   showToasterOnSuccessDeletion?: boolean;
@@ -32,17 +34,21 @@ export interface ICommonFormProps<
     handler: (
       e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>,
     ) => void,
-    form: IApiRequest<CommonRequest>,
+    form: Form,
   ) => ReactNode;
 }
 
-interface FormData<K extends IApiQueryKey> {
-  form: IApiRequest<K>;
-  submit: boolean;
+interface FormData<K extends IApiQueryKey, Form extends IApiRequest<K>> {
+  form: Form;
+  submit?: IApiRequest<K>;
   delete: boolean;
 }
 
-export function CommonForm<CommonRequest extends IApiQueryKey, DeleteRequest extends IApiQueryKey>({
+export function CommonForm<
+  CommonRequest extends IApiQueryKey,
+  DeleteRequest extends IApiQueryKey,
+  Form extends IApiRequest<CommonRequest> = IApiRequest<CommonRequest>,
+>({
   commonKey,
   deleteKey,
   defaultRequestData,
@@ -54,22 +60,22 @@ export function CommonForm<CommonRequest extends IApiQueryKey, DeleteRequest ext
   showToasterOnSuccessDeletion = true,
   showToasterOnError = true,
   showToasterOnErrorDeletion = true,
+  formatter = (v) => v,
   submitStyle,
   deleteStyle,
   formStyle,
   footerStyle,
   children,
-}: ICommonFormProps<CommonRequest, DeleteRequest>) {
+}: ICommonFormProps<CommonRequest, DeleteRequest, Form>) {
   const classes = useStyles();
 
-  const [formData, setFormData] = useState<FormData<CommonRequest>>({
+  const [formData, setFormData] = useState<FormData<CommonRequest, Form>>({
     form: defaultRequestData,
-    submit: false,
     delete: false,
   });
 
-  const { data, error, isError } = useApiQuery(commonKey, formData.form, {
-    enabled: formData.submit,
+  const { data, error, isError } = useApiQuery(commonKey, formData.submit, {
+    enabled: isNotEmpty(formData.submit),
   });
 
   const {
@@ -82,7 +88,7 @@ export function CommonForm<CommonRequest extends IApiQueryKey, DeleteRequest ext
 
   useEffect(() => {
     if ((isNotEmpty(data) || isError) && formData.submit) {
-      setFormData((prev) => ({ ...prev, submit: false }));
+      setFormData((prev) => ({ ...prev, submit: undefined }));
       onCommonSubmit?.(data);
       if (isError) {
         console.error('CommonForm Error\n', error);
@@ -120,7 +126,7 @@ export function CommonForm<CommonRequest extends IApiQueryKey, DeleteRequest ext
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setFormData((prev) => ({ ...prev, submit: true }));
+    setFormData((prev) => ({ ...prev, submit: formatter(prev.form) }));
   };
 
   const handleDelete = (e: React.FormEvent) => {

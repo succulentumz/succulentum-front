@@ -8,16 +8,23 @@ import {
   type ICommonFormProps,
   PrettyInput,
 } from '@/features/helpers';
-import { type ILoginResponse, type IMe } from '@/shared/api';
-import { setAccessToken } from '@/shared/global';
+import { type IApiRequest, type ILoginResponse } from '@/shared/api';
+import { addToaster } from '@/shared/global';
 
 import useStyles from './RegistrationPage.styles';
+
+const minPasswordLength = 4;
 
 const actionRegister = 'register';
 const actionSignIn = 'signIn';
 
+type Form = IApiRequest<'register'> & IApiRequest<'login'>;
+
 interface FormProps<T extends 'register' | 'login'>
-  extends Omit<ICommonFormProps<T, never>, 'children' | 'onDeleteSubmit' | 'deleteRequestData'> {
+  extends Omit<
+    ICommonFormProps<T, never, Form>,
+    'children' | 'onDeleteSubmit' | 'deleteRequestData'
+  > {
   onSubmit?: T extends 'login' ? never : (isError: boolean, result: ILoginResponse) => void;
 }
 
@@ -31,34 +38,39 @@ export const RegistrationPage: FC = () => {
 
   const registering = isEmpty(action) || action !== actionSignIn;
 
-  const onSubmit = (result?: ILoginResponse | IMe) => {
-    if (isNotEmpty(result) && 'token' in result) {
-      setAccessToken(result.token);
-      navigate('/collection');
-    }
-  };
-
   const props: FormProps<'register' | 'login'> = registering
     ? {
         commonKey: 'register',
         defaultRequestData: { username: '', email: '', password: '' },
         submitButtonText: 'Зарегистрироваться',
+        formatter: (res) => {
+          if (res.password.length < minPasswordLength) {
+            addToaster({
+              type: 'error',
+              text: `Пароль должен состоять хотя бы из ${minPasswordLength} символов!`,
+            });
+            return undefined;
+          }
+          return res;
+        },
+        onCommonSubmit: (res) =>
+          isNotEmpty(res) && setParams(new URLSearchParams({ a: actionSignIn })),
       }
     : {
         commonKey: 'login',
         defaultRequestData: { username: '', email: '', password: '' },
         submitButtonText: 'Войти',
+        onCommonSubmit: (res) => isNotEmpty(res) && navigate('/collection'),
       };
 
   return (
     <div className={classes.registrationPage}>
       <h1>{registering ? 'Регистрация' : 'Вход'}</h1>
-      <CommonForm
+      <CommonForm<'register' | 'login', never, Form>
         formStyle={{ className: classes.content }}
         submitStyle={{ className: classes.submitButton }}
-        onCommonSubmit={onSubmit}
         {...props}
-        deleteRequestData={undefined}
+        deleteRequestData={undefined as never}
       >
         {(handler, form) => (
           <>
@@ -73,7 +85,6 @@ export const RegistrationPage: FC = () => {
               <PrettyInput
                 type="email"
                 placeholder="Email"
-                // @ts-ignore
                 value={form.email}
                 name="email"
                 onChange={handler}

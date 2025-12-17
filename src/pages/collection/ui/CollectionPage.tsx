@@ -52,6 +52,7 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
   const folderId = parseIntSafety(params.get('folderId'));
 
   const redactionAllowed = true;
+  const showPublicToken = false;
 
   const [collections, setCollections] = useState<ICollection[] | undefined>();
   const [allCollectionFolders, setAllCollectionFolders] = useState<
@@ -177,7 +178,10 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
     await openModal((props) => (
       <ModalOverlay
         {...props}
-        onClose={onClose}
+        onClose={() => {
+          onClose();
+          props.onClose?.();
+        }}
         title={title}
         isOpen={() => justOpenedModal || openedModal}
         insideClick={insideClick}
@@ -191,11 +195,8 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
     await HandleModal(
       <Journal plantId={plant.id} key="journal" redactionAllowed={redactionAllowed} />,
       'Журнал растения',
-      () => {
-        handleCloseModal();
-        HandlePlantModal(plant, plantIndex, isInFolder);
-      },
-      document.getElementById(JournalId)?.click,
+      () => handleCloseModal().then(() => HandlePlantModal(plant, plantIndex, isInFolder)),
+      () => document.getElementById(JournalId)?.click(),
     );
   };
 
@@ -206,10 +207,9 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
         plant={plant}
         redactionAllowed={redactionAllowed}
         key="plantModal"
-        openJournal={() => {
-          handleCloseModal();
-          HandleJournalModal(plant, index, isInFolder);
-        }}
+        openJournal={() =>
+          handleCloseModal().then(() => HandleJournalModal(plant, index, isInFolder))
+        }
         onRedactionSubmit={(newPlant) => {
           handleCloseModal();
           if (isInFolder) {
@@ -325,17 +325,18 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
     );
   };
 
-  const sharedLink = isEmpty(folderId)
-    ? `${window.location.protocol}//${window.location.host}/shared?token=${currentCollection?.sharedLink}`
-    : undefined;
+  const sharedLink =
+    showPublicToken && isEmpty(folderId)
+      ? `${window.location.protocol}//${window.location.host}/shared?token=${currentCollection?.sharedLink}`
+      : undefined;
 
   return (
     <div className={classes.collectionPage}>
       <CollectionSideBar
         title={(isEmpty(folderId) ? currentCollection?.name : currentFolder?.name) ?? 'Каталог'}
         goBack={isNotEmpty(collectionId) ? hangleClickGoBack : undefined}
-        sharedLink={sharedLink}
-        token={currentCollection?.sharedLink}
+        sharedLink={showPublicToken ? sharedLink : undefined}
+        token={showPublicToken ? currentCollection?.sharedLink : undefined}
         change={
           !redactionAllowed || isEmpty(collectionId)
             ? undefined

@@ -51,7 +51,10 @@ export const GraveyardPage: FC<IGraveyardPageProps> = () => {
     await openModal((props) => (
       <ModalOverlay
         {...props}
-        onClose={onClose}
+        onClose={() => {
+          onClose();
+          props.onClose?.();
+        }}
         title={title}
         isOpen={() => justOpenedModal || openedModal}
         insideClick={insideClick}
@@ -65,11 +68,8 @@ export const GraveyardPage: FC<IGraveyardPageProps> = () => {
     await HandleModal(
       <Journal plantId={plant.id} key="journal" redactionAllowed={redactionAllowed} />,
       'Журнал растения',
-      () => {
-        handleCloseModal();
-        HandlePlantModal(plant, plantIndex);
-      },
-      document.getElementById(JournalId)?.click,
+      () => handleCloseModal().then(() => HandlePlantModal(plant, plantIndex)),
+      () => document.getElementById(JournalId)?.click(),
     );
   };
 
@@ -80,10 +80,7 @@ export const GraveyardPage: FC<IGraveyardPageProps> = () => {
         plant={plant}
         redactionAllowed={redactionAllowed}
         key="plantModal"
-        openJournal={() => {
-          handleCloseModal();
-          HandleJournalModal(plant, index);
-        }}
+        openJournal={() => handleCloseModal().then(() => HandleJournalModal(plant, index))}
         onRedactionSubmit={(newPlant) => {
           handleCloseModal();
           graveyardPlants?.splice(index, 1, newPlant);

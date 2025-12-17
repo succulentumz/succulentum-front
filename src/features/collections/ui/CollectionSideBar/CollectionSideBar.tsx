@@ -30,6 +30,8 @@ export const CollectionSideBar: FC<ICollectionSideBarProps> = ({
 
   const menuCollapsedKey = 'sideBarCollapsed';
 
+  const isShowingSortingAndSearchingSection = true;
+
   const [menuCollapsed, setMenuCollapsed] = useState<boolean | undefined>(() => {
     const localStorageValue = localStorage.getItem(menuCollapsedKey);
 
@@ -66,21 +68,23 @@ export const CollectionSideBar: FC<ICollectionSideBarProps> = ({
         <div className={classes.sidebarHeader}>
           <h2>{title}</h2>
         </div>
-        <div className={classes.sidebarMain}>
-          <form>
-            <PrettyInput type="search" placeholder="Поиск" />
-          </form>
-          <form>
-            <h4>Фильтры:</h4>
+        {isShowingSortingAndSearchingSection && (
+          <div className={classes.sidebarMain}>
+            <form>
+              <PrettyInput type="search" placeholder="Поиск" disabled={true} />
+            </form>
+            <form>
+              <h4>Фильтры:</h4>
+              <hr />
+              <h4>Дата создания:</h4>
+              <div className={classes.filterContainer}>
+                <PrettyLabeledSmallInput type="date" label="от:" disabled={true} />
+                <PrettyLabeledSmallInput type="date" label="до:" disabled={true} />
+              </div>
+            </form>
             <hr />
-            <h4>Дата создания:</h4>
-            <div className={classes.filterContainer}>
-              <PrettyLabeledSmallInput type="date" label="от:"></PrettyLabeledSmallInput>
-              <PrettyLabeledSmallInput type="date" label="до:"></PrettyLabeledSmallInput>
-            </div>
-          </form>
-          <hr />
-        </div>
+          </div>
+        )}
         <div className={classes.sidebarFooterContainer}>
           <div className={classes.sidebarFooter}>
             {isNotEmpty(goBack) && <PrettyButton onClick={goBack}>Назад</PrettyButton>}
