@@ -9,7 +9,7 @@ import {
   PrettyInput,
 } from '@/features/helpers';
 import { type IApiRequest, type ILoginResponse } from '@/shared/api';
-import { addToaster } from '@/shared/global';
+import { addToaster, setAccessToken } from '@/shared/global';
 
 import useStyles from './RegistrationPage.styles';
 
@@ -39,7 +39,7 @@ export const RegistrationPage: FC = () => {
   const registering = isEmpty(action) || action !== actionSignIn;
 
   const props: FormProps<'register' | 'login'> = registering
-    ? {
+    ? ({
         commonKey: 'register',
         defaultRequestData: { username: '', email: '', password: '' },
         submitButtonText: 'Зарегистрироваться',
@@ -55,13 +55,18 @@ export const RegistrationPage: FC = () => {
         },
         onCommonSubmit: (res) =>
           isNotEmpty(res) && setParams(new URLSearchParams({ a: actionSignIn })),
-      }
-    : {
+      } as FormProps<'register'>)
+    : ({
         commonKey: 'login',
         defaultRequestData: { username: '', email: '', password: '' },
         submitButtonText: 'Войти',
-        onCommonSubmit: (res) => isNotEmpty(res) && navigate('/collection'),
-      };
+        onCommonSubmit: (res) => {
+          if (isNotEmpty(res)) {
+            setAccessToken(res.token);
+            navigate('/collection');
+          }
+        },
+      } as FormProps<'login'>);
 
   return (
     <div className={classes.registrationPage}>

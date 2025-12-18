@@ -99,3 +99,27 @@ export const PrettyCopyTextBar: FC<PrettyCopyTextBarProps> = (props) => {
     </button>
   );
 };
+
+interface CommonPrettySelectProps {
+  children?: Array<React.ComponentProps<'option'>>;
+}
+type ExtraPrettySelectProps = Omit<React.ComponentProps<'select'>, 'children'>;
+export type PrettySelectProps = CommonPrettySelectProps & ExtraPrettySelectProps;
+
+export const PrettySelect: FC<PrettySelectProps> = (props) => {
+  const classes = useStyles();
+  const id = useId();
+  return (
+    <div className={clsx(classes.inputBox, props.className)}>
+      <select id={id} {...props} className={classes.prettySelect}>
+        {props.children?.map((value) => (
+          <option
+            {...value}
+            className={clsx(classes.prettySelect, value.className)}
+            key={`${value.value}`}
+          />
+        ))}
+      </select>
+    </div>
+  );
+};

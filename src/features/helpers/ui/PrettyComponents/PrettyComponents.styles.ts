@@ -94,4 +94,19 @@ export default createUseStyles({
     textAlign: 'center',
     margin: 0,
   },
+
+  prettySelect: {
+    borderColor: colors.G800,
+    backgroundColor: colors.W100,
+    paddingLeft: 20,
+    height: 40,
+    borderRadius: 0,
+    margin: 0,
+    width: 'fit-content',
+    boxSizing: 'border-box',
+  },
+
+  prettyOption: {
+
+  },
 });

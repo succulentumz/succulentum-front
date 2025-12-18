@@ -32,7 +32,10 @@ export interface ICommonFormProps<
   footerStyle?: React.ComponentProps<'div'>;
   children: (
     handler: (
-      e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>,
+      e:
+        | React.ChangeEvent<HTMLInputElement>
+        | React.ChangeEvent<HTMLTextAreaElement>
+        | React.ChangeEvent<HTMLSelectElement>,
     ) => void,
     form: Form,
   ) => ReactNode;
@@ -113,7 +116,10 @@ export function CommonForm<
   }, [dData, dError, dIsError, data, error, formData, isError, onCommonSubmit]);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>,
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>
+      | React.ChangeEvent<HTMLSelectElement>,
   ) => {
     const { name, value, type } = e.target;
     const checked = 'checked' in e.target ? e.target.checked : undefined;

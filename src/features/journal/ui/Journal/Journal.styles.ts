@@ -8,6 +8,7 @@ export default createUseStyles({
     height: 'fit-content',
     maxHeight: '100%',
     overflow: 'clip',
+    width: '70vw',
   },
 
   content: {
