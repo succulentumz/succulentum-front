@@ -18,7 +18,8 @@ export const PlantItem: FC<IPlantItemProps> = ({ plant, onClick }) => {
   return (
     <div className={classes.plantItem} title={plant.name} onClick={() => onClick(plant.id)}>
       <div className={classes.plantIcon}>
-        {isEmpty(plant.avatarId) ? renderEmojiIcon('plantItem') : plant.avatarId}
+        {/*{isEmpty(plant.avatarId) ? renderEmojiIcon('plantItem') : plant.avatarId}*/}
+        {renderEmojiIcon('plantItem')}
       </div>
       <CentredParagraph>{plant.name}</CentredParagraph>
     </div>

@@ -1,3 +1,4 @@
+import { isNotEmpty } from '@true-engineering/true-react-platform-helpers';
 import { type FC, useId } from 'react';
 import React from 'react';
 
@@ -6,14 +7,20 @@ import {
   folderDeleteKey,
   folderEditKey,
   type IEditFolderRequest,
+  type IFolder,
 } from '@/shared/api';
 
 export interface IEditCollectionFolderProps {
   folder: IEditFolderRequest;
-  onSubmit?: () => void;
+  onSubmit?: (newFolder: IFolder) => void;
+  onDeleteSubmit?: () => void;
 }
 
-export const EditCollectionFolder: FC<IEditCollectionFolderProps> = ({ folder, onSubmit }) => {
+export const EditCollectionFolder: FC<IEditCollectionFolderProps> = ({
+  folder,
+  onSubmit,
+  onDeleteSubmit,
+}) => {
   const id1 = useId();
   return (
     <CommonForm
@@ -26,8 +33,8 @@ export const EditCollectionFolder: FC<IEditCollectionFolderProps> = ({ folder, o
       }}
       deleteRequestData={{ folderId: folder.folderId }}
       submitButtonText="Изменить"
-      onCommonSubmit={onSubmit}
-      onDeleteSubmit={onSubmit}
+      onCommonSubmit={(res) => isNotEmpty(res) && onSubmit?.(res)}
+      onDeleteSubmit={(res) => isNotEmpty(res) && onDeleteSubmit?.()}
     >
       {(handleChange, formData) => (
         <>

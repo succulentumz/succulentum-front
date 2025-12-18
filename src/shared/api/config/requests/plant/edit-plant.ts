@@ -1,5 +1,3 @@
-import { type Nullable } from '@/shared/model';
-
 import { hosts } from '../../../../config';
 import { createFetchConfig } from '../../../helpers';
 import { plantRaw } from '../../fixtures/plants';
@@ -10,7 +8,7 @@ export interface IEditPlantRequestParams {
   plantId: IPlant['id'];
 }
 
-export type IEditPlantRequestBody = Nullable<Omit<IPlant, 'id' | 'createdAt' | 'updatedAt'>>;
+export type IEditPlantRequestBody = Partial<Omit<IPlant, 'id' | 'createdAt' | 'updatedAt'>>;
 
 export type IEditPlantRequest = IEditPlantRequestParams & IEditPlantRequestBody;
 

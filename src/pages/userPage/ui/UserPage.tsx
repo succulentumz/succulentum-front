@@ -1,18 +1,95 @@
 import { type FC, useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+// ============ ИМПОРТЫ API ============
+import { useApiQuery, type IMe, meFetchKey, meEditKey } from '@/shared/api';
+
 import useStyles from './UserPage.styles';
 
 import { renderEmojiIcon } from '../../../shared/ui';
+import { clearAccessToken } from '@/shared/global';
 
 export const UserPage: FC = () => {
   const styles = useStyles();
   const navigate = useNavigate();
+
+  // ============ СОСТОЯНИЯ ИНТЕРФЕЙСА ============
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isEditingAbout, setIsEditingAbout] = useState(false);
-  const [aboutText, setAboutText] = useState('о себе...');
+  const [isEditingProfile, setIsEditingProfile] = useState(false); // Режим редактирования профиля
+  const [username, setUsername] = useState(''); // Имя пользователя из API
+  const [email, setEmail] = useState(''); // Email из API
+  const [aboutText, setAboutText] = useState('Привет, я коллекционирую кактусы и цветы');
+
   const menuRef = useRef<HTMLDivElement>(null);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const usernameInputRef = useRef<HTMLInputElement>(null);
+  const emailInputRef = useRef<HTMLInputElement>(null);
+
+  // ============ API ЗАПРОСЫ ============
+  // 1. Запрос на получение данных пользователя
+  const fetchUserQuery = useApiQuery(
+    meFetchKey, // Ключ запроса для получения данных пользователя
+    {}, // Параметры не нужны для GET /api/users/api/me
+    { enabled: true } // Всегда выполняем при монтировании
+  );
+
+  // 2. Состояние для запроса на редактирование
+  const [editUserParams, setEditUserParams] = useState<{
+    username?: string;
+    email?: string;
+  } | null>(null);
+
+  // 3. Запрос на редактирование пользователя
+  const editUserQuery = useApiQuery(
+    meEditKey, // Ключ запроса для редактирования
+    editUserParams || undefined, // Параметры для редактирования
+    { enabled: !!editUserParams } // Выполняется только когда есть параметры
+  );
+
+  // ============ ЭФФЕКТЫ ДЛЯ ОБРАБОТКИ ДАННЫХ ============
+
+  // Обработка успешного получения данных пользователя
+  useEffect(() => {
+    if (fetchUserQuery.data && !fetchUserQuery.isLoading) {
+      console.log('Данные пользователя получены:', fetchUserQuery.data);
+
+      // Преобразуем данные из IMeRaw (строковые даты) в IMe (Date объекты)
+      // или используем как есть, в зависимости от формата
+      const userData = fetchUserQuery.data as IMe; // Предполагаем, что mapper уже преобразовал
+
+      setUsername(userData.username || '');
+      setEmail(userData.email || '');
+
+      // Здесь можно также установить aboutText, если оно есть в API
+      // Но в IMe нет поля about, так что оставляем как есть
+    }
+  }, [fetchUserQuery.data, fetchUserQuery.isLoading]);
+
+  // Обработка успешного редактирования пользователя
+  useEffect(() => {
+    if (editUserQuery.data && editUserParams && !editUserQuery.isLoading) {
+      console.log('Профиль успешно обновлён:', editUserQuery.data);
+
+      // Обновляем локальные состояния из ответа
+      const updatedData = editUserQuery.data as IMe;
+      setUsername(updatedData.username || '');
+      setEmail(updatedData.email || '');
+
+      // Выходим из режима редактирования
+      setIsEditingProfile(false);
+      setEditUserParams(null);
+    }
+  }, [editUserQuery.data, editUserParams, editUserQuery.isLoading]);
+
+  // Обработка ошибок редактирования
+  useEffect(() => {
+    if (editUserQuery.error && editUserParams) {
+      console.error('Ошибка при обновлении профиля:', editUserQuery.error);
+      alert('Не удалось обновить профиль. Попробуйте еще раз.');
+      setEditUserParams(null);
+    }
+  }, [editUserQuery.error, editUserParams]);
+
+  // ============ ОБРАБОТКА ИНТЕРФЕЙСА ============
 
   // Закрытие меню при клике вне его области
   useEffect(() => {
@@ -28,38 +105,75 @@ export const UserPage: FC = () => {
     };
   }, []);
 
-  // Фокус на textarea при включении режима редактирования
+  // Фокус на поле ввода имени при включении режима редактирования
   useEffect(() => {
-    if (isEditingAbout && textareaRef.current) {
-      textareaRef.current.focus();
-      textareaRef.current.select();
+    if (isEditingProfile && usernameInputRef.current) {
+      usernameInputRef.current.focus();
+      usernameInputRef.current.select();
     }
-  }, [isEditingAbout]);
+  }, [isEditingProfile]);
 
+  // ============ ОБРАБОТЧИКИ ДЕЙСТВИЙ ============
+
+  // Переключение меню
   const handleMenuToggle = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  // Включение режима редактирования профиля
   const handleEditProfile = () => {
-    setIsEditingAbout(true);
+    setIsEditingProfile(true);
     setIsMenuOpen(false);
   };
 
-  const handleSaveAbout = () => {
-    setIsEditingAbout(false);
-    // Здесь можно добавить логику сохранения на сервер
+  // Сохранение изменений профиля
+  const handleSaveProfile = () => {
+    // Собираем данные для отправки
+    const editRequest = {
+      username: username,
+      email: email,
+    };
+
+    console.log('Отправляем запрос на обновление профиля:', editRequest);
+    setEditUserParams(editRequest);
   };
 
-  const handleAboutChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setAboutText(e.target.value);
+  // Выход из профиля
+  const handleLogout = () => {
+   // console.log('Кнопка выхода нажата, но функционал временно отключен');
+   // alert('Функция выхода временно недоступна. Ожидается clearAccessToken.');
+
+    console.log('Выход из профиля');
+
+    // 1. Очищаем access token
+    try {
+      clearAccessToken(); // Предполагаем, что эта функция существует
+    } catch (error) {
+      console.error('Ошибка при очистке токена:', error);
+    }
+
+    // 2. Перенаправляем на страницу логина
+    navigate('/login');
+
+    setIsMenuOpen(false);
   };
 
-  const handleAboutKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  // Обработка нажатия клавиш при редактировании
+  const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && e.ctrlKey) {
-      handleSaveAbout();
+      handleSaveProfile();
+    }
+    if (e.key === 'Escape') {
+      setIsEditingProfile(false);
+      // Можно восстановить исходные значения из fetchUserQuery.data
     }
   };
 
+  // ============ ВСПОМОГАТЕЛЬНЫЕ ПЕРЕМЕННЫЕ ============
+  // Проверяем, выполняется ли загрузка или редактирование
+  const isLoading = fetchUserQuery.isLoading || editUserQuery.isLoading;
+
+  // ============ РЕНДЕРИНГ ============
   return (
     <div className={styles.container}>
       {/* Верхняя часть с фоновым изображением */}
@@ -71,47 +185,90 @@ export const UserPage: FC = () => {
       {/* Основной контент */}
       <div className={styles.content}>
 
-        {/* Аватар и круг */}
+        {/* ============ ЛЕВАЯ ЧАСТЬ - АВАТАР И ИНФОРМАЦИЯ ============ */}
         <div className={styles.avatarSection}>
           <div className={styles.avatarContainer}>
             <div className={styles.largeCircle} />
             <div className={styles.avatarCircle}>
-              <div
-                //src="/src/shared/ui/EmojiIcon/assets/ava.jpg"
-                className={styles.avatarImage}
-              >
+              <div className={styles.avatarImage}>
                 {renderEmojiIcon('ava')}
               </div>
             </div>
           </div>
 
-          {/* Имя пользователя */}
-          <h1 className={styles.userName}>Александр Некрасов</h1>
+          {/* Имя пользователя и email */}
+          <div className={styles.userInfo}>
+            {isEditingProfile ? (
+              // Режим редактирования
+              <div className={styles.editForm}>
+                <input
+                  ref={usernameInputRef}
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  placeholder="Имя пользователя"
+                  className={styles.editInput}
+                  disabled={isLoading}
+                />
+                <input
+                  ref={emailInputRef}
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  placeholder="Email"
+                  className={styles.editInput}
+                  disabled={isLoading}
+                />
+                <div className={styles.editButtons}>
+                  <button
+                    onClick={handleSaveProfile}
+                    className={styles.saveButton}
+                    disabled={isLoading}
+                  >
+                    Сохранить
+                  </button>
+                  <button
+                    onClick={() => setIsEditingProfile(false)}
+                    className={styles.cancelButton}
+                    disabled={isLoading}
+                  >
+                    Отмена
+                  </button>
+                </div>
+                {editUserQuery.isLoading && (
+                  <div className={styles.loadingText}>Сохранение...</div>
+                )}
+              </div>
+            ) : (
+              // Режим просмотра
+              <>
+                <h1 className={styles.userName}>
+                  {isLoading ? 'Загрузка...' : username || 'Без имени'}
+                </h1>
+                <div className={styles.userEmail}>
+                  {isLoading ? 'Загрузка...' : email || 'Email не указан'}
+                </div>
+              </>
+            )}
+          </div>
         </div>
 
-        {/* Правая часть с полем "О себе" и кнопками */}
+        {/* ============ ПРАВАЯ ЧАСТЬ - О СЕБЕ И КНОПКИ ============ */}
         <div className={styles.rightSection}>
-          {/* Поле "О себе" */}
+          {/* Поле "О себе" - статичное, не редактируется через API */}
           <div className={styles.aboutSection}>
             <textarea
-              ref={textareaRef}
               className={styles.aboutTextarea}
               placeholder="о себе..."
               value={aboutText}
-              readOnly={!isEditingAbout}
-              onChange={handleAboutChange}
-              onKeyDown={handleAboutKeyDown}
-              onBlur={handleSaveAbout}
+              readOnly={true} // Только для чтения
               style={{
-                cursor: isEditingAbout ? 'text' : 'default',
-                backgroundColor: isEditingAbout ? '#ffffff' : '#f5f5f5'
+                cursor: 'default',
+                backgroundColor: '#f5f5f5'
               }}
             />
-            {isEditingAbout && (
-              <div className={styles.editHint}>
-                Нажмите Ctrl+Enter для сохранения или кликните вне поля
-              </div>
-            )}
           </div>
 
           {/* Кнопки навигации */}
@@ -119,25 +276,28 @@ export const UserPage: FC = () => {
             <button
               className={styles.navButton}
               onClick={() => navigate('/collection')}
+              disabled={isLoading}
             >
               Коллекции
             </button>
-            <button className={styles.navButton} disabled>
-              Растения
-            </button>
-            <button className={styles.navButton} disabled>
+            <button
+              className={styles.navButton}
+              onClick={() => navigate('/graveyard')}
+              disabled={isLoading}
+            >
               Кладбище
-            </button>
-            <button className={styles.navButton} disabled>
-              Журнал
             </button>
           </div>
         </div>
       </div>
 
-      {/* Кнопка меню профиля */}
+      {/* ============ КНОПКА МЕНЮ ПРОФИЛЯ ============ */}
       <div className={styles.menuContainer} ref={menuRef}>
-        <button className={styles.menuButton} onClick={handleMenuToggle}>
+        <button
+          className={styles.menuButton}
+          onClick={handleMenuToggle}
+          disabled={isLoading}
+        >
           <span className={styles.dot} />
           <span className={styles.dot} />
           <span className={styles.dot} />
@@ -149,15 +309,21 @@ export const UserPage: FC = () => {
             <button
               className={styles.menuItem}
               onClick={handleEditProfile}
+              disabled={isLoading}
             >
               Редактировать
             </button>
-            <button className={styles.menuItem} disabled>
+            <button
+              className={styles.menuItem}
+              onClick={handleLogout}
+              disabled={isLoading}
+              //disabled // Делаем некликабельной
+              //style={{ opacity: 0.6, cursor: 'not-allowed' }} // Дополнительные стили
+              //title="Функция временно недоступна"
+            >
               Выйти из профиля
             </button>
-            <button className={styles.menuItem} disabled>
-              Удалить профиль
-            </button>
+            {/* Кнопка "Удалить профиль" убрана по заданию */}
           </div>
         )}
       </div>

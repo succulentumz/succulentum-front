@@ -25,7 +25,7 @@ export const Journal: FC<IJournalProps> = ({ plantId, redactionAllowed }) => {
   const fetchJournal = useApiQuery(journalFetchKey, { plantId }, { enabled: true });
 
   if (isEmpty(entries) && isNotEmpty(fetchJournal.data)) {
-    setEntries(fetchJournal.data.reverse());
+    setEntries(fetchJournal.data);
   }
 
   const isLoading = fetchJournal.isLoading;
@@ -56,9 +56,9 @@ export const Journal: FC<IJournalProps> = ({ plantId, redactionAllowed }) => {
             )}
             {entries?.map((entry, index) => (
               <JournalItem
-                key={`${entry.entryId}`}
+                key={`${entry.id}`}
                 entry={entry}
-                mode={entry.entryId === usingEntry.id ? usingEntry.mode : undefined}
+                mode={entry.id === usingEntry.id ? usingEntry.mode : undefined}
                 imClicked={setUsingEntry}
                 redactionAllowed={redactionAllowed}
                 deleteMe={() => {

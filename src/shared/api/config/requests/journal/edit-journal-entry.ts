@@ -1,5 +1,3 @@
-import { type Nullable } from '@/shared/model';
-
 import { hosts } from '../../../../config';
 import { journalRaw } from '../../../config/fixtures/journal';
 import { mapperJournalEntry } from '../../../config/mappers/journalEntry';
@@ -7,11 +5,11 @@ import { createFetchConfig } from '../../../helpers';
 import { type IJournalEntry, type IJournalEntryRaw } from '../../model';
 
 export interface IEditJournalEntryRequestParams {
-  entryId: IJournalEntry['entryId'];
+  id: IJournalEntry['id'];
 }
 
-export type IEditJournalEntryRequestBody = Nullable<
-  Omit<IJournalEntryRaw, 'entryId' | 'createdAt'>
+export type IEditJournalEntryRequestBody = Partial<
+  Omit<IJournalEntryRaw, 'id' | 'createdAt' | 'plantId'>
 >;
 
 export type IEditJournalEntryRequest = IEditJournalEntryRequestParams &
@@ -22,11 +20,12 @@ export const journalEntryEditKey = 'editJournalEntry' as const;
 export default createFetchConfig(journalEntryEditKey, {
   config: {
     host: hosts.gateway,
-    pathTemplate: '/api/plants/:plantId/journal/entries',
+    pathTemplate: '/api/journal/entries/:entryId',
     method: 'PATCH',
   },
-  getRequestOptions: ({ entryId, ...body }: IEditJournalEntryRequest) => ({
-    params: { entryId, ...body },
+  getRequestOptions: ({ id, ...body }: IEditJournalEntryRequest) => ({
+    params: { entryId: id },
+    body,
     mapper: mapperJournalEntry,
   }),
   mockValue: journalRaw[0],

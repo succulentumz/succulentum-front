@@ -82,18 +82,9 @@ const Layout = () => {
   );
 };
 
-const UserLayout = () => {
+const NoHeaderLayout = () => {
   const classes = useStyles();
 
-  return (
-    <div className={classes.layout}>
-      <Outlet />
-    </div>
-  );
-};
-
-const AuthLayout: FC = () => {
-  const classes = useStyles();
   return (
     <div className={classes.layout}>
       <Outlet />
@@ -127,7 +118,7 @@ export const routes: RouteObject[] = [
   },
   {
     id: 'User',
-    element: <UserLayout />,
+    element: <NoHeaderLayout />,
     errorElement: <NotFoundPage />,
 
     children: [
@@ -145,7 +136,9 @@ export const routes: RouteObject[] = [
   },
   {
     id: 'Auth',
-    element: <AuthLayout />,
+    element: <NoHeaderLayout />,
+    errorElement: <NotFoundPage />,
+
     children: [
       {
         id: 'login',

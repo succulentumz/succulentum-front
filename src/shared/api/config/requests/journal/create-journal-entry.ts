@@ -4,18 +4,17 @@ import { mapperJournalEntry } from '../../../config/mappers/journalEntry';
 import { createFetchConfig } from '../../../helpers';
 import { type IJournalEntryRaw } from '../../model';
 
-export type ICreateJournalEntryRequest = Omit<IJournalEntryRaw, 'entryId' | 'createdAt'>;
+export type ICreateJournalEntryRequest = Omit<IJournalEntryRaw, 'id' | 'createdAt'>;
 
 export const journalEntryCreateKey = 'createJournalEntry' as const;
 
 export default createFetchConfig(journalEntryCreateKey, {
   config: {
     host: hosts.gateway,
-    pathTemplate: '/api/plants/:plantId/journal/entries',
+    pathTemplate: '/api/journal/entries',
     method: 'POST',
   },
   getRequestOptions: (body: ICreateJournalEntryRequest) => ({
-    params: { plantId: body.plantId },
     body,
     mapper: mapperJournalEntry,
   }),

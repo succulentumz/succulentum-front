@@ -213,6 +213,132 @@ export default createUseStyles({
     },
   },
 
+  userInfo: {
+    width: '100%',
+    textAlign: 'center',
+    marginTop: '2rem',
+  },
+
+  userEmail: {
+    fontFamily: 'Jost, sans-serif',
+    fontSize: '1.2rem',
+    color: '#666',
+    marginTop: '0.5rem',
+    fontWeight: 400,
+  },
+
+  editForm: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1rem',
+    marginTop: '-2rem', // Поднимает форму выше под аватар
+    maxWidth: '90%', // Ограничивает ширину, чтобы не налезала на правую часть
+    marginLeft: 'auto', // Центрирует форму
+    marginRight: 'auto', // Центрирует форму
+  },
+
+  editInput: {
+    width: '100%',
+    padding: '0.8rem 1rem',
+    fontFamily: 'Jost, sans-serif',
+    fontSize: '1.2rem',
+    border: `2px solid ${colors.N100}`,
+    borderRadius: '8px',
+    outline: 'none',
+    transition: 'border-color 0.3s ease',
+
+    '&:focus': {
+      borderColor: colors.G1000,
+    },
+
+    '&:disabled': {
+      backgroundColor: colors.N50,
+      cursor: 'not-allowed',
+    },
+  },
+
+  editButtons: {
+    display: 'flex',
+    gap: '1rem',
+    justifyContent: 'center',
+    marginTop: '1rem',
+  },
+
+  saveButton: {
+    padding: '0.5rem 1.5rem',
+    backgroundColor: colors.G1000,
+    color: colors.W100,
+    border: 'none',
+    borderRadius: '8px',
+    fontFamily: 'Jost, sans-serif',
+    fontSize: '1rem',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
+
+    '&:hover:not(:disabled)': {
+      backgroundColor: '#1a3d05',
+    },
+
+    '&:disabled': {
+      opacity: 0.6,
+      cursor: 'not-allowed',
+    },
+  },
+
+  cancelButton: {
+    padding: '0.5rem 1.5rem',
+    backgroundColor: colors.G1000,
+    color: colors.W100,
+    border: 'none',
+    borderRadius: '8px',
+    fontFamily: 'Jost, sans-serif',
+    fontSize: '1rem',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
+
+    '&:hover:not(:disabled)': {
+      backgroundColor: colors.N300,
+    },
+
+    '&:disabled': {
+      opacity: 0.6,
+      cursor: 'not-allowed',
+    },
+  },
+
+  loadingText: {
+    fontFamily: 'Jost, sans-serif',
+    fontSize: '0.9rem',
+    color: colors.G1000,
+    textAlign: 'center',
+    marginTop: '0.5rem',
+  },
+
+  editHint: {
+    marginTop: '0.5rem',
+    padding: '0.5rem 1rem',
+    backgroundColor: 'rgba(35, 243, 119, 0.1)',
+    borderRadius: 10,
+    color: '#000',
+    fontFamily: 'Jost, sans-serif',
+    fontSize: '0.9rem',
+    textAlign: 'center',
+    animation: '$fadeIn 0.3s ease',
+  },
+
+  // Раскомментируйте этот ключ, если он был закомментирован
+  '@keyframes fadeIn': {
+    from: {
+      opacity: 0,
+      transform: 'translateY(-10px)',
+    },
+    to: {
+      opacity: 1,
+      transform: 'translateY(0)',
+    },
+  },
+
   dropdownMenu: {
     position: 'absolute',
     top: 'calc(100% + 10px)',

@@ -1,15 +1,20 @@
-import { isEmpty } from '@true-engineering/true-react-platform-helpers';
+import { isEmpty, isNotEmpty } from '@true-engineering/true-react-platform-helpers';
 import React, { type FC } from 'react';
 
-import { CommonForm, PrettyInput, PrettyTextArea, RedactionButton } from '@/features/helpers';
-import { type IJournalEntry, journalDeleteKey, journalEntryEditKey } from '@/shared/api';
+import { CommonForm, PrettyInput, PrettySelect, PrettyTextArea, RedactionButton } from '@/features/helpers';
+import {
+  type IJournalEntry,
+  journalDeleteKey,
+  journalEntryEditKey, journalEntryTypeValues,
+  journalEntryTypeVocabulary,
+} from '@/shared/api';
 
 import useStyles from './JournalItem.styles';
 
 export type ManageEntryMode = 'read' | 'redaction';
 
 export interface ManageEntry {
-  id: IJournalEntry['entryId'];
+  id: IJournalEntry['id'];
   mode: ManageEntryMode;
 }
 
@@ -37,7 +42,7 @@ export const JournalItem: FC<IJournalItemProps> = ({
       {redactionAllowed && mode !== 'redaction' && (
         <RedactionButton
           key="redact"
-          onClick={() => imClicked({ id: entry.entryId, mode: 'redaction' })}
+          onClick={() => imClicked({ id: entry.id, mode: 'redaction' })}
           style={{ zIndex: 1 }}
         />
       )}
@@ -46,7 +51,7 @@ export const JournalItem: FC<IJournalItemProps> = ({
         onClick={(event) => {
           event.stopPropagation();
           if (isEmpty(mode)) {
-            imClicked({ id: entry.entryId, mode: 'read' });
+            imClicked({ id: entry.id, mode: 'read' });
           }
         }}
       >
@@ -59,7 +64,7 @@ export const JournalItem: FC<IJournalItemProps> = ({
               defaultRequestData={entry}
               deleteRequestData={entry}
               submitButtonText="Изменить"
-              onCommonSubmit={(isError, newEntry) => !isError && updateMe(newEntry)}
+              onCommonSubmit={(newEntry) => isNotEmpty(newEntry) && updateMe(newEntry)}
               onDeleteSubmit={(isError) => !isError && deleteMe()}
             >
               {(handler, form) => (
@@ -79,6 +84,17 @@ export const JournalItem: FC<IJournalItemProps> = ({
                     autoComplete="off"
                     name="description"
                   />
+                  <PrettySelect
+                    key="noteType"
+                    value={form.noteType}
+                    onChange={handler}
+                    name="noteType"
+                  >
+                    {journalEntryTypeValues.map((e) => ({
+                      children: journalEntryTypeVocabulary.get(e),
+                      value: e,
+                    }))}
+                  </PrettySelect>
                 </>
               )}
             </CommonForm>
@@ -92,9 +108,10 @@ export const JournalItem: FC<IJournalItemProps> = ({
               ) : (
                 <div className={classes.truncateBlur}>{entry.description}</div>
               )}
+              <i>{journalEntryTypeVocabulary.get(entry.noteType)}</i>
             </>
           )}
-          <div className={classes.date}>{entry.createdAt.toString()}</div>
+          <div className={classes.date}>{entry.createdAt.toLocaleDateString()}</div>
         </div>
       </div>
     </div>

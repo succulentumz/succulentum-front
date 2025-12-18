@@ -13,7 +13,7 @@ export const plantBuryKey = 'buryPlant' as const;
 export default createFetchConfig(plantBuryKey, {
   config: {
     host: hosts.gateway,
-    pathTemplate: '/api/plants/:plantId',
+    pathTemplate: '/api/plants/:plantId/bury',
     method: 'POST',
   },
   getRequestOptions: ({ plantId }: IBuryPlantRequest) => ({
