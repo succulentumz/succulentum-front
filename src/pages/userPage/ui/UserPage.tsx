@@ -4,11 +4,10 @@ import { useNavigate } from 'react-router-dom';
 // ============ ИМПОРТЫ API ============
 import { useApiQuery, type IMe, meFetchKey, meEditKey } from '@/shared/api';
 
-//import { clearAccessToken } from '@/shared/api'; // Измени путь если нужно
-
 import useStyles from './UserPage.styles';
 
 import { renderEmojiIcon } from '../../../shared/ui';
+import { clearAccessToken } from '@/shared/global';
 
 export const UserPage: FC = () => {
   const styles = useStyles();
@@ -143,7 +142,7 @@ export const UserPage: FC = () => {
   const handleLogout = () => {
     console.log('Кнопка выхода нажата, но функционал временно отключен');
     alert('Функция выхода временно недоступна. Ожидается clearAccessToken.');
-    /*
+
     console.log('Выход из профиля');
 
     // 1. Очищаем access token
@@ -155,7 +154,7 @@ export const UserPage: FC = () => {
 
     // 2. Перенаправляем на страницу логина
     navigate('/login');
-    */
+
     setIsMenuOpen(false);
   };
 

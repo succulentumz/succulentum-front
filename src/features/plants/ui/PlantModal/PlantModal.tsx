@@ -6,10 +6,11 @@ import {
   plantEditKey,
   plantDeleteKey,
   plantBuryKey,
-  type IEditPlantRequest,
+  type IEditPlantRequest, IPlantLifeStatus,
 } from '@/shared/api';
 
 import useStyles from './PlantModal.styles';
+import { Loader } from '@/shared/ui';
 
 export interface IPlantModalProps {
   plant: IPlant;
@@ -32,9 +33,7 @@ export const PlantModal: FC<IPlantModalProps> = ({
   // Состояния интерфейса
   const [isEditing, setIsEditing] = useState(false);
   const [plantName, setPlantName] = useState(plant.name);
-  const [status, setStatus] = useState<'alive' | 'dead'>(
-    plant.lifeStatus === 'ALIVE' ? 'alive' : 'dead'
-  );
+  const [status, setStatus] = useState<IPlantLifeStatus>(plant.lifeStatus);
   const [aboutText, setAboutText] = useState(plant.description || '');
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [showDeleteTooltip, setShowDeleteTooltip] = useState(false);
@@ -51,7 +50,7 @@ export const PlantModal: FC<IPlantModalProps> = ({
     plantId: IPlant['id'];
     name?: string;
     description?: string;
-    lifeStatus?: 'ALIVE' | 'DEAD';
+    lifeStatus?: IPlantLifeStatus;
   } | null>(null);
 
   const [deletePlantParams, setDeletePlantParams] = useState<{ plantId: IPlant['id'] } | null>(null);
@@ -64,6 +63,10 @@ export const PlantModal: FC<IPlantModalProps> = ({
     editPlantParams || undefined,
     { enabled: !!editPlantParams }
   );
+
+  if (!!editPlantQuery.data) {
+    console.log(editPlantQuery, editPlantParams);
+  }
 
   // 2. Запрос на удаление растения (DELETE /api/plants/:plantId)
   const deletePlantQuery = useApiQuery(
@@ -83,21 +86,11 @@ export const PlantModal: FC<IPlantModalProps> = ({
   // Обработка успешного редактирования
   useEffect(() => {
     if (editPlantQuery.data && editPlantParams && !editPlantQuery.isLoading) {
-      console.log('Растение успешно отредактировано:', editPlantQuery.data);
-      console.log('Исходный ID:', plant.id, 'Полученный ID:', editPlantQuery.data.id);
-
-      // Проверяем, что ID растения не изменился (не создалось новое)
-      if (editPlantQuery.data.id === plant.id) {
-        onRedactionSubmit?.(editPlantQuery.data);
-      } else {
-        console.error('Создалось новое растение вместо редактирования!');
-        alert('Ошибка: создалось новое растение вместо редактирования существующего');
-      }
-
+      onRedactionSubmit?.(editPlantQuery.data);
       setEditPlantParams(null);
       setIsEditing(false);
     }
-  }, [editPlantQuery.data, editPlantQuery.isLoading, editPlantParams, onRedactionSubmit, plant.id]);
+  }, [editPlantQuery.data, editPlantQuery.isLoading, editPlantParams, plant.id, onRedactionSubmit]);
 
   // Обработка ошибок редактирования
   useEffect(() => {
@@ -116,7 +109,7 @@ export const PlantModal: FC<IPlantModalProps> = ({
       setDeletePlantParams(null);
       onClose();
     }
-  }, [deletePlantQuery.data, deletePlantQuery.isLoading, deletePlantParams, onDeleteSubmit, onClose]);
+  }, [deletePlantQuery.data, deletePlantQuery.isLoading, deletePlantParams, onClose, onDeleteSubmit]);
 
   // Обработка ошибок удаления
   useEffect(() => {
@@ -131,15 +124,6 @@ export const PlantModal: FC<IPlantModalProps> = ({
   useEffect(() => {
     if (buryPlantQuery.data && buryPlantParams && !buryPlantQuery.isLoading) {
       console.log('Растение успешно похоронено:', buryPlantQuery.data);
-
-      // Проверяем, что ID растения не изменился
-      if (buryPlantQuery.data.id === plant.id) {
-        onRedactionSubmit?.(buryPlantQuery.data);
-        setStatus('dead');
-      } else {
-        console.error('Создалось новое растение при похоронении!');
-        alert('Ошибка при похоронении растения');
-      }
 
       setBuryPlantParams(null);
     }
@@ -195,8 +179,8 @@ export const PlantModal: FC<IPlantModalProps> = ({
   };
 
   // Выбор статуса растения
-  const handleStatusSelect = (selectedStatus: 'alive' | 'dead') => {
-    const newStatus = selectedStatus === 'alive' ? 'ALIVE' : 'DEAD';
+  const handleStatusSelect = (selectedStatus: IPlantLifeStatus) => {
+    const newStatus = selectedStatus;
 
     const editRequest = {
       plantId: plant.id,
@@ -330,14 +314,14 @@ export const PlantModal: FC<IPlantModalProps> = ({
                 <>
                   <button
                     className={styles.statusOption}
-                    onClick={() => handleStatusSelect('alive')}
+                    onClick={() => handleStatusSelect(IPlantLifeStatus.ALIVE)}
                     disabled={isLoading}
                   >
                     жив
                   </button>
                   <button
                     className={styles.statusOption}
-                    onClick={() => handleStatusSelect('dead')}
+                    onClick={() => handleStatusSelect(IPlantLifeStatus.DEAD)}
                     disabled={isLoading}
                   >
                     мёртв
@@ -345,7 +329,7 @@ export const PlantModal: FC<IPlantModalProps> = ({
                 </>
               ) : (
                 <>
-                  <div className={styles.statusLabel}>{status === 'alive' ? 'жив' : 'мёртв'}</div>
+                  <div className={styles.statusLabel}>{status === IPlantLifeStatus.ALIVE ? 'жив' : 'мёртв'}</div>
                   <button
                     className={styles.editStatusButton}
                     onClick={handleStatusClick}
@@ -358,7 +342,7 @@ export const PlantModal: FC<IPlantModalProps> = ({
               )}
             </div>
 
-            {status === 'dead' && !showStatusSelect && (
+            {status === IPlantLifeStatus.DEAD && !showStatusSelect && (
               <button
                 className={styles.buryButton}
                 onClick={handleBuryClick}

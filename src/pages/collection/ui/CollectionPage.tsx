@@ -211,7 +211,6 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
           handleCloseModal().then(() => HandleJournalModal(plant, index, isInFolder))
         }
         onRedactionSubmit={(newPlant) => {
-          handleCloseModal();
           if (isInFolder) {
             folderPlants?.splice(index, 1, newPlant);
             setAllFolderPlants(allFolderPlants);
@@ -231,7 +230,7 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
           }
         }}
       />,
-      plant.name,
+      plant.name,//<--- здесь можешь поменять имя растения на что-то другое, например "растение"
     );
   };
 
