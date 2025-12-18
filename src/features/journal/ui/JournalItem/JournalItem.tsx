@@ -1,8 +1,13 @@
 import { isEmpty, isNotEmpty } from '@true-engineering/true-react-platform-helpers';
 import React, { type FC } from 'react';
 
-import { CommonForm, PrettyInput, PrettyTextArea, RedactionButton } from '@/features/helpers';
-import { type IJournalEntry, journalDeleteKey, journalEntryEditKey } from '@/shared/api';
+import { CommonForm, PrettyInput, PrettySelect, PrettyTextArea, RedactionButton } from '@/features/helpers';
+import {
+  type IJournalEntry,
+  journalDeleteKey,
+  journalEntryEditKey, journalEntryTypeValues,
+  journalEntryTypeVocabulary,
+} from '@/shared/api';
 
 import useStyles from './JournalItem.styles';
 
@@ -79,6 +84,17 @@ export const JournalItem: FC<IJournalItemProps> = ({
                     autoComplete="off"
                     name="description"
                   />
+                  <PrettySelect
+                    key="noteType"
+                    value={form.noteType}
+                    onChange={handler}
+                    name="noteType"
+                  >
+                    {journalEntryTypeValues.map((e) => ({
+                      children: journalEntryTypeVocabulary.get(e),
+                      value: e,
+                    }))}
+                  </PrettySelect>
                 </>
               )}
             </CommonForm>
@@ -92,9 +108,10 @@ export const JournalItem: FC<IJournalItemProps> = ({
               ) : (
                 <div className={classes.truncateBlur}>{entry.description}</div>
               )}
+              <i>{journalEntryTypeVocabulary.get(entry.noteType)}</i>
             </>
           )}
-          <div className={classes.date}>{entry.createdAt.toString()}</div>
+          <div className={classes.date}>{entry.createdAt.toLocaleDateString()}</div>
         </div>
       </div>
     </div>
