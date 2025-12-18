@@ -16,7 +16,7 @@ export const meEditKey = 'editMe' as const;
 export default createFetchConfig(meEditKey, {
   config: {
     host: hosts.gateway,
-    pathTemplate: '/api/users/api/me',
+    pathTemplate: '/api/me',
     method: 'PATCH',
   },
   getRequestOptions: (body: IEditMeRequestParams) => ({

@@ -11,7 +11,7 @@ export const meFetchKey = 'fetchMe' as const;
 export default createFetchConfig(meFetchKey, {
   config: {
     host: hosts.gateway,
-    pathTemplate: '/api/users/api/me',
+    pathTemplate: '/api/me',
     method: 'GET',
   },
   getRequestOptions: () => ({

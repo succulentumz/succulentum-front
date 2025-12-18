@@ -18,6 +18,38 @@ export default createUseStyles({
     gap: 0,
   },
 
+  plantNameInput: {
+    width: '100%',
+    padding: '0.8rem',
+    marginBottom: '1rem',
+    fontSize: '1.5rem',
+    fontFamily: 'Jost, sans-serif',
+    border: `2px solid ${colors.N100}`,
+    borderRadius: '8px',
+    outline: 'none',
+
+    '&:focus': {
+      borderColor: colors.G1000,
+    },
+  },
+
+  plantNameDisplay: {
+    fontSize: '1.8rem',
+    fontFamily: 'Jost, sans-serif',
+    color: colors.G1000,
+    marginBottom: '1rem',
+    textAlign: 'left',
+    fontWeight: 600,
+  },
+
+  plantNameContainer: {
+    position: 'absolute',
+    top: '2rem',
+    left: '2rem',
+    zIndex: 10,
+    maxWidth: '50%',
+  },
+
   leftSection: {
     flex: 1,
     display: 'flex',
