@@ -140,8 +140,8 @@ export const UserPage: FC = () => {
 
   // Выход из профиля
   const handleLogout = () => {
-    console.log('Кнопка выхода нажата, но функционал временно отключен');
-    alert('Функция выхода временно недоступна. Ожидается clearAccessToken.');
+   // console.log('Кнопка выхода нажата, но функционал временно отключен');
+   // alert('Функция выхода временно недоступна. Ожидается clearAccessToken.');
 
     console.log('Выход из профиля');
 
@@ -316,10 +316,10 @@ export const UserPage: FC = () => {
             <button
               className={styles.menuItem}
               onClick={handleLogout}
-              //disabled={isLoading}
-              disabled // Делаем некликабельной
-              style={{ opacity: 0.6, cursor: 'not-allowed' }} // Дополнительные стили
-              title="Функция временно недоступна"
+              disabled={isLoading}
+              //disabled // Делаем некликабельной
+              //style={{ opacity: 0.6, cursor: 'not-allowed' }} // Дополнительные стили
+              //title="Функция временно недоступна"
             >
               Выйти из профиля
             </button>

@@ -232,6 +232,10 @@ export default createUseStyles({
     display: 'flex',
     flexDirection: 'column',
     gap: '1rem',
+    marginTop: '-2rem', // Поднимает форму выше под аватар
+    maxWidth: '90%', // Ограничивает ширину, чтобы не налезала на правую часть
+    marginLeft: 'auto', // Центрирует форму
+    marginRight: 'auto', // Центрирует форму
   },
 
   editInput: {
@@ -284,7 +288,7 @@ export default createUseStyles({
 
   cancelButton: {
     padding: '0.5rem 1.5rem',
-    backgroundColor: colors.N200,
+    backgroundColor: colors.G1000,
     color: colors.W100,
     border: 'none',
     borderRadius: '8px',
