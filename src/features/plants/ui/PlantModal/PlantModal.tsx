@@ -19,6 +19,7 @@ export interface IPlantModalProps {
   openJournal: () => void;
   onRedactionSubmit?: (newPlant: IPlant) => void;
   onDeleteSubmit?: () => void;
+  onBurySubmit?: () => void;
 }
 
 export const PlantModal: FC<IPlantModalProps> = ({
@@ -27,6 +28,7 @@ export const PlantModal: FC<IPlantModalProps> = ({
   openJournal,
   onRedactionSubmit,
   onDeleteSubmit,
+  onBurySubmit,
 }) => {
   const styles = useStyles();
 
@@ -125,6 +127,7 @@ export const PlantModal: FC<IPlantModalProps> = ({
     if (buryPlantQuery.data && buryPlantParams && !buryPlantQuery.isLoading) {
       console.log('Растение успешно похоронено:', buryPlantQuery.data);
 
+      onBurySubmit?.();
       setBuryPlantParams(null);
     }
   }, [buryPlantQuery.data, buryPlantQuery.isLoading, buryPlantParams, onRedactionSubmit, plant.id]);

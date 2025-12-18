@@ -200,6 +200,17 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
     );
   };
 
+  const hidePlant = (index: number, isInFolder: boolean) => {
+    handleCloseModal();
+    if (isInFolder) {
+      folderPlants?.splice(index, 1);
+      setAllFolderPlants(allFolderPlants);
+    } else {
+      plants?.splice(index, 1);
+      setAllPlants(allPlants);
+    }
+  };
+
   const HandlePlantModal = async (plant: IPlant, index: number, isInFolder: boolean) => {
     await HandleModal(
       <PlantModal
@@ -219,18 +230,10 @@ export const CollectionPage: FC<ICollectionPageProps> = () => {
             setAllPlants(allPlants);
           }
         }}
-        onDeleteSubmit={() => {
-          handleCloseModal();
-          if (isInFolder) {
-            folderPlants?.splice(index, 1);
-            setAllFolderPlants(allFolderPlants);
-          } else {
-            plants?.splice(index, 1);
-            setAllPlants(allPlants);
-          }
-        }}
+        onDeleteSubmit={() => hidePlant(index, isInFolder)}
+        onBurySubmit={() => hidePlant(index, isInFolder)}
       />,
-      plant.name,//<--- здесь можешь поменять имя растения на что-то другое, например "растение"
+      plant.name, // <--- здесь можешь поменять имя растения на что-то другое, например "растение"
     );
   };
 
